@@ -9,14 +9,16 @@
     </head>
     <body>
         <form method="post"action='/index'>
-            <label>Login:
-                <input type="text" name="login"><br />
-            </label>
-
-            <label>Password:
-                <input type="password" name="password"><br />
-            </label>
-            <input type="submit" name="enter" value="Log In" />
+            <div class="form-group">
+                <label for="exampleLogin">Login</label>
+                <input name="login" type="login" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter login">
+                <small id="loginHelp" class="form-text text-muted">We'll never share your login with anyone else.</small>
+            </div>
+            <div class="form-group">
+                <label for="examplePassword">Password</label>
+                <input name="password" type="password" class="form-control" id="examplePassword" placeholder="Password">
+              </div>
+            <button type="submit" class="btn btn-primary">Log In</button>
         </form>
     </body>
 </html>

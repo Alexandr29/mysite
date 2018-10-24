@@ -34,10 +34,6 @@ public class LoginPageServlet extends HttpServlet {
         req.setAttribute("users",users);
         user = jdbcUserDao.findByLogin(login);
         users.add(user);
-
-        for (User user1:users) {
-            System.out.println(user1.getLogin());
-        }
         if (user.getPassword().equals(password)){
 
             req.getRequestDispatcher("admin.jsp").forward(req,resp);

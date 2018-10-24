@@ -29,24 +29,16 @@ public class LoginPageServlet extends HttpServlet {
         User user;
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        createAdmin();
-
-        req.setAttribute("users",users);
         user = jdbcUserDao.findByLogin(login);
-        users.add(user);
-        if (user.getPassword().equals(password)){
-
+        String firstName = user.getFirstName();
+        String lastName = user.getLastName();
+        req.setAttribute("users",users);
+        req.setAttribute("firstName",firstName);
+        req.setAttribute("lastName",lastName);
+        if (user.getPassword().equals(password) && user.getRole_id()==1L){
             req.getRequestDispatcher("admin.jsp").forward(req,resp);
         }else {
             req.getRequestDispatcher("error.jsp").forward(req,resp);
         }
-    }
-
-    private void createAdmin(){
-        Role adminRole = new Role("Admin");
-        jdbcRoleDao.create(adminRole);
-        User adminUser = new User("Admin", "1234", "alexru", "Alex", "Last",
-                Date.valueOf("1997-04-29"), adminRole.getId());
-        jdbcUserDao.create(adminUser);
     }
 }

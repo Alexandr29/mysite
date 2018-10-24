@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
 <html>
     <head>

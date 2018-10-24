@@ -3,6 +3,13 @@ package com.nixsolutions.service.impl;
 import java.sql.Date;
 
 public class User {
+    public User() {
+    }
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
 
     private Long id;
     private String login;

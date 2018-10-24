@@ -4,4 +4,15 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+  <servlet>
+    <servlet-name>LoginPageServlet</servlet-name>
+    <servlet-class>com.nixsolutions.controller.LoginPageServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>LoginPageServlet</servlet-name>
+    <url-pattern>/index</url-pattern>
+  </servlet-mapping>
+
 </web-app>

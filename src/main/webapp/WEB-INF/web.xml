@@ -21,12 +21,12 @@
 
   <servlet-mapping>
     <servlet-name>LoginPageServlet</servlet-name>
-    <url-pattern>/index</url-pattern>
+    <url-pattern>/welcome</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>DeleteServlet</servlet-name>
-    <url-pattern>/delete.jsp</url-pattern>
+    <url-pattern>/delete</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>

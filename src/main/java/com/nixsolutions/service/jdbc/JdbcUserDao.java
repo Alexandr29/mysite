@@ -87,7 +87,9 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
     }
 
     @Override public void remove(User user) {
+
         try {
+            System.out.println(user.getId());
             createConnection().createStatement().execute("DELETE FROM USER WHERE USER_ID = "+"'"+user.getId()+"'");
         } catch (SQLException e) {
             e.printStackTrace();

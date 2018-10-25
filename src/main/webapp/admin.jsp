@@ -10,13 +10,33 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+// crating new click event for save button
+$(".delete").click(function() {
+var login = +this.login;
+$.ajax({
+url: "/delete",
+type: "get",
+data: {
+login : login,
+},
+success : function(data){
+alert(data); // alerts the response from jsp
+location.reload();
+}
+});
+});
+});
+</script>
     </head>
           <body>
           <div align="right">
                   <h3><c:out value="${firstName} ${lastName}"/></h3>
                   <h4><a href="index.jsp">Logout</a><h4>
               </div>
-              <table class="table table-striped" border="1">
+              <table id="mytable" class="table table-striped" border="1">
                 <thead>
                     <th>id</th>
                     <th>Login</th>
@@ -41,13 +61,7 @@
                        <td><c:out value="${name.role_id}"/></td>
                        <td><a href="/edit">Edit</a>
 
-                        <c:url value="/delete.jsp" context="/JSTLExample" var="url" scope="request">
-                        		<c:param name="id" value="${name.id}" />
-                        	</c:url>
-                        	 <a href="/<c:out value="${url}"/>">
-                       <a href="/delete.jsp?login=<c:out value="${name.login}"/>"><c:out value="Delete"/></a>
-
-
+                        <INPUT type="button" value="<c:out value="${name.login}"/> login="${name.login}" value="Delete Row" class="delete" />
                      </tr>
                    </c:forEach>
                 </tbody>

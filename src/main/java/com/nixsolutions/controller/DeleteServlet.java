@@ -15,17 +15,19 @@ public class DeleteServlet extends HttpServlet {
             HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("i am in delete doGet");
         String login = req.getParameter("login");
+        System.out.println(login);
 
         JdbcUserDao jdbcUserDao = new JdbcUserDao();
         User user = jdbcUserDao.findByLogin(login);
+        System.out.println(user.getId());
         jdbcUserDao.remove(user);
+        req.getRequestDispatcher("/welcome").forward(req,resp);
 
-        System.out.println(req.getParameter("id"));
-        req.getRequestDispatcher("admin.jsp").forward(req,resp);
+
     }
 
     @Override protected void doPost(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+
     }
 }

@@ -9,10 +9,28 @@
     <servlet-name>LoginPageServlet</servlet-name>
     <servlet-class>com.nixsolutions.controller.LoginPageServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>DeleteServlet</servlet-name>
+    <servlet-class>com.nixsolutions.controller.DeleteServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>EditServlet</servlet-name>
+    <servlet-class>com.nixsolutions.controller.EditServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>LoginPageServlet</servlet-name>
     <url-pattern>/index</url-pattern>
   </servlet-mapping>
 
+  <servlet-mapping>
+    <servlet-name>DeleteServlet</servlet-name>
+    <url-pattern>/delete.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>EditServlet</servlet-name>
+    <url-pattern>/edit</url-pattern>
+  </servlet-mapping>
 </web-app>

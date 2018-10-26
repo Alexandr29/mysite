@@ -1,5 +1,6 @@
 <!doctype html>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%@ taglib prefix="x" uri="http://java.sun.com/jstl/xml" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jstl/sql" %>
@@ -14,9 +15,8 @@
           <body>
           <div align="right">
                   <h3><c:out value="${firstName} ${lastName}"/></h3>
-                  <h4><a href="index.jsp">Logout</a><h4>
+                  <h4><a href="/logout">Logout</a><h4>
               </div>
-
               <table id="mytable" class="table table-striped" border="1">
                 <thead>
                     <th>id</th>

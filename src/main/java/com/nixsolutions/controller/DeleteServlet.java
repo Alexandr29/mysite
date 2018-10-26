@@ -19,7 +19,7 @@ public class DeleteServlet extends HttpServlet {
         jdbcUserDao.remove(user);
 
         req.setAttribute("users", jdbcUserDao.findAll());
-        req.getRequestDispatcher("admin.jsp").forward(req, resp);
+        resp.sendRedirect("/admin");
 
     }
 

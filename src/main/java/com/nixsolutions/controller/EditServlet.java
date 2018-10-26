@@ -1,5 +1,8 @@
 package com.nixsolutions.controller;
 
+import com.nixsolutions.service.impl.User;
+import com.nixsolutions.service.jdbc.JdbcUserDao;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +20,17 @@ public class EditServlet extends HttpServlet {
             HttpServletResponse resp) throws ServletException, IOException {
 
         System.out.println("i am in edit Post");
-        req.getRequestDispatcher("/admin.jsp").forward(req,resp);
+        String login = req.getParameter("login");
+        String firstname = req.getParameter("firstname");
+        System.out.println(login);
+
+        JdbcUserDao jdbcUserDao = new JdbcUserDao();
+        User user = jdbcUserDao.findByLogin(login);
+        user.setFirstName(firstname);
+
+
+        jdbcUserDao.update(user);
+        req.getRequestDispatcher("/welcome").forward(req,resp);
     }
 
 }

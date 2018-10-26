@@ -19,6 +19,7 @@ public class User {
     private String lastName;
     private Date birthday;
     private Long role_id;
+    private int age;
 
     public User(Long id, String login, String password, String email,
             String firstName, String lastName, Date date, Long role_id) {
@@ -30,12 +31,14 @@ public class User {
         this.lastName = lastName;
         this.birthday = date;
         this.role_id = role_id;
+        this.age = getAge();
 
     }
 
     public User(String login, String password, String email, String firstName,
             String lastName,Date date, Long role_id) {
         this(null,login,password,email,firstName,lastName,date, role_id);
+
 
     }
 
@@ -86,6 +89,14 @@ public class User {
     }
     public void setRole_id(Long role_id) {
         this.role_id = role_id;
+    }
+    public int getAge() {
+        int age = calculateDifferenceInYears(birthday.getYear(), new java.util.Date().getYear()); // new Date() = today.
+        return age;
+    }
+    private int calculateDifferenceInYears(int birthday,int year){
+        int res = year-birthday;
+    return res;
     }
 
     @Override public String toString() {

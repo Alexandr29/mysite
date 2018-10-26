@@ -7,22 +7,19 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class DeleteServlet extends HttpServlet {
-
+    private JdbcUserDao jdbcUserDao = new JdbcUserDao();
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("i am in delete doGet");
-        String login = req.getParameter("login");
-        System.out.println(login);
-
-        JdbcUserDao jdbcUserDao = new JdbcUserDao();
-        User user = jdbcUserDao.findByLogin(login);
-        System.out.println(user.getId());
+        String logintodelete = req.getParameter("logintodelete");
+        User user = jdbcUserDao.findByLogin(logintodelete);
         jdbcUserDao.remove(user);
-        req.getRequestDispatcher("/welcome").forward(req,resp);
 
+        req.setAttribute("users", jdbcUserDao.findAll());
+        req.getRequestDispatcher("admin.jsp").forward(req, resp);
 
     }
 

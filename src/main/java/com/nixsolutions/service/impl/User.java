@@ -81,8 +81,9 @@ public class User {
     public Date getBirthday() {
         return birthday;
     }
-    public void setBirthday(Date berthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
+        getAge();
     }
     public Long getRole_id() {
         return role_id;
@@ -91,8 +92,8 @@ public class User {
         this.role_id = role_id;
     }
     public int getAge() {
-        int age = calculateDifferenceInYears(birthday.getYear(), new java.util.Date().getYear()); // new Date() = today.
-        return age;
+        this.age = calculateDifferenceInYears(birthday.getYear(), new java.util.Date().getYear()); // new Date() = today.
+        return this.age;
     }
     private int calculateDifferenceInYears(int birthday,int year){
         int res = year-birthday;

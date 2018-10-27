@@ -27,7 +27,7 @@ public class EditServlet extends HttpServlet {
         String firstname = req.getParameter("firstname");
         String lastname = req.getParameter("lastname");
         String date = req.getParameter("date");
-        System.out.println(login);
+        System.out.println(date + " from request");
 
         JdbcUserDao jdbcUserDao = new JdbcUserDao();
         User user = jdbcUserDao.findByLogin(login);
@@ -39,14 +39,15 @@ public class EditServlet extends HttpServlet {
 //        }
         user.setFirstName(firstname);
         user.setLastName(lastname);
-        System.out.println(date);
-        System.out.println(Date.valueOf(date));
-        user.setBirthday(Date.valueOf(date));
+        System.out.println("before: " + user.getBirthday());
+        user.setBirthday(java.sql.Date.valueOf(date));
+
         System.out.println(user.getAge());
 
 
 
         jdbcUserDao.update(user);
+        System.out.println("after: " + user.getBirthday());
         req.setAttribute("users",jdbcUserDao.findAll());
         req.setAttribute("login", login);
         resp.sendRedirect("/admin");

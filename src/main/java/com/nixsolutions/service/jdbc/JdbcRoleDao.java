@@ -72,6 +72,32 @@ public class JdbcRoleDao extends AbstractJdbcDao implements RoleDao {
             e.printStackTrace();
         }
     }
+    public Role fundById(Long id) {
+        Role role = null;
+        Connection connection = null;
+        Statement statement = null;
+        try {
+            connection = createConnection();
+            statement = connection.createStatement();
+            String s = "Select * From ROLE where ROLE_ID = " + "'" + id + "'";
+            ResultSet rst;
+            rst = statement.executeQuery(s);
+            while (rst.next()) {
+                role = new Role(rst.getLong("ROLE_ID"), rst.getString("ROLENAME"));
+            }
+        } catch (Exception e) {
+            System.out.println("exeption " + e.getCause());
+        } finally {
+            try {
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return role;
+    }
 
     @Override public Role findByName(String name) {
         Role role = null;

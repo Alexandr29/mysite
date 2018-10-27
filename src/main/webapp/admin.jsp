@@ -17,6 +17,11 @@
                   <h3><c:out value="${firstName} ${lastName}"/></h3>
                   <h4><a href="/logout">Logout</a><h4>
               </div>
+              <div>
+              <a href="/create">
+                                   <img border="0" src="images/add.jpg" width="100" height="100">
+                                    </a>
+              </div>
               <table id="mytable" class="table table-striped" border="1">
                 <thead>
                     <th>id</th>
@@ -30,7 +35,6 @@
 
 
                 </thead>
-
                 <tbody>
                  <c:forEach items="${users}" var="name">
                      <tr>
@@ -41,12 +45,19 @@
                        <td><c:out value="${name.lastName}"/></td>
                        <td><c:out value="${name.age}"/></td>
                        <td><c:out value="${name.role_id}"/></td>
-                       <td><a href="/edit">Edit</a>
+                       <td>
+
+                       <a href="/edit">
+                     <img border="0" src="images/edit.png" width="30" height="30">
+                      </a>
+
                        <c:url value="/delete" var="url" scope="request">
                                                		<c:param name="id" value="${name.id}" />
                                                	</c:url>
-                                               	 <a href="/<c:out value="${url}"/>">
-                                              <a href="/delete?logintodelete=<c:out value="${name.login}"/>"><c:out value="Delete"/></a>
+
+                                              <a href="/delete?logintodelete=<c:out value="${name.login}"/>">
+                                               <img border="0"  src="images/trash.jpg" width="30" height="30">
+                                               </a>
                      </tr>
                    </c:forEach>
                 </tbody>

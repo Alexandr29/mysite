@@ -35,8 +35,8 @@ public class LoginPageServlet extends HttpServlet {
         boolean isValidUser = service.validateUser(login, password);
 
         if (isValidUser) {
-            req.setAttribute("users",jdbcUserDao.findAll());
-            req.setAttribute("login", login);
+            req.getSession().setAttribute("users",jdbcUserDao.findAll());
+            req.getSession().setAttribute("login", login);
             resp.sendRedirect("/admin");
         } else {
             req.setAttribute("errorMessage", "Invalid Credentials!!");

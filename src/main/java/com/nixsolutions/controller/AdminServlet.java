@@ -19,7 +19,6 @@ public class AdminServlet extends HttpServlet {
             HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("users", jdbcUserDao.findAll());
         req.getRequestDispatcher("admin.jsp").forward(req, resp);
-        //createUser();
     }
 
     @Override protected void doPost(HttpServletRequest req,

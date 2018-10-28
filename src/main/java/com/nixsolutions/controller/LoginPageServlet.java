@@ -33,11 +33,17 @@ public class LoginPageServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         boolean isValidUser = service.validateUser(login, password);
+        boolean isAdmin = service.isAdmin(login);
 
         if (isValidUser) {
-            req.getSession().setAttribute("users",jdbcUserDao.findAll());
-            req.getSession().setAttribute("login", login);
-            resp.sendRedirect("/admin");
+            if(isAdmin){
+                req.getSession().setAttribute("users",jdbcUserDao.findAll());
+                req.getSession().setAttribute("login", login);
+                resp.sendRedirect("/admin");
+            }else {
+                req.getSession().setAttribute("login", login);
+                resp.sendRedirect("/user");
+            }
         } else {
             req.setAttribute("errorMessage", "Invalid Credentials!!");
             req.getRequestDispatcher("login.jsp").forward(req, resp);

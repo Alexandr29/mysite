@@ -55,6 +55,16 @@
                    </td>
   </tr>
 
+   <tr>
+    <td><select name="rolevalue">
+
+    <c:forEach items="${roles}" var="role">
+                         <option value="${role.name}"><c:out value="${role.name}"/></option>
+                       </c:forEach>
+        </select>
+                       </td>
+      </tr>
+
 
     <tr>
         <td></td>

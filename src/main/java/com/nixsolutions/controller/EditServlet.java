@@ -1,6 +1,7 @@
 package com.nixsolutions.controller;
 
 import com.nixsolutions.service.impl.User;
+import com.nixsolutions.service.jdbc.JdbcRoleDao;
 import com.nixsolutions.service.jdbc.JdbcUserDao;
 
 import javax.servlet.ServletException;
@@ -15,11 +16,13 @@ import java.util.List;
 @WebServlet(urlPatterns = "/edit")
 public class EditServlet extends HttpServlet {
     private JdbcUserDao jdbcUserDao = new JdbcUserDao();
+    private JdbcRoleDao jdbcRoleDao = new JdbcRoleDao();
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
         String logintoedit = req.getParameter("logintoedit");
         User user = jdbcUserDao.findByLogin(logintoedit);
-
+        req.setAttribute("roles",jdbcRoleDao.findAll());
+        System.out.println("list roles: " + jdbcRoleDao.findAll());
         req.setAttribute("logintoedit",user.getLogin());
         req.setAttribute("passwordtoedit",user.getPassword());
         req.setAttribute("firstnametoedit",user.getFirstName());
@@ -54,7 +57,7 @@ public class EditServlet extends HttpServlet {
         user.setLastName(lastname);
         System.out.println("before: " + user.getBirthday());
         user.setBirthday(java.sql.Date.valueOf(date));
-        user.setRole_id(2L);
+        user.setRole_id(jdbcRoleDao.findByName(req.getParameter("rolevalue")).getId());
         System.out.println(user.getAge());
 
 

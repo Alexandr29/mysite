@@ -1,5 +1,5 @@
 <!doctype html>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="x" uri="http://java.sun.com/jstl/xml" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jstl/sql" %>
@@ -50,11 +50,20 @@
                    </td>
   </tr>
  <tr>
-                  <td>Password again</td>
+                  <td>Birth date</td>
                   <td><label for="exampleDate">Login</label>
                    <input name="date" type="date" class="form-control" id="exampleDate" aria-describedby="loginHelp" placeholder="Enter date">
                    </td>
   </tr>
+  <tr>
+  <td><select name="rolevalue">
+
+  <c:forEach items="${roles}" var="role">
+                       <option value="${role.name}"><c:out value="${role.name}"/></option>
+                     </c:forEach>
+      </select>
+                     </td>
+    </tr>
 
 
     <tr>

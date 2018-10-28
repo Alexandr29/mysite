@@ -6,6 +6,14 @@ public class User {
     public User() {
     }
 
+    @Override public String toString() {
+        return "User{" + "id=" + id + ", login='" + login + '\''
+                + ", password='" + password + '\'' + ", email='" + email + '\''
+                + ", firstName='" + firstName + '\'' + ", lastName='" + lastName
+                + '\'' + ", birthday=" + birthday + ", role_id=" + role_id
+                + ", age=" + age + ", rolename='" + rolename + '\'' + '}';
+    }
+
     public User(String login, String password) {
         this.login = login;
         this.password = password;
@@ -20,6 +28,7 @@ public class User {
     private Date birthday;
     private Long role_id;
     private int age;
+    private String rolename;
 
     public User(Long id, String login, String password, String email,
             String firstName, String lastName, Date date, Long role_id) {
@@ -40,6 +49,14 @@ public class User {
         this(null,login,password,email,firstName,lastName,date, role_id);
 
 
+    }
+
+    public String getRolename() {
+        return rolename;
+    }
+
+    public void setRolename(String rolename) {
+        this.rolename = rolename;
     }
 
     public Long getId() {
@@ -100,11 +117,4 @@ public class User {
     return res;
     }
 
-    @Override public String toString() {
-        return  '\n'+"User{" + "id=" + id + ", login='" + login + '\''
-                + ", password='" + password + '\'' + ", email='" + email + '\''
-                + ", firstName='" + firstName + '\'' + ", lastName='" + lastName
-                + '\'' + ", birthday=" + birthday + ", role_id=" + role_id
-                + '}';
-    }
 }

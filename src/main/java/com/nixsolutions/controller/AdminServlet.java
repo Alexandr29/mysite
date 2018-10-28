@@ -15,11 +15,16 @@ import java.util.List;
 @WebServlet(urlPatterns = "/admin")
 public class AdminServlet extends HttpServlet {
     private JdbcUserDao jdbcUserDao = new JdbcUserDao();
+    private JdbcRoleDao jdbcRoleDao = new JdbcRoleDao();
 
 
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("login",req.getSession().getAttribute("login"));
         req.setAttribute("users", jdbcUserDao.findAll());
+        System.out.println(jdbcUserDao.findAll());
+        //req.setAttribute("rolename",jdbcRoleDao.fundById(jdbcUserDao.findByLogin().getRole_id()).getName());
+
         req.getRequestDispatcher("admin.jsp").forward(req, resp);
     }
 
@@ -43,6 +48,8 @@ public class AdminServlet extends HttpServlet {
                 String lastName = user.getLastName();
                 System.out.println(user.getAge());
                 req.setAttribute("users",users);
+
+
                 req.setAttribute("firstName",firstName);
                 req.setAttribute("lastName",lastName);
                 if (user.getPassword().equals(password) && user.getRole_id()==1L){

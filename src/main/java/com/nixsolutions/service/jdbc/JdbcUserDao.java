@@ -166,7 +166,7 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
         try {
             connection = createConnection();
             statement = connection.createStatement();
-            String s = "Select * From USER";
+            String s = "Select * From USER  left join Role on user.role_id = Role.role_id";
             ResultSet rst;
             rst = statement.executeQuery(s);
             while (rst.next()) {
@@ -174,7 +174,9 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
                         rst.getString("PASSWORD"), rst.getString("EMAIL"),
                         rst.getString("FIRSTNAME"), rst.getString("LASTNAME"),
                         rst.getDate("DATE"), rst.getLong("ROLE_ID"));
+                user.setRolename(rst.getString("ROLENAME"));
                 users.add(user);
+
             }
             //System.out.println(users.toString());
         } catch (Exception e) {

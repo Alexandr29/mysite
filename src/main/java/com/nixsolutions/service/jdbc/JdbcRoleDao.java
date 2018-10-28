@@ -2,11 +2,14 @@ package com.nixsolutions.service.jdbc;
 
 import com.nixsolutions.service.dao.RoleDao;
 import com.nixsolutions.service.impl.Role;
+import com.nixsolutions.service.impl.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JdbcRoleDao extends AbstractJdbcDao implements RoleDao {
-
+    private List<Role> roles = new ArrayList<>();
     @Override public void create(Role role) {
         if (role == null) {
             throw new NullPointerException("Role is null");
@@ -124,5 +127,36 @@ public class JdbcRoleDao extends AbstractJdbcDao implements RoleDao {
         }
 
         return role;
+    }
+
+    public List<Role> findAll() {
+        roles.clear();
+        Role role;
+        Connection connection = null;
+        Statement statement = null;
+        try {
+            connection = createConnection();
+            statement = connection.createStatement();
+            String s = "Select * From Role";
+            ResultSet rst;
+            rst = statement.executeQuery(s);
+
+            while (rst.next()) {
+                role = new Role(rst.getLong("ROLE_ID"), rst.getString("ROLENAME"));
+                roles.add(role);
+            }
+            //System.out.println(users.toString());
+        } catch (Exception e) {
+            System.out.println("exeption " + e.getCause());
+        } finally {
+            try {
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return roles;
     }
 }

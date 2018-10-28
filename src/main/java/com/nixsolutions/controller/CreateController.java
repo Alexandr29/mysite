@@ -15,15 +15,20 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/create")
 public class CreateController  extends HttpServlet {
-
+    private JdbcRoleDao jdbcRoleDao = new JdbcRoleDao();
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
+
+        req.setAttribute("roles",jdbcRoleDao.findAll());
+        System.out.println("list roles: " + jdbcRoleDao.findAll());
         req.getRequestDispatcher("create.jsp").forward(req,resp);
     }
 
     @Override protected void doPost(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
+        String roleName = req.getParameter("rolevalue");
+        System.out.println(roleName);
         System.out.println(login);
         String password = req.getParameter("password");
         String passwordagain = req.getParameter("passwordagain");
@@ -43,7 +48,7 @@ public class CreateController  extends HttpServlet {
         user.setFirstName(firstname);
         user.setLastName(lastname);
         user.setBirthday(java.sql.Date.valueOf(date));
-        user.setRole_id(1L);
+        user.setRole_id(jdbcRoleDao.findByName(req.getParameter("rolevalue")).getId());
 
         System.out.println(user.toString());
 

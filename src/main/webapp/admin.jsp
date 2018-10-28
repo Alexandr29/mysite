@@ -47,9 +47,11 @@
                        <td><c:out value="${name.role_id}"/></td>
                        <td>
 
-                       <a href="/edit">
-                     <img border="0" src="images/edit.png" width="30" height="30">
-                      </a>
+                       <c:url value="/edit" var="url" scope="request"></c:url>
+
+                                                                     <a href="${url}?logintoedit=<c:out value="${name.login}"/>">
+                                                                      <img border="0"  src="images/edit.png" width="30" height="30">
+                                                                      </a>
 
                        <c:url value="/delete" var="url" scope="request">
                                                		<c:param name="id" value="${name.id}" />

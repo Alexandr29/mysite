@@ -20,38 +20,38 @@
     <tr>
         <td>Login</td>
         <td><label for="exampleLogin">Login</label>
-         <input name="login" type="login" value="User" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter login">
+         <input name="login" type="text" value="${logintoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter login" readonly>
          </td>
     </tr>
     <tr>
             <td>Password</td>
             <td><label for="examplePassword">password</label>
-             <input name="password" type="password" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password">
+             <input name="password" type="password" value="${passwordtoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password">
              </td>
      </tr>
      <tr>
                  <td>Password again</td>
                  <td><label for="examplePassword">passwordagain</label>
-                  <input name="passwordagain" type="password" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password">
+                  <input name="passwordagain" type="password" value="${passwordtoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password">
                   </td>
  </tr>
 
   <tr>
                   <td>First Name</td>
                   <td><label for="exampleFirstName">Login</label>
-                   <input name="firstname" type="text" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname">
+                   <input name="firstname" type="text" value="${firstnametoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname">
                    </td>
   </tr>
 <tr>
                   <td>Last Name</td>
                   <td><label for="exampleFirstName">Last Name</label>
-                   <input name="lastname" type="text" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname">
+                   <input name="lastname" type="text" value="${lastnametoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname">
                    </td>
   </tr>
  <tr>
                   <td>Password again</td>
                   <td><label for="exampleDate">Login</label>
-                   <input name="date" type="date" class="form-control" id="exampleDate" aria-describedby="loginHelp" placeholder="Enter date">
+                   <input name="date" type="date" value="${birthdaytoedit}" class="form-control" id="exampleDate" aria-describedby="loginHelp" placeholder="Enter date">
                    </td>
   </tr>
 

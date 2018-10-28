@@ -1,6 +1,7 @@
 package com.nixsolutions.controller;
 
 import com.nixsolutions.service.impl.User;
+import com.nixsolutions.service.jdbc.JdbcRoleDao;
 import com.nixsolutions.service.jdbc.JdbcUserDao;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/admin")
 public class AdminServlet extends HttpServlet {
     private JdbcUserDao jdbcUserDao = new JdbcUserDao();
+
 
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {

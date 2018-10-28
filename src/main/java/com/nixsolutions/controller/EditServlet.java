@@ -14,9 +14,17 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/edit")
 public class EditServlet extends HttpServlet {
+    private JdbcUserDao jdbcUserDao = new JdbcUserDao();
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("login",req.getAttribute("asinkevich"));
+        String logintoedit = req.getParameter("logintoedit");
+        User user = jdbcUserDao.findByLogin(logintoedit);
+
+        req.setAttribute("logintoedit",user.getLogin());
+        req.setAttribute("passwordtoedit",user.getPassword());
+        req.setAttribute("firstnametoedit",user.getFirstName());
+        req.setAttribute("lastnametoedit",user.getLastName());
+        req.setAttribute("birthdaytoedit",user.getBirthday());
         req.getRequestDispatcher("edit.jsp").forward(req,resp);
     }
 
@@ -24,6 +32,7 @@ public class EditServlet extends HttpServlet {
             HttpServletResponse resp) throws ServletException, IOException {
 
         String login = req.getParameter("login");
+        System.out.println(login);
         String password = req.getParameter("password");
         String passwordagain = req.getParameter("passwordagain");
         String firstname = req.getParameter("firstname");
@@ -45,7 +54,7 @@ public class EditServlet extends HttpServlet {
         user.setLastName(lastname);
         System.out.println("before: " + user.getBirthday());
         user.setBirthday(java.sql.Date.valueOf(date));
-        user.setRole_id(1L);
+        user.setRole_id(2L);
         System.out.println(user.getAge());
 
 
@@ -53,7 +62,7 @@ public class EditServlet extends HttpServlet {
         jdbcUserDao.update(user);
         System.out.println("after: " + user.getBirthday());
         req.setAttribute("users",jdbcUserDao.findAll());
-        req.setAttribute("login", req.getSession().getAttribute("login"));
+        req.setAttribute("thislogin", req.getAttribute("login"));
         resp.sendRedirect("/admin");
     }
 

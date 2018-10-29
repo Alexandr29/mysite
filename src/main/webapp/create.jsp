@@ -72,7 +72,8 @@
 
     <tr>
         <td></td>
-        <td><input method="post" type="submit" name="Submit" value="Save"></td>
+        <td></p> <input method="post" type="submit" name="Submit" value="Save">  <button type="reset" class="btn btn-secondary my-button">Cancel</button></p></td>
+
     </tr>
     <tr><td colspan=2 align="center" height="10px"></td></tr>
 </table>

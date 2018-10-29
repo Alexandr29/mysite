@@ -22,7 +22,7 @@ public class AdminServlet extends HttpServlet {
             HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("login",req.getSession().getAttribute("login"));
         req.setAttribute("users", jdbcUserDao.findAll());
-        System.out.println(jdbcUserDao.findAll());
+        //System.out.println(jdbcUserDao.findAll());
         //req.setAttribute("rolename",jdbcRoleDao.fundById(jdbcUserDao.findByLogin().getRole_id()).getName());
 
         req.getRequestDispatcher("admin.jsp").forward(req, resp);
@@ -37,16 +37,13 @@ public class AdminServlet extends HttpServlet {
 //            //todoService.addTodo(todo);
 //        }
                 List<User> users = jdbcUserDao.findAll();
-                System.out.println("I am in doPost");
                 User user;
                 String login = String.valueOf(req.getAttribute("login"));
                 String password = (String) req.getAttribute("password");
-        System.out.println(login + " " + password);
                 user = jdbcUserDao.findByLogin(login);
 
                 String firstName = user.getFirstName();
                 String lastName = user.getLastName();
-                System.out.println(user.getAge());
                 req.setAttribute("users",users);
 
 

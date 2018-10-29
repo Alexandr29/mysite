@@ -7,6 +7,7 @@ import com.nixsolutions.service.jdbc.AbstractJdbcDao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
 
@@ -101,6 +102,7 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
         Connection connection = null;
         Statement statement = null;
         try {
+            Objects.requireNonNull(login);
             connection = createConnection();
             statement = connection.createStatement();
             String s = "Select * From USER where login = " + "'" + login + "'";
@@ -180,7 +182,7 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
             }
             //System.out.println(users.toString());
         } catch (Exception e) {
-            System.out.println("exeption " + e.getCause());
+           throw new RuntimeException(e.getCause());
         } finally {
             try {
                 statement.close();

@@ -3,16 +3,27 @@ package com.nixsolutions.controller;
 import com.nixsolutions.service.impl.User;
 import com.nixsolutions.service.jdbc.JdbcUserDao;
 
+import java.sql.SQLException;
+
 public class LoginService {
     private JdbcUserDao jdbcUserDao = new JdbcUserDao();
     private User user;
     public boolean validateUser(String login, String password) {
-         user = jdbcUserDao.findByLogin(login);
-        System.out.println(user.getLogin() + " " + user.getPassword());
-        return login.equalsIgnoreCase(user.getLogin()) && password.equals(user.getPassword());
+        for (User user1:jdbcUserDao.findAll()) {
+            if (user1.getLogin().equals(login)&&user1.getPassword().equals(password)){
+                return true;
+            }
+        }return false;
+
+        // return login.equalsIgnoreCase(user.getLogin()) && password.equals(user.getPassword());
     }
     public boolean isAdmin(String login){
-        user = jdbcUserDao.findByLogin(login);
-        return user.getRole_id().equals(1L);
+        try {
+            user = jdbcUserDao.findByLogin(login);
+            return user.getRole_id().equals(1L);
+        }catch (Exception e){
+            return false;
+        }
+
     }
 }

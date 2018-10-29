@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
-public class AbstractJdbcDao {
+public abstract class AbstractJdbcDao {
     static Connection connection;
     private static BasicDataSource dataSource;
 

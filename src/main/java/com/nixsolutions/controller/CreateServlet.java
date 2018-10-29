@@ -38,14 +38,20 @@ import java.util.List;
                 .getId();
 
         JdbcUserDao jdbcUserDao = new JdbcUserDao();
-        if (isValidData(login, password, passwordagain, firstname, lastname,
-                date, roleid)) {
+        int result = isValidData(login, password, passwordagain, firstname, lastname,
+                date, roleid);
+
+        if (result==1) {
             req.setAttribute("users", jdbcUserDao.findAll());
             req.setAttribute("thislogin", req.getAttribute("login"));
             resp.sendRedirect("/admin");
-        } else {
+        } else if (result==2){
             req.setAttribute("logintoedit", login);
-            req.setAttribute("errorMessage", "username is already use");
+            req.setAttribute("errorMessage", "login is already use");
+            doGet(req, resp);
+        }else {
+            req.setAttribute("logintoedit", login);
+            req.setAttribute("errorMessage", "password are not equals");
             doGet(req, resp);
         }
 
@@ -54,12 +60,12 @@ import java.util.List;
         //        resp.sendRedirect("/admin");
     }
 
-    boolean isValidData(String login, String password, String passwordagain,
+    int isValidData(String login, String password, String passwordagain,
             String firstname, String lastname, String birthday, Long roleid) {
 
         for (User user1:jdbcUserDao.findAll()) {
             if (user1.getLogin().equals(login)){
-                return false;
+                return 2;
             }}
 
         if (login != "" && password != "" && firstname != ""
@@ -74,9 +80,9 @@ import java.util.List;
             user.setBirthday(Date.valueOf(birthday));
             user.setRole_id(roleid);
             jdbcUserDao.create(user);
-            return true;
+            return 1;
         } else {
-            return false;
+            return 3;
         }
 
 

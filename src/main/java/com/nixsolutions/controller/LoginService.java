@@ -20,7 +20,7 @@ public class LoginService {
     public boolean isAdmin(String login){
         try {
             user = jdbcUserDao.findByLogin(login);
-            return user.getRole_id().equals(1L);
+            return user.getRole_id()==1L;
         }catch (Exception e){
             return false;
         }

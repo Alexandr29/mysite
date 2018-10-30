@@ -4,11 +4,16 @@ import com.nixsolutions.service.impl.User;
 
 import java.util.List;
 
-public interface UserDao  {
+public interface UserDao {
     void create(User user);
+
     void update(User user);
-    void remove(User user);
+
+    void remove(User user) throws RuntimeException;
+
     List<User> findAll();
+
     User findByLogin(String login);
+
     User findByEmail(String email);
 }

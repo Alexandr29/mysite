@@ -2,231 +2,195 @@ package com.nixsolutions.service.jdbc;
 
 import com.nixsolutions.service.dao.UserDao;
 import com.nixsolutions.service.impl.User;
-import com.nixsolutions.service.jdbc.AbstractJdbcDao;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
+    private final String SQL_INSERT_QUERY = "INSERT INTO User(login, password, email, firstname, lastname," +
+            " date, role_Id) VALUES (?,?,?,?,?,?,?)";
+    private final String SQL_UPDATE_QUERY = "UPDATE User SET login=?, password=?, email=?, firstname=?," +
+            " lastname=?, date=?, role_Id=? WHERE login=?";
+    private final String SQL_DELETE_QUERY = "DELETE FROM User WHERE user_id=?";
+    private final String SQL_SELECT_ALL_QUERY = "SELECT * FROM User left join Role on user.role_id = Role.role_id";
+    private final String SQL_SELECT_BY_LOGIN_QUERY = "SELECT * FROM User WHERE login=?";
+    private final String SQL_SELECT_BY_EMAIL_QUERY = "SELECT * FROM User WHERE email=?";
+    private final String SQL_SELECT_BY_ID_QUERY = "SELECT * FROM User WHERE user_id=?";
 
-    private List<User> users = new ArrayList<>();
 
-    @Override public void create(User user) {
 
-        if (user == null) {
-            throw new NullPointerException("User is null");
-        }
+    public JdbcUserDao() {
+    }
+
+    @Override
+    public void create(User user) {
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        String login = user.getLogin();
-        String password = user.getPassword();
-        String email = user.getEmail();
-        String firstName = user.getFirstName();
-        String lastName = user.getLastName();
-        Date date = user.getBirthday();
-        Long role_id = user.getRole_id();
-
-        String insertTableSQL = "INSERT INTO USER"
-                + "(LOGIN, PASSWORD, EMAIL, FIRSTNAME, LASTNAME, DATE, ROLE_ID) VALUES"
-                + "(?,?,?,?,?,?,?)";
         try {
             connection = createConnection();
-            preparedStatement = connection.prepareStatement(insertTableSQL,Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, login);
-            preparedStatement.setString(2, password);
-            preparedStatement.setString(3, email);
-            preparedStatement.setString(4, firstName);
-            preparedStatement.setString(5, lastName);
-            preparedStatement.setDate(6, date);
-            preparedStatement.setLong(7, role_id);
-            preparedStatement.executeUpdate();
+            PreparedStatement statement = connection.prepareStatement(SQL_INSERT_QUERY);
+            statement.setString(1, user.getLogin());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getEmail());
+            statement.setString(4, user.getFirstName());
+            statement.setString(5, user.getLastName());
+            statement.setDate(6, user.getBirthday());
+            statement.setLong(7, user.getRole_id());
+            //statement.setLong(8,statement.getGeneratedKeys().getLong(1));
 
-            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    user.setId(generatedKeys.getLong(1));
-                    System.out.println(user.getId());
-                }
-                else {
-                    throw new SQLException("Creating user failed, no ID obtained.");
-                }
-            }
+            statement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                throw new RuntimeException(e1.getSQLState(), e);
             }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }
     }
 
-    @Override public void update(User user) {
+    @Override
+    public void update(User user) {
+        Connection connection = null;
+        try {
+            connection = createConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_QUERY);
+            statement.setString(1, user.getLogin());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getEmail());
+            statement.setString(4, user.getFirstName());
+            statement.setString(5, user.getLastName());
+            statement.setDate(6, user.getBirthday());
+            statement.setLong(7, user.getRole_id());
+            statement.setString(8, user.getLogin());
+            statement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                throw new RuntimeException(e1.getSQLState(), e);
+            }
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
+    public void remove(User user) {
+        Connection connection = null;
+        try {
+            connection = createConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_DELETE_QUERY);
+            statement.setLong(1, user.getId());
+            statement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                throw new RuntimeException(e1.getSQLState(), e);
+            }
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
+    public List<User> findAll() {
+        List<User> users = new ArrayList<>();
+        Connection connection = null;
         try {
             connection = createConnection();
             Statement statement = connection.createStatement();
-            statement.executeUpdate("UPDATE USER"
-                    + " SET LOGIN = "+"'"+user.getLogin()+"'"
-                    + ", PASSWORD = " + "'"+user.getPassword()+"'"
-                    + ", EMAIL = " + "'"+user.getEmail()+"'"
-                    + ", FIRSTNAME = " + "'"+user.getFirstName()+"'"
-                    + ", LASTNAME = " + "'"+user.getLastName()+"'"
-                    + ", DATE = " + "'"+user.getBirthday()+"'"
-                    + ", ROLE_ID = " + "'"+user.getRole_id()+"'"
-                    + " WHERE LOGIN = " + "'"+user.getLogin()+"'" + ";");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override public void remove(User user) {
-
-        try {
-            System.out.println(user.getId());
-            createConnection().createStatement().execute("DELETE FROM USER WHERE USER_ID = "+"'"+user.getId()+"'");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override public User findByLogin(String login) {
-        User user = null;
-        Connection connection = null;
-        Statement statement = null;
-        try {
-            Objects.requireNonNull(login);
-            connection = createConnection();
-            statement = connection.createStatement();
-            String s = "Select * From USER where login = " + "'" + login + "'";
-            ResultSet rst;
-            rst = statement.executeQuery(s);
-            while (rst.next()) {
-                user = new User(rst.getLong("USER_ID"), rst.getString("LOGIN"),
-                        rst.getString("PASSWORD"), rst.getString("EMAIL"),
-                        rst.getString("FIRSTNAME"), rst.getString("LASTNAME"),
-                        rst.getDate("DATE"), rst.getLong("ROLE_ID"));
-                //System.out.println(user);
-            }
-        } catch (Exception e) {
-            System.out.println("exeption " + e.getCause());
-        } finally {
-            try {
-                statement.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return user;
-    }
-
-    @Override public User findByEmail(String email) {
-        User user = null;
-        Connection connection = null;
-        Statement statement = null;
-        try {
-            connection = createConnection();
-            statement = connection.createStatement();
-            String s = "Select * From USER where EMAIL = " + "'" + email + "'";
-            ResultSet rst;
-            rst = statement.executeQuery(s);
-            while (rst.next()) {
-                user = new User(rst.getLong("USER_ID"), rst.getString("LOGIN"),
-                        rst.getString("PASSWORD"), rst.getString("EMAIL"),
-                        rst.getString("FIRSTNAME"), rst.getString("LASTNAME"),
-                        rst.getDate("DATE"), rst.getLong("ROLE_ID"));
-                //System.out.println(user);
-            }
-        } catch (Exception e) {
-            System.out.println("exeption " + e.getCause());
-        } finally {
-            try {
-                statement.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return user;
-    }
-
-    @Override public List<User> findAll() {
-        users.clear();
-        User user;
-        Connection connection = null;
-        Statement statement = null;
-        try {
-            connection = createConnection();
-            statement = connection.createStatement();
-            String s = "Select * From USER  left join Role on user.role_id = Role.role_id";
-            ResultSet rst;
-            rst = statement.executeQuery(s);
-            while (rst.next()) {
-                user = new User(rst.getLong("USER_ID"), rst.getString("LOGIN"),
-                        rst.getString("PASSWORD"), rst.getString("EMAIL"),
-                        rst.getString("FIRSTNAME"), rst.getString("LASTNAME"),
-                        rst.getDate("DATE"), rst.getLong("ROLE_ID"));
-                user.setRolename(rst.getString("ROLENAME"));
+            ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_QUERY);
+            User user;
+            while (resultSet.next()) {
+                user = new User();
+                user.setId(resultSet.getLong("user_id"));
+                user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
+                user.setFirstName(resultSet.getString("firstname"));
+                user.setLastName(resultSet.getString("lastname"));
+                user.setBirthday(resultSet.getDate("date"));
+                user.setRole_id(resultSet.getLong("role_Id"));
+                user.setRolename(resultSet.getString("rolename"));
                 users.add(user);
-
             }
-            //System.out.println(users.toString());
-        } catch (Exception e) {
-           throw new RuntimeException(e.getCause());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         } finally {
             try {
-                statement.close();
                 connection.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
-
         }
         return users;
     }
 
-    private User findById(Long id) {
-        User user = null;
+    @Override
+    public User findByLogin(String login) {
+        return findBySomething(login, SQL_SELECT_BY_LOGIN_QUERY);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return findBySomething(email, SQL_SELECT_BY_EMAIL_QUERY);
+    }
+
+    public User findById(Long id) {
+        return findBySomething(id, SQL_SELECT_BY_ID_QUERY);
+    }
+
+    private User findBySomething(Object parameter, String query) {
         Connection connection = null;
-        Statement statement = null;
         try {
             connection = createConnection();
-            statement = connection.createStatement();
-            String s = "Select * From USER where USER_ID = " + "'" + id + "'";
-            ResultSet rst;
-            rst = statement.executeQuery(s);
-            while (rst.next()) {
-                user = new User(rst.getLong("USER_ID"), rst.getString("LOGIN"),
-                        rst.getString("PASSWORD"), rst.getString("EMAIL"),
-                        rst.getString("FIRSTNAME"), rst.getString("LASTNAME"),
-                        rst.getDate("DATE"), rst.getLong("ROLE_ID"));
-                //System.out.println(user);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setObject(1, parameter);
+            ResultSet resultSet = statement.executeQuery();
+            User user = null;
+            if (resultSet.next()) {
+                user = new User();
+                user.setId(resultSet.getLong("user_id"));
+                user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
+                user.setFirstName(resultSet.getString("firstname"));
+                user.setLastName(resultSet.getString("lastname"));
+                user.setBirthday(resultSet.getDate("date"));
+                user.setRole_id(resultSet.getLong("role_Id"));
             }
-        } catch (Exception e) {
-            System.out.println("exeption " + e.getCause());
+            return user;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         } finally {
             try {
-                statement.close();
                 connection.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
-
-        return user;
     }
+
 }

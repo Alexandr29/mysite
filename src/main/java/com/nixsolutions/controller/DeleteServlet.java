@@ -4,11 +4,13 @@ import com.nixsolutions.service.impl.User;
 import com.nixsolutions.service.jdbc.JdbcUserDao;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet(urlPatterns = "/delete")
 public class DeleteServlet extends HttpServlet {
     private JdbcUserDao jdbcUserDao = new JdbcUserDao();
     @Override protected void doGet(HttpServletRequest req,

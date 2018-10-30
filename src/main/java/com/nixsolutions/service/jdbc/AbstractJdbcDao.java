@@ -1,54 +1,40 @@
 package com.nixsolutions.service.jdbc;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public abstract class AbstractJdbcDao {
-    static Connection connection;
-    private static BasicDataSource dataSource;
+    private static BasicDataSource dataSource = null;
 
-    public static BasicDataSource getDataSource() {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("h2");
-        BasicDataSource ds = new BasicDataSource();
-        ds.setDriverClassName(resourceBundle.getString("jdbc.driver"));
-        ds.setUrl(resourceBundle.getString("jdbc.url"));
-        ds.setUsername(resourceBundle.getString("jdbc.username"));
-        ds.setPassword(resourceBundle.getString("jdbc.password"));
+    public static synchronized BasicDataSource getDataSource() {
 
-        ds.setMinIdle(5);
-        ds.setMaxIdle(10);
-        ds.setMaxOpenPreparedStatements(100);
-        dataSource = ds;
+        if (dataSource == null) {
+            BasicDataSource basicDataSource = new BasicDataSource();
+            ResourceBundle resourceBundle = ResourceBundle.getBundle("h2");
+            //basicDataSource.setDriverClassName("jdbc.driver");
+            basicDataSource.setUrl(resourceBundle.getString("jdbc.url"));
+            basicDataSource
+                    .setUsername(resourceBundle.getString("jdbc.username"));
+            basicDataSource
+                    .setPassword(resourceBundle.getString("jdbc.password"));
+            basicDataSource.setMinIdle(5);
+            basicDataSource.setMaxIdle(10);
+            basicDataSource.setMaxOpenPreparedStatements(200);
+            dataSource = basicDataSource;
+        }
         return dataSource;
     }
 
-    public static Connection createConnection() {
-
-        try {
-            BasicDataSource basicDataSource = AbstractJdbcDao.getDataSource();
-            connection = basicDataSource.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getCause());
+    public Connection createConnection() throws SQLException {
+        if (dataSource == null) {
+            getDataSource();
         }
+        Connection connection = dataSource.getConnection();
+        connection.setAutoCommit(false);
+
         return connection;
-    }
-
-    public void createTables() throws SQLException {
-        Statement statement = connection.createStatement();
-        statement.execute("drop table IF EXISTS USER");
-        statement.execute("drop table IF EXISTS ROLE");
-        statement.execute("CREATE TABLE IF NOT EXISTS ROLE("
-                + "ROLE_ID INT(11) NOT NULL auto_increment primary key, "
-                + "ROLENAME VARCHAR);");
-        statement.execute("CREATE TABLE IF NOT EXISTS USER("
-                + "USER_ID INT(11) NOT NULL auto_increment primary key, "
-                + "LOGIN VARCHAR, " + "PASSWORD VARCHAR, " + "EMAIL VARCHAR, "
-                + "FIRSTNAME VARCHAR, " + "LASTNAME VARCHAR, " + "DATE DATE,"
-                + "ROLE_ID INT(11),"
-                + "FOREIGN KEY(ROLE_ID) REFERENCES ROLE(ROLE_ID));");
-
     }
 }

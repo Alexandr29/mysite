@@ -28,17 +28,19 @@ import java.util.List;
 
     @Override protected void doPost(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
+
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String passwordagain = req.getParameter("passwordagain");
         String firstname = req.getParameter("firstname");
         String lastname = req.getParameter("lastname");
+        String email = req.getParameter("email");
         String date = req.getParameter("date");
         Long roleid = jdbcRoleDao.findByName(req.getParameter("rolevalue"))
                 .getId();
 
         JdbcUserDao jdbcUserDao = new JdbcUserDao();
-        int result = isValidData(login, password, passwordagain, firstname, lastname,
+        int result = isValidData(login, password, passwordagain, firstname, lastname,email,
                 date, roleid);
 
         if (result==1) {
@@ -61,7 +63,7 @@ import java.util.List;
     }
 
     int isValidData(String login, String password, String passwordagain,
-            String firstname, String lastname, String birthday, Long roleid) {
+            String firstname, String lastname,String email, String birthday, Long roleid) {
 
         for (User user1:jdbcUserDao.findAll()) {
             if (user1.getLogin().equals(login)){
@@ -76,6 +78,7 @@ import java.util.List;
             user.setPassword(password);
             user.setFirstName(firstname);
             user.setLastName(lastname);
+            user.setEmail(email);
             user.setBirthday(Date.valueOf(birthday));
             user.setBirthday(Date.valueOf(birthday));
             user.setRole_id(roleid);

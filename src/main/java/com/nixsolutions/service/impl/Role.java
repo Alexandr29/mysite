@@ -1,16 +1,20 @@
 package com.nixsolutions.service.impl;
 
 public class Role {
-    Long id;
-    String name;
+    private Long id;
+    private String name;
 
     public Role(String name) {
-        this(null,name);
+        this(null, name);
     }
 
     public Role(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Role() {
+
     }
 
     public Long getId() {

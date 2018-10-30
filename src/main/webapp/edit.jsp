@@ -51,6 +51,12 @@
                    <input name="lastname" type="text" value="${lastnametoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname" required>
                    </td>
   </tr>
+  <tr>
+                      <td>Email</td>
+                      <td><label for="exampleemail">Last Name</label>
+                       <input name="email" type="email" class="form-control" id="exampleEmail" aria-describedby="EmailHelp" placeholder="Enter email" required>
+                       </td>
+      </tr>
  <tr>
                   <td>Password again</td>
                   <td><label for="exampleDate">Login</label>

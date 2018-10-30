@@ -18,7 +18,11 @@ public class HibernateRoleDao implements RoleDao {
             throw new IllegalArgumentException("Role with name " + role.getName()
                     + " already exists in DB");
         }
-        hibernateDao.createObject(role);
+        try {
+            hibernateDao.createObject(role);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -27,7 +31,11 @@ public class HibernateRoleDao implements RoleDao {
         if (findByName(role.getName()) != null) {
             throw new RuntimeException(role.toString() + "doesn't exist in DB");
         }
-        hibernateDao.updateObject(role);
+        try {
+            hibernateDao.updateObject(role);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -36,14 +44,23 @@ public class HibernateRoleDao implements RoleDao {
         if (findByName(role.getName()) == null) {
             throw new RuntimeException(role.toString() + "doesn't exist in DB");
         }
-        hibernateDao.removeObject(role);
+        try {
+            hibernateDao.removeObject(role);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Role findByName(String name) {
         Objects.requireNonNull(name);
         String hql = "FROM Role R WHERE R.name = :search_factor";
-        Role result = (Role) hibernateDao.findObject(hql, name);
+        Role result = null;
+        try {
+            result = (Role) hibernateDao.findObject(hql, name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 

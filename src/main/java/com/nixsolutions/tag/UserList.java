@@ -57,7 +57,7 @@ public class UserList extends TagSupport {
             s.append(user.getLastName());
             s.append("</td>");
             s.append("<td>");
-            s.append(user.getAge());
+            s.append(user.getBirthday());
             s.append("</td>");
             s.append("<td>");
             s.append(user.getRolename());

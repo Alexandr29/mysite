@@ -1,5 +1,6 @@
 package com.nixsolutions.controller;
 
+import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.User;
 import com.nixsolutions.service.jdbc.JdbcRoleDao;
 import com.nixsolutions.service.jdbc.JdbcUserDao;
@@ -16,15 +17,14 @@ import java.util.Objects;
 
 @WebServlet(urlPatterns = "/edit") public class EditServlet
         extends HttpServlet {
-    private JdbcUserDao jdbcUserDao = new JdbcUserDao();
-    private JdbcRoleDao jdbcRoleDao = new JdbcRoleDao();
+    private HibernateUserDao hibernateUserDao = new HibernateUserDao();
 
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
         String logintoedit = req.getParameter("logintoedit");
-        User user = jdbcUserDao.findByLogin(logintoedit);
-        req.setAttribute("roles", jdbcRoleDao.findAll());
-        System.out.println("list roles: " + jdbcRoleDao.findAll());
+        User user = hibernateUserDao.findByLogin(logintoedit);
+        req.setAttribute("roles", hibernateUserDao.findAll());
+        System.out.println("list roles: " + hibernateUserDao.findAll());
         req.setAttribute("logintoedit", user.getLogin());
         req.setAttribute("passwordtoedit", user.getPassword());
         req.setAttribute("firstnametoedit", user.getFirstName());
@@ -44,14 +44,14 @@ import java.util.Objects;
         String lastname = req.getParameter("lastname");
         String email = req.getParameter("email");
         String date = req.getParameter("date");
-        Long roleid = jdbcRoleDao.findByName(req.getParameter("rolevalue"))
+        Long roleid = hibernateUserDao.findByLogin(req.getParameter("rolevalue"))
                 .getId();
 
         int result = isValidData(login, password, passwordagain, firstname, lastname,email,
                 date, roleid);
 
         if (result==1) {
-            req.setAttribute("users", jdbcUserDao.findAll());
+            req.setAttribute("users", hibernateUserDao.findAll());
             req.setAttribute("thislogin", req.getAttribute("login"));
             resp.sendRedirect("/admin");
         }else {
@@ -80,7 +80,7 @@ import java.util.Objects;
             user.setBirthday(Date.valueOf(birthday));
             user.setBirthday(Date.valueOf(birthday));
             user.setRole_id(roleid);
-            jdbcUserDao.update(user);
+            hibernateUserDao.update(user);
             return 1;
         } else {
             return 3;

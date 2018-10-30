@@ -16,7 +16,6 @@
                           </div>
 
 <form name="userform" method="post" class="needs-validation">
-<br>
 <table align="center" width="300px"  class="table">
 
 <tr><td colspan=2 style="font-weight:bold;" align="center">Create User</td></tr>

@@ -18,7 +18,11 @@ public class HibernateUserDao implements UserDao {
             throw new IllegalArgumentException("User with login " + user.getLogin()
                     + " already exists in DB");
         }
-        hibernateDao.createObject(user);
+        try {
+            hibernateDao.createObject(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -27,7 +31,11 @@ public class HibernateUserDao implements UserDao {
         if (findByLogin(user.getLogin()) == null) {
             throw new RuntimeException(user.toString() + "doesn't exist in DB");
         }
-        hibernateDao.updateObject(user);
+        try {
+            hibernateDao.updateObject(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -37,27 +45,43 @@ public class HibernateUserDao implements UserDao {
         if (findByLogin(user.getLogin()) == null) {
             throw new RuntimeException(user.toString() + "doesn't exist in DB");
         }
-        hibernateDao.removeObject(user);
+        try {
+            hibernateDao.removeObject(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<User> findAll() {
         String hql = "FROM User";
-        return hibernateDao.findList(hql);
+        try {
+            return hibernateDao.findList(hql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }return null;
     }
 
     @Override
     public User findByLogin(String login) {
         Objects.requireNonNull(login);
         String hql = "FROM User U WHERE U.login = :search_factor";
-        return (User) hibernateDao.findObject(hql, login);
+        try {
+            return (User) hibernateDao.findObject(hql, login);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }return null;
     }
 
     @Override
     public User findByEmail(String email) {
         Objects.requireNonNull(email);
         String hql = "FROM User U WHERE U.email = :search_factor";
-        return (User) hibernateDao.findObject(hql, email);
+        try {
+            return (User) hibernateDao.findObject(hql, email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }return null;
     }
 
     private void emptyFieldsChecker(User user) {

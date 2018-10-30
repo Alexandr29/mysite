@@ -1,4 +1,5 @@
 package com.nixsolutions.controller;
+import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.Role;
 import com.nixsolutions.service.impl.User;
 import com.nixsolutions.service.jdbc.JdbcUserDao;
@@ -15,7 +16,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/login")
 public class LoginPageServlet extends HttpServlet {
     private LoginService service = new LoginService();
-    private JdbcUserDao jdbcUserDao = new JdbcUserDao();
+    private HibernateUserDao hibernateUserDao = new HibernateUserDao();
 
 
     @Override protected void doGet(HttpServletRequest req,
@@ -37,7 +38,7 @@ public class LoginPageServlet extends HttpServlet {
 
         if (isValidUser) {
             if(isAdmin){
-                req.getSession().setAttribute("users",jdbcUserDao.findAll());
+                req.getSession().setAttribute("users",hibernateUserDao.findAll());
                 req.getSession().setAttribute("login", login);
                 resp.sendRedirect("/admin");
             }else {
@@ -75,6 +76,6 @@ public class LoginPageServlet extends HttpServlet {
 
 
     @Override public void init() throws ServletException {
-        List<User> users = jdbcUserDao.findAll();
+        List<User> users = hibernateUserDao.findAll();
     }
 }

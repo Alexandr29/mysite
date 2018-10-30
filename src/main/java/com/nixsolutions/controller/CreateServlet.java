@@ -1,5 +1,6 @@
 package com.nixsolutions.controller;
 
+import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.Role;
 import com.nixsolutions.service.impl.User;
 import com.nixsolutions.service.jdbc.JdbcRoleDao;
@@ -16,13 +17,14 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/create") public class CreateServlet
         extends HttpServlet {
-    private JdbcUserDao jdbcUserDao = new JdbcUserDao();
-    private JdbcRoleDao jdbcRoleDao = new JdbcRoleDao();
+    private HibernateUserDao hibernateUserDao = new HibernateUserDao();
+
+
 
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
 
-        req.setAttribute("roles", jdbcRoleDao.findAll());
+        req.setAttribute("roles", hibernateUserDao.findAll());
         req.getRequestDispatcher("create.jsp").forward(req, resp);
     }
 
@@ -36,7 +38,7 @@ import java.util.List;
         String lastname = req.getParameter("lastname");
         String email = req.getParameter("email");
         String date = req.getParameter("date");
-        Long roleid = jdbcRoleDao.findByName(req.getParameter("rolevalue"))
+        Long roleid = hibernateUserDao.findByLogin(req.getParameter("rolevalue"))
                 .getId();
 
         JdbcUserDao jdbcUserDao = new JdbcUserDao();
@@ -65,7 +67,7 @@ import java.util.List;
     int isValidData(String login, String password, String passwordagain,
             String firstname, String lastname,String email, String birthday, Long roleid) {
 
-        for (User user1:jdbcUserDao.findAll()) {
+        for (User user1:hibernateUserDao.findAll()) {
             if (user1.getLogin().equals(login)){
                 return 2;
             }}
@@ -82,7 +84,7 @@ import java.util.List;
             user.setBirthday(Date.valueOf(birthday));
             user.setBirthday(Date.valueOf(birthday));
             user.setRole_id(roleid);
-            jdbcUserDao.create(user);
+            hibernateUserDao.create(user);
             return 1;
         } else {
             return 3;

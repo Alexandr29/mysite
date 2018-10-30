@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
-public class AbstractJdbcDao {
+public abstract class AbstractJdbcDao {
     static Connection connection;
     private static BasicDataSource dataSource;
 
@@ -26,7 +26,6 @@ public class AbstractJdbcDao {
     }
 
     public static Connection createConnection() {
-
         try {
             BasicDataSource basicDataSource = AbstractJdbcDao.getDataSource();
             connection = basicDataSource.getConnection();
@@ -49,6 +48,5 @@ public class AbstractJdbcDao {
                 + "FIRSTNAME VARCHAR, " + "LASTNAME VARCHAR, " + "DATE DATE,"
                 + "ROLE_ID INT(11),"
                 + "FOREIGN KEY(ROLE_ID) REFERENCES ROLE(ROLE_ID));");
-
     }
 }

@@ -4,6 +4,7 @@ import com.nixsolutions.service.dao.UserDao;
 import com.nixsolutions.service.impl.User;
 import com.nixsolutions.service.jdbc.AbstractJdbcDao;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     user.setId(generatedKeys.getLong(1));
+                    System.out.println(user.getId());
                 }
                 else {
                     throw new SQLException("Creating user failed, no ID obtained.");
@@ -73,7 +75,9 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
 
     @Override public void update(User user) {
         try {
-            createConnection().createStatement().executeUpdate("UPDATE USER"
+            connection = createConnection();
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("UPDATE USER"
                     + " SET LOGIN = "+"'"+user.getLogin()+"'"
                     + ", PASSWORD = " + "'"+user.getPassword()+"'"
                     + ", EMAIL = " + "'"+user.getEmail()+"'"
@@ -81,7 +85,7 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
                     + ", LASTNAME = " + "'"+user.getLastName()+"'"
                     + ", DATE = " + "'"+user.getBirthday()+"'"
                     + ", ROLE_ID = " + "'"+user.getRole_id()+"'"
-                    + " WHERE USER_ID = " + "'"+user.getId()+"'" + ";");
+                    + " WHERE LOGIN = " + "'"+user.getLogin()+"'" + ";");
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -52,6 +52,12 @@
                    <input name="lastname" type="text" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter lastname" required>
                    </td>
   </tr>
+  <tr>
+                    <td>Email</td>
+                    <td><label for="exampleemail">Last Name</label>
+                     <input name="email" type="email" class="form-control" id="exampleEmail" aria-describedby="EmailHelp" placeholder="Enter email" required>
+                     </td>
+    </tr>
  <tr>
                   <td>Birth date</td>
                   <td><label for="exampleDate">Login</label>

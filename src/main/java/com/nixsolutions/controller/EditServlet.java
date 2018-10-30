@@ -42,19 +42,21 @@ import java.util.Objects;
         String passwordagain = req.getParameter("passwordagain");
         String firstname = req.getParameter("firstname");
         String lastname = req.getParameter("lastname");
+        String email = req.getParameter("email");
         String date = req.getParameter("date");
         Long roleid = jdbcRoleDao.findByName(req.getParameter("rolevalue"))
                 .getId();
 
-        JdbcUserDao jdbcUserDao = new JdbcUserDao();
-        if (isValidData(login, password, passwordagain, firstname, lastname,
-                date, roleid)) {
+        int result = isValidData(login, password, passwordagain, firstname, lastname,email,
+                date, roleid);
+
+        if (result==1) {
             req.setAttribute("users", jdbcUserDao.findAll());
             req.setAttribute("thislogin", req.getAttribute("login"));
             resp.sendRedirect("/admin");
-        } else {
+        }else {
             req.setAttribute("logintoedit", login);
-            req.setAttribute("errorMessage", "passwords are not equals ");
+            req.setAttribute("errorMessage", "password are not equals");
             doGet(req, resp);
         }
 
@@ -63,30 +65,25 @@ import java.util.Objects;
         //        resp.sendRedirect("/admin");
     }
 
-    boolean isValidData(String login, String password, String passwordagain,
-            String firstname, String lastname, String birthday, Long roleid) {
+    int isValidData(String login, String password, String passwordagain,
+            String firstname, String lastname,String email, String birthday, Long roleid) {
 
-        for (User user1 : jdbcUserDao.findAll()) {
-            if (user1.getLogin().equals(login)) {
-                return false;
-            }
-        }
-
-        if (login != "" && password != "" && firstname != "" && lastname != ""
-                && birthday != "" && roleid != null && password.equals(passwordagain)) {
+        if (login != "" && password != "" && firstname != ""
+                && lastname != "" && birthday != "" && roleid != null
+                && password.equals(passwordagain)) {
             User user = new User();
             user.setLogin(login);
             user.setPassword(password);
             user.setFirstName(firstname);
             user.setLastName(lastname);
+            user.setEmail(email);
             user.setBirthday(Date.valueOf(birthday));
             user.setBirthday(Date.valueOf(birthday));
             user.setRole_id(roleid);
-            jdbcUserDao.create(user);
-            return true;
+            jdbcUserDao.update(user);
+            return 1;
         } else {
-            return false;
-        }
-    }
+            return 3;
+        }}
 
 }

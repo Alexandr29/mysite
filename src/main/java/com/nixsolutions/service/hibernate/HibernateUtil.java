@@ -11,25 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HibernateUtil {
-    private static final SessionFactory sessionFactory;
+    public static Session getSession() throws Exception {
 
-    private static Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
-
-    static{
-        try{
-            sessionFactory = new Configuration().configure().buildSessionFactory();
-        }catch (Throwable ex) {
-            logger.error("Session Factory could not be created." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
-
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public static Session getSession() {
-        return sessionFactory.getCurrentSession();
+        Configuration configuration = new Configuration();
+        configuration.configure("hibernate.cfg.xml");
+        StandardServiceRegistryBuilder ssrb = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+        SessionFactory sessionFactory = configuration.buildSessionFactory(ssrb.build());
+        Session session = sessionFactory.openSession();
+        return session;
     }
 
 

@@ -33,22 +33,22 @@ public class LoginPageServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        boolean isValidUser = service.validateUser(login, password);
-        boolean isAdmin = service.isAdmin(login);
+       // boolean isValidUser = service.validateUser(login, password);
+       // boolean isAdmin = service.isAdmin(login);
 
-        if (isValidUser) {
-            if(isAdmin){
+       // if (isValidUser) {
+        //    if(isAdmin){
                 req.getSession().setAttribute("users",hibernateUserDao.findAll());
                 req.getSession().setAttribute("login", login);
                 resp.sendRedirect("/admin");
-            }else {
-                req.getSession().setAttribute("login", login);
-                resp.sendRedirect("/user");
-            }
-        } else {
-            req.setAttribute("errorMessage", "Invalid Credentials!!");
-            req.getRequestDispatcher("login.jsp").forward(req, resp);
-        }
+        //    }else {
+               // req.getSession().setAttribute("login", login);
+                //resp.sendRedirect("/user");
+          //  }
+       // } else {
+           // req.setAttribute("errorMessage", "Invalid Credentials!!");
+            //req.getRequestDispatcher("login.jsp").forward(req, resp);
+       // }
 //        List<User> users = jdbcUserDao.findAll();
 //        System.out.println("I am in doPost");
 //        User user;

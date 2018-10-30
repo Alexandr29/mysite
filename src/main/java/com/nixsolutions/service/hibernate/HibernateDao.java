@@ -13,7 +13,7 @@ class HibernateDao {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     Object findObject(String hql, String searchValue) throws Exception {
         Object obj;
-        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+        try (Session session = HibernateUtil.getSession()) {
             Transaction transaction = session.beginTransaction();
             Query query = session.createQuery(hql);
             query.setParameter("search_factor", searchValue);
@@ -31,7 +31,7 @@ class HibernateDao {
 
     List findList(String hql) throws Exception {
         List objects;
-        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+        try (Session session = HibernateUtil.getSession()) {
             System.out.println("session     " + session);
             Transaction transaction = session.beginTransaction();
             System.out.println("transact    " + transaction);
@@ -51,7 +51,7 @@ class HibernateDao {
 
     void createObject(Object object) throws Exception {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
             session.save(object);
             transaction.commit();
@@ -66,7 +66,7 @@ class HibernateDao {
 
     void updateObject(Object object) throws Exception {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
             session.update(object);
             transaction.commit();
@@ -81,7 +81,7 @@ class HibernateDao {
 
     void removeObject(Object object) throws Exception {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             session.remove(object);

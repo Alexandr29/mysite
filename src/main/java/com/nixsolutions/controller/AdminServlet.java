@@ -12,15 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/admin")
-public class AdminServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/admin") public class AdminServlet
+        extends HttpServlet {
     private JdbcUserDao jdbcUserDao = new JdbcUserDao();
     private JdbcRoleDao jdbcRoleDao = new JdbcRoleDao();
 
-
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("login",req.getSession().getAttribute("login"));
+        req.setAttribute("login", req.getSession().getAttribute("login"));
         req.setAttribute("users", jdbcUserDao.findAll());
         //System.out.println(jdbcUserDao.findAll());
         //req.setAttribute("rolename",jdbcRoleDao.fundById(jdbcUserDao.findByLogin().getRole_id()).getName());
@@ -30,36 +29,37 @@ public class AdminServlet extends HttpServlet {
 
     @Override protected void doPost(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
-//        String users = req.getParameter("users");
-//        if ("".equals(users)) {
-//            req.setAttribute("errorMessage", "Enter a valid users");
-//        } else {
-//            //todoService.addTodo(todo);
-//        }
-                List<User> users = jdbcUserDao.findAll();
-                User user;
-                String login = String.valueOf(req.getAttribute("login"));
-                String password = (String) req.getAttribute("password");
-                user = jdbcUserDao.findByLogin(login);
+        //        String users = req.getParameter("users");
+        //        if ("".equals(users)) {
+        //            req.setAttribute("errorMessage", "Enter a valid users");
+        //        } else {
+        //            //todoService.addTodo(todo);
+        //        }
+        List<User> users = jdbcUserDao.findAll();
+        User user;
+        String login = String.valueOf(req.getAttribute("login"));
+        String password = (String) req.getAttribute("password");
+        user = jdbcUserDao.findByLogin(login);
 
-                String firstName = user.getFirstName();
-                String lastName = user.getLastName();
-                req.setAttribute("users",users);
+        String firstName = user.getFirstName();
+        String lastName = user.getLastName();
+        req.setAttribute("users", users);
 
-
-                req.setAttribute("firstName",firstName);
-                req.setAttribute("lastName",lastName);
-                if (user.getPassword().equals(password) && user.getRole_id()==1L){
-                    req.getRequestDispatcher("admin.jsp").forward(req,resp);
-                }else if (user.getPassword().equals(password)&& user.getRole_id()==2L){
-                    req.getRequestDispatcher("user.jsp").forward(req,resp);
-                }else {
-                    req.getRequestDispatcher("error.jsp").forward(req, resp);
-                }
+        req.setAttribute("firstName", firstName);
+        req.setAttribute("lastName", lastName);
+        if (user.getPassword().equals(password) && user.getRole_id() == 1L) {
+            req.getRequestDispatcher("admin.jsp").forward(req, resp);
+        } else if (user.getPassword().equals(password)
+                && user.getRole_id() == 2L) {
+            req.getRequestDispatcher("user.jsp").forward(req, resp);
+        } else {
+            req.getRequestDispatcher("error.jsp").forward(req, resp);
+        }
         //request.setAttribute("todos", todoService.retrieveTodos());
         //request.getRequestDispatcher("/WEB-INF/views/todo.jsp").forward(request, response);
     }
-    private void createUser(){
+
+    private void createUser() {
         User adminUser = new User("User", "1234", "alexru", "Alex", "Last",
                 java.sql.Date.valueOf("1997-04-29"), 2L);
         jdbcUserDao.create(adminUser);

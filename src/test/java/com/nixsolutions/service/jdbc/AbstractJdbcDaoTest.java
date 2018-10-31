@@ -34,6 +34,7 @@ public class AbstractJdbcDaoTest extends DBTestCase {
                 resourceBundle.getString("jdbc.password"));
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD,
                 resourceBundle.getString("jdbc.username"));
+        //createTables();
         super.setUp();
     }
 
@@ -114,7 +115,7 @@ public class AbstractJdbcDaoTest extends DBTestCase {
 //            throw new RuntimeException(e.getCause());
 //        }
 //    }
-
+//
     @Override protected IDataSet getDataSet() throws Exception {
         return new FlatXmlDataSet(
                 new File("src/test/resources/testDataSet.xml"));

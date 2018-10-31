@@ -29,6 +29,7 @@ import java.util.Objects;
         req.setAttribute("passwordtoedit", user.getPassword());
         req.setAttribute("firstnametoedit", user.getFirstName());
         req.setAttribute("lastnametoedit", user.getLastName());
+        req.setAttribute("emailtoedit", user.getEmail());
         req.setAttribute("birthdaytoedit", user.getBirthday());
         req.getRequestDispatcher("edit.jsp").forward(req, resp);
     }
@@ -47,14 +48,14 @@ import java.util.Objects;
         Long roleid = jdbcRoleDao.findByName(req.getParameter("rolevalue"))
                 .getId();
 
-        int result = isValidData(login, password, passwordagain, firstname, lastname,email,
-                date, roleid);
+        int result = isValidData(login, password, passwordagain, firstname,
+                lastname, email, date, roleid);
 
-        if (result==1) {
+        if (result == 1) {
             req.setAttribute("users", jdbcUserDao.findAll());
             req.setAttribute("thislogin", req.getAttribute("login"));
             resp.sendRedirect("/admin");
-        }else {
+        } else {
             req.setAttribute("logintoedit", login);
             req.setAttribute("errorMessage", "password are not equals");
             doGet(req, resp);
@@ -66,11 +67,12 @@ import java.util.Objects;
     }
 
     int isValidData(String login, String password, String passwordagain,
-            String firstname, String lastname,String email, String birthday, Long roleid) {
+            String firstname, String lastname, String email, String birthday,
+            Long roleid) {
 
-        if (login != "" && password != "" && firstname != ""
-                && lastname != "" && birthday != "" && roleid != null
-                && password.equals(passwordagain)) {
+        if (login != "" && password != "" && firstname != "" && lastname != ""
+                && birthday != "" && roleid != null && password
+                .equals(passwordagain)) {
             User user = new User();
             user.setLogin(login);
             user.setPassword(password);
@@ -84,6 +86,7 @@ import java.util.Objects;
             return 1;
         } else {
             return 3;
-        }}
+        }
+    }
 
 }

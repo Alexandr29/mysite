@@ -34,6 +34,7 @@ public class AbstractJdbcDaoTest extends DBTestCase {
                 resourceBundle.getString("jdbc.password"));
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD,
                 resourceBundle.getString("jdbc.username"));
+        //createTables();
         super.setUp();
     }
 
@@ -46,7 +47,7 @@ public class AbstractJdbcDaoTest extends DBTestCase {
         JdbcUserDao userDao = new JdbcUserDao();
 
         Role role = new Role(1L, "Admin");
-        User user = new User("upd", "upd", "upd",
+        User user = new User(2L, "upd", "upd", "upd",
                 "upd", "upd", Date.valueOf("2222-02-22"), role.getId());
 
         userDao.update(user);
@@ -114,7 +115,7 @@ public class AbstractJdbcDaoTest extends DBTestCase {
 //            throw new RuntimeException(e.getCause());
 //        }
 //    }
-
+//
     @Override protected IDataSet getDataSet() throws Exception {
         return new FlatXmlDataSet(
                 new File("src/test/resources/testDataSet.xml"));

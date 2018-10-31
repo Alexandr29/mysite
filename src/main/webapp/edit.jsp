@@ -21,51 +21,51 @@
 <tr><td colspan=2 style="font-weight:bold;" align="center">Edit User</td></tr>
 <tr><td colspan=2 align="center" height="10px"></td></tr>
     <tr>
-        <td>Login</td>
-        <td><label for="exampleLogin">Login</label>
+        <td align="right">Login</td>
+        <td>
          <input name="login" type="text" value="${logintoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter login" readonly>
          </td>
     </tr>
     <tr>
-            <td>Password</td>
-            <td><label for="examplePassword">password</label>
+            <td align="right">Password</td>
+            <td>
              <input name="password" type="password" value="${passwordtoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password" required>
              </td>
      </tr>
      <tr>
-                 <td>Password again</td>
-                 <td><label for="examplePassword">passwordagain</label>
+                 <td align="right">Password again</td>
+                 <td>
                   <input name="passwordagain" type="password" value="${passwordtoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password" required>
                   </td>
  </tr>
 
   <tr>
-                  <td>First Name</td>
-                  <td><label for="exampleFirstName">Login</label>
+                  <td align="right">First Name</td>
+                  <td>
                    <input name="firstname" type="text" value="${firstnametoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname" required>
                    </td>
   </tr>
 <tr>
-                  <td>Last Name</td>
-                  <td><label for="exampleFirstName">Last Name</label>
+                  <td align="right">Last Name</td>
+                  <td>
                    <input name="lastname" type="text" value="${lastnametoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname" required>
                    </td>
   </tr>
   <tr>
-                      <td>Email</td>
-                      <td><label for="exampleemail">Last Name</label>
-                       <input name="email" type="email" class="form-control" id="exampleEmail" aria-describedby="EmailHelp" placeholder="Enter email" required>
+                      <td align="right">Email</td>
+                      <td>
+                       <input name="email" type="email" value="${emailtoedit}" class="form-control" id="exampleEmail" aria-describedby="EmailHelp" placeholder="Enter email" required>
                        </td>
       </tr>
  <tr>
-                  <td>Password again</td>
-                  <td><label for="exampleDate">Login</label>
+                  <td align="right">Birth date</td>
+                  <td>
                    <input name="date" type="date" value="${birthdaytoedit}" class="form-control" id="exampleDate" aria-describedby="loginHelp" placeholder="Enter date" required>
                    </td>
   </tr>
 
    <tr>
-               <td>Role</td>
+               <td align="right">Role</td>
      <td><select name="rolevalue" class="selectpicker">
 
      <c:forEach items="${roles}" var="role">
@@ -78,7 +78,7 @@
 
     <tr>
         <td></td>
-        <td></p> <input method="post" type="submit" name="Submit" value="Save"><button type="reset" class="btn btn-secondary my-button">Cancel</button></p></td>
+        <td></p> <input method="post" type="submit" name="Submit" value="Save"><a href="/admin" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Cancel</a></p></td></p></td>
 
     </tr>
     <tr><td colspan=2 align="center" height="10px"></td></tr>

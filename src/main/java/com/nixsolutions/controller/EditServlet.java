@@ -30,6 +30,7 @@ import java.util.Objects;
         req.setAttribute("passwordtoedit", user.getPassword());
         req.setAttribute("firstnametoedit", user.getFirstName());
         req.setAttribute("lastnametoedit", user.getLastName());
+        req.setAttribute("emailtoedit", user.getEmail());
         req.setAttribute("birthdaytoedit", user.getBirthday());
         req.getRequestDispatcher("edit.jsp").forward(req, resp);
     }
@@ -53,7 +54,7 @@ import java.util.Objects;
 
             req.setAttribute("thislogin", req.getAttribute("login"));
             resp.sendRedirect("/admin");
-        }else {
+        } else {
             req.setAttribute("logintoedit", login);
             req.setAttribute("errorMessage", "password are not equals");
             doGet(req, resp);
@@ -65,7 +66,8 @@ import java.util.Objects;
     }
 
     int isValidData(String login, String password, String passwordagain,
-            String firstname, String lastname,String email, String birthday, Long roleid) {
+            String firstname, String lastname, String email, String birthday,
+            Long roleid) {
 
         if (login != "" && password != "" && firstname != ""
                 && lastname != "" && birthday != "" && roleid != null

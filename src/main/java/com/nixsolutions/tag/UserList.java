@@ -43,8 +43,7 @@ public class UserList extends TagSupport {
         s.append("</tr>");
         s.append("</thead>");
         s.append("<tbody>");
-        for (User user: users) {
-
+        for (User user : users) {
             s.append("<tr>");
             s.append("<td>");
             s.append(user.getId());
@@ -68,13 +67,13 @@ public class UserList extends TagSupport {
             s.append("</td>");
             s.append("<td>");
             s.append("<a href=\"" + ((HttpServletRequest) pageContext
-                    .getRequest()).getContextPath()
-                    + "/edit?logintoedit=" + user.getLogin()
+                    .getRequest()).getContextPath() + "/edit?logintoedit="
+                    + user.getLogin()
                     + "\"><img border=\"0\" src=\"images/edit.png\" width=\"30\" height=\"30\"></a>");
             s.append(" ");
             s.append("<a href=\"" + ((HttpServletRequest) pageContext
-                    .getRequest()).getContextPath()
-                    + "/delete?logintodelete=" + user.getLogin()
+                    .getRequest()).getContextPath() + "/delete?logintodelete="
+                    + user.getLogin()
                     + "\" onclick=\"return confirmDelete();\"> <img border=\"0\"  src=\"images/trash.jpg\" width=\"30\" height=\"30\"></a>");
             s.append("</td>");
             s.append("</tr>");

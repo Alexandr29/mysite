@@ -1,5 +1,6 @@
 package com.nixsolutions.controller;
 import com.nixsolutions.service.hibernate.HibernateUserDao;
+
 import com.nixsolutions.service.impl.Role;
 import com.nixsolutions.service.impl.User;
 import com.nixsolutions.service.jdbc.JdbcUserDao;
@@ -13,17 +14,14 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/login")
-public class LoginPageServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/login") public class LoginPageServlet
+        extends HttpServlet {
     private LoginService service = new LoginService();
     private HibernateUserDao hibernateUserDao = new HibernateUserDao();
 
-
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
-        req
-                .getRequestDispatcher("login.jsp")
-                .forward(req, resp);
+        req.getRequestDispatcher("login.jsp").forward(req, resp);
     }
 
     @Override protected void doPost(HttpServletRequest req,
@@ -41,7 +39,7 @@ public class LoginPageServlet extends HttpServlet {
                 req.getSession().setAttribute("users",hibernateUserDao.findAll());
                 req.getSession().setAttribute("login", login);
                 resp.sendRedirect("/admin");
-            }else {
+            } else {
                 req.getSession().setAttribute("login", login);
                 resp.sendRedirect("/user");
             }
@@ -73,7 +71,6 @@ public class LoginPageServlet extends HttpServlet {
 //            req.getRequestDispatcher("error.jsp").forward(req,resp);
 //        }
     }
-
 
     @Override public void init() throws ServletException {
         List<User> users = hibernateUserDao.findAll();

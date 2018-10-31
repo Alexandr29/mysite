@@ -6,8 +6,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = "/*")
-public class LoginRequiredFilter implements Filter {
+@WebFilter(urlPatterns = "/*") public class LoginRequiredFilter
+        implements Filter {
     @Override public void init(FilterConfig filterConfig)
             throws ServletException {
 
@@ -21,8 +21,8 @@ public class LoginRequiredFilter implements Filter {
         if (request.getSession().getAttribute("login") != null) {
             chain.doFilter(servletRequest, servletResponse);
         } else {
-            request.getRequestDispatcher("/login").forward(servletRequest,
-                    servletResponse);
+            request.getRequestDispatcher("/login")
+                    .forward(servletRequest, servletResponse);
         }
 
     }

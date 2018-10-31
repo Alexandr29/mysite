@@ -1,5 +1,6 @@
 package com.nixsolutions.controller;
 
+import com.nixsolutions.service.hibernate.HibernateRoleDao;
 import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.Role;
 import com.nixsolutions.service.impl.User;
@@ -18,19 +19,21 @@ import java.util.List;
 @WebServlet(urlPatterns = "/create") public class CreateServlet
         extends HttpServlet {
     private HibernateUserDao hibernateUserDao = new HibernateUserDao();
-
+    private HibernateRoleDao hibernateRoleDao = new HibernateRoleDao();
 
 
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
 
-        req.setAttribute("roles", hibernateUserDao.findAll());
+        req.setAttribute("roles", hibernateRoleDao.findAll());
         req.getRequestDispatcher("create.jsp").forward(req, resp);
     }
 
     @Override protected void doPost(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
-
+        String id = String
+                .valueOf(hibernateUserDao.findByLogin("login"));
+        System.out.println(id);
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String passwordagain = req.getParameter("passwordagain");
@@ -38,15 +41,14 @@ import java.util.List;
         String lastname = req.getParameter("lastname");
         String email = req.getParameter("email");
         String date = req.getParameter("date");
-        Long roleid = hibernateUserDao.findByLogin(req.getParameter("rolevalue"))
-                .getId();
+        String roleid = req.getParameter("rolevalue");
+        //Long roleid = hibernateUserDao.findByLogin(req.getParameter("rolevalue"))
+        //        .getId();
 
-        JdbcUserDao jdbcUserDao = new JdbcUserDao();
         int result = isValidData(login, password, passwordagain, firstname, lastname,email,
-                date, roleid);
-
+                date, Long.valueOf(roleid));
         if (result==1) {
-            req.setAttribute("users", jdbcUserDao.findAll());
+            req.setAttribute("users", hibernateUserDao.findAll());
             req.setAttribute("thislogin", req.getAttribute("login"));
             resp.sendRedirect("/admin");
         } else if (result==2){

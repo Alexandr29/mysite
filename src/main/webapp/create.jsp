@@ -68,7 +68,7 @@
   <td><select name="rolevalue" class="selectpicker">
 
   <c:forEach items="${roles}" var="role">
-                       <option value="${role.name}"><c:out value="${role.name}"/></option>
+                       <option value="${role.id}"><c:out value="${role.name}"/></option>
                      </c:forEach>
       </select>
                      </td>

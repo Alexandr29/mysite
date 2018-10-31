@@ -46,7 +46,7 @@ public class AbstractJdbcDaoTest extends DBTestCase {
         JdbcUserDao userDao = new JdbcUserDao();
 
         Role role = new Role(1L, "Admin");
-        User user = new User(2L, "upd", "upd", "upd",
+        User user = new User("upd", "upd", "upd",
                 "upd", "upd", Date.valueOf("2222-02-22"), role.getId());
 
         userDao.update(user);

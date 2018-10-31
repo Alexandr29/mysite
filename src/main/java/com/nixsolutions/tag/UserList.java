@@ -6,6 +6,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 public class UserList extends TagSupport {
@@ -43,6 +44,7 @@ public class UserList extends TagSupport {
         s.append("</thead>");
         s.append("<tbody>");
         for (User user: users) {
+
             s.append("<tr>");
             s.append("<td>");
             s.append(user.getId());
@@ -57,10 +59,12 @@ public class UserList extends TagSupport {
             s.append(user.getLastName());
             s.append("</td>");
             s.append("<td>");
-            s.append(user.getBirthday());
+            s.append(getAge(user.getBirthday().getYear(), new Date().getYear()));
             s.append("</td>");
             s.append("<td>");
-            s.append(user.getRolename());
+            if (user.getRole_id()==1L){
+                s.append("Admin");
+            }else s.append("User");
             s.append("</td>");
             s.append("<td>");
             s.append("<a href=\"" + ((HttpServletRequest) pageContext
@@ -86,6 +90,10 @@ public class UserList extends TagSupport {
             throw new RuntimeException(e);
         }
         return EVAL_BODY_INCLUDE;
+    }
+
+    private int getAge(int birthday, int thisyear) {
+        return thisyear - birthday;
     }
 
     public void setUsers(List<User> users) {

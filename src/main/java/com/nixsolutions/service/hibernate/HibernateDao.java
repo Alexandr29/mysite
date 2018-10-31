@@ -1,19 +1,24 @@
 package com.nixsolutions.service.hibernate;
 
+import com.nixsolutions.service.impl.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
 
 class HibernateDao {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     Object findObject(String hql, String searchValue) throws Exception {
         Object obj;
-        try (Session session = HibernateUtil.getSession()) {
+        try (Session session = HibernateUtil.getSessionFactory()
+                .openSession()) {
             Transaction transaction = session.beginTransaction();
             Query query = session.createQuery(hql);
             query.setParameter("search_factor", searchValue);
@@ -30,16 +35,11 @@ class HibernateDao {
     }
 
     List findList(String hql) throws Exception {
-        List objects;
-        try (Session session = HibernateUtil.getSession()) {
-            System.out.println("session     " + session);
+        List objects = null;
+        try (Session session = HibernateUtil.getSessionFactory()
+                .openSession()) {
             Transaction transaction = session.beginTransaction();
-            System.out.println("transact    " + transaction);
             Query query = session.createQuery(hql);
-            System.out.println("query   " + query);
-            if (query.list().isEmpty()) {
-                return null;
-            }
             objects = query.list();
             transaction.rollback();
         } catch (Exception e) {
@@ -51,9 +51,11 @@ class HibernateDao {
 
     void createObject(Object object) throws Exception {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSession()) {
+        try (Session session = HibernateUtil.getSessionFactory()
+                .openSession()) {
             transaction = session.beginTransaction();
             session.save(object);
+            System.out.println(object.toString());
             transaction.commit();
         } catch (Exception e) {
             logger.error("Exception in createObject()", e, e);
@@ -65,8 +67,10 @@ class HibernateDao {
     }
 
     void updateObject(Object object) throws Exception {
+        System.out.println(object.toString() + "!!!!!!!!!!");
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSession()) {
+        try (Session session = HibernateUtil.getSessionFactory()
+                .openSession()) {
             transaction = session.beginTransaction();
             session.update(object);
             transaction.commit();
@@ -81,7 +85,8 @@ class HibernateDao {
 
     void removeObject(Object object) throws Exception {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSession()) {
+        try (Session session = HibernateUtil.getSessionFactory()
+                .openSession()) {
             transaction = session.beginTransaction();
 
             session.remove(object);

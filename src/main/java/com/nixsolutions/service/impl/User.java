@@ -5,11 +5,11 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "MY_USER")
+@Table(name = "USER")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "USER_ID")
     private Long id;
 
     @Column(name = "LOGIN")
@@ -21,21 +21,21 @@ public class User {
     @Column(name = "EMAIL")
     private String email;
 
-    @Column(name = "FIRST_NAME")
+    @Column(name = "FIRSTNAME")
     private String firstName;
 
-    @Column(name = "LAST_NAME")
+    @Column(name = "LASTNAME")
     private String lastName;
 
     @Column(name = "date")
     private Date birthday;
 
-    // TODO lazy
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ROLE_id")
+    //@ManyToOne(fetch = FetchType.EAGER)
+    @Column(name = "role_id")
     private Long role_id;
 
-    private String rolename;
+
+    //private int age;
 
     public User() {
     }
@@ -126,7 +126,14 @@ public class User {
     public void setRole_id(Long role_id) {
         this.role_id = role_id;
     }
-
+   // public int getAge() {
+        //this.age = calculateDifferenceInYears(birthday.getYear(), new java.util.Date().getYear()); // new Date() = today.
+       // return this.age;
+    //}
+    private int calculateDifferenceInYears(int birthday,int year){
+        int res = year-birthday;
+        return res;
+    }
 
     @Override
     public String toString() {
@@ -161,13 +168,5 @@ public class User {
     public int hashCode() {
         return (int) (31*id) + login.hashCode() + email.hashCode()
                 + firstName.hashCode() + lastName.hashCode() + (int) role_id.hashCode();
-    }
-
-    public void setRolename(String rolename) {
-        this.rolename = rolename;
-    }
-
-    public String getRolename() {
-        return rolename;
     }
 }

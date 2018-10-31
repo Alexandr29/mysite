@@ -28,6 +28,7 @@ public class HibernateUserDao implements UserDao {
     @Override
     public void update(User user) {
         emptyFieldsChecker(user);
+        System.out.println(user.toString());
         if (findByLogin(user.getLogin()) == null) {
             throw new RuntimeException(user.toString() + "doesn't exist in DB");
         }

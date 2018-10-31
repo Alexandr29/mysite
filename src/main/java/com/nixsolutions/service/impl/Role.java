@@ -1,7 +1,15 @@
 package com.nixsolutions.service.impl;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "ROLE")
 public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "role_id")
     private Long id;
+    @Column(name = "ROLENAME")
     private String name;
 
     public Role(String name) {

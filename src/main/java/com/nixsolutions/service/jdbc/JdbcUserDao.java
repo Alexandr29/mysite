@@ -131,7 +131,7 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
                 user.setLastName(resultSet.getString("lastname"));
                 user.setBirthday(resultSet.getDate("date"));
                 user.setRole_id(resultSet.getLong("role_Id"));
-                user.setRolename(resultSet.getString("rolename"));
+                //user.setRolename(resultSet.getString("rolename"));
                 users.add(user);
             }
         } catch (SQLException e) {

@@ -11,7 +11,7 @@ public interface UserDao {
 
     void remove(User user) throws RuntimeException;
 
-    List<User> findAll();
+    List findAll();
 
     User findByLogin(String login);
 

@@ -1,5 +1,7 @@
 package com.nixsolutions.controller;
 
+import com.nixsolutions.service.hibernate.HibernateRoleDao;
+import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.Role;
 import com.nixsolutions.service.impl.User;
 import com.nixsolutions.service.jdbc.JdbcRoleDao;
@@ -16,18 +18,20 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/create") public class CreateServlet
         extends HttpServlet {
-    private JdbcUserDao jdbcUserDao = new JdbcUserDao();
-    private JdbcRoleDao jdbcRoleDao = new JdbcRoleDao();
+    private HibernateUserDao hibernateUserDao = new HibernateUserDao();
+    private HibernateRoleDao hibernateRoleDao = new HibernateRoleDao();
+
 
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
 
-        req.setAttribute("roles", jdbcRoleDao.findAll());
+        req.setAttribute("roles", hibernateRoleDao.findAll());
         req.getRequestDispatcher("create.jsp").forward(req, resp);
     }
 
     @Override protected void doPost(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("i am in doPost");
 
         String login = req.getParameter("login");
         String password = req.getParameter("password");
@@ -36,18 +40,17 @@ import java.util.List;
         String lastname = req.getParameter("lastname");
         String email = req.getParameter("email");
         String date = req.getParameter("date");
-        Long roleid = jdbcRoleDao.findByName(req.getParameter("rolevalue"))
-                .getId();
+        String roleid = req.getParameter("rolevalue");
+        //Long roleid = hibernateUserDao.findByLogin(req.getParameter("rolevalue"))
+        //        .getId();
 
-        JdbcUserDao jdbcUserDao = new JdbcUserDao();
-        int result = isValidData(login, password, passwordagain, firstname,
-                lastname, email, date, roleid);
-
-        if (result == 1) {
-            req.setAttribute("users", jdbcUserDao.findAll());
+        int result = isValidData(login, password, passwordagain, firstname, lastname,email,
+                date, Long.valueOf(roleid));
+        if (result==1) {
+            req.setAttribute("users", hibernateUserDao.findAll());
             req.setAttribute("thislogin", req.getAttribute("login"));
             resp.sendRedirect("/admin");
-        } else if (result == 2) {
+        } else if (result==2){
             req.setAttribute("logintoedit", login);
             req.setAttribute("errorMessage", "login is already use");
             doGet(req, resp);
@@ -66,8 +69,8 @@ import java.util.List;
             String firstname, String lastname, String email, String birthday,
             Long roleid) {
 
-        for (User user1 : jdbcUserDao.findAll()) {
-            if (user1.getLogin().equals(login)) {
+        for (User user1:hibernateUserDao.findAll()) {
+            if (user1.getLogin().equals(login)){
                 return 2;
             }
         }
@@ -84,24 +87,39 @@ import java.util.List;
             user.setBirthday(Date.valueOf(birthday));
             user.setBirthday(Date.valueOf(birthday));
             user.setRole_id(roleid);
-            jdbcUserDao.create(user);
+            hibernateUserDao.create(user);
             return 1;
         } else {
             return 3;
         }
 
-        //        for (User obj : jdbcUserDao.findAll()) {
-        //            if (obj.getLogin().equals(login)) {
-        //                return false;
-        //            } else if (login != "" && password != "" && firstname != ""
-        //                    && lastname != "" && birthday != "" && roleid != null
-        //                    && password.equals(passwordagain)) {
-        //
-        //
-        //            } else {
-        //                return false;
-        //            }
-        //        }return false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        for (User obj : jdbcUserDao.findAll()) {
+//            if (obj.getLogin().equals(login)) {
+//                return false;
+//            } else if (login != "" && password != "" && firstname != ""
+//                    && lastname != "" && birthday != "" && roleid != null
+//                    && password.equals(passwordagain)) {
+//
+//
+//            } else {
+//                return false;
+//            }
+//        }return false;
 
     }
 }

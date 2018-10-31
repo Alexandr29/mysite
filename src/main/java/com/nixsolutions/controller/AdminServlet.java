@@ -1,5 +1,7 @@
 package com.nixsolutions.controller;
 
+import com.nixsolutions.service.hibernate.HibernateRoleDao;
+import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.User;
 import com.nixsolutions.service.jdbc.JdbcRoleDao;
 import com.nixsolutions.service.jdbc.JdbcUserDao;
@@ -12,15 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/admin") public class AdminServlet
-        extends HttpServlet {
-    private JdbcUserDao jdbcUserDao = new JdbcUserDao();
-    private JdbcRoleDao jdbcRoleDao = new JdbcRoleDao();
+@WebServlet(urlPatterns = "/admin")
+public class AdminServlet extends HttpServlet {
+    HibernateUserDao hibernateUserDao = new HibernateUserDao();
+    private HibernateRoleDao hibernateRoleDao = new HibernateRoleDao();
 
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("login", req.getSession().getAttribute("login"));
-        req.setAttribute("users", jdbcUserDao.findAll());
+        req.setAttribute("login",req.getSession().getAttribute("login"));
+        req.setAttribute("roles", hibernateRoleDao.findAll());
+        req.setAttribute("users", hibernateUserDao.findAll());
         //System.out.println(jdbcUserDao.findAll());
         //req.setAttribute("rolename",jdbcRoleDao.fundById(jdbcUserDao.findByLogin().getRole_id()).getName());
 
@@ -29,17 +32,17 @@ import java.util.List;
 
     @Override protected void doPost(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
-        //        String users = req.getParameter("users");
-        //        if ("".equals(users)) {
-        //            req.setAttribute("errorMessage", "Enter a valid users");
-        //        } else {
-        //            //todoService.addTodo(todo);
-        //        }
-        List<User> users = jdbcUserDao.findAll();
-        User user;
-        String login = String.valueOf(req.getAttribute("login"));
-        String password = (String) req.getAttribute("password");
-        user = jdbcUserDao.findByLogin(login);
+//        String users = req.getParameter("users");
+//        if ("".equals(users)) {
+//            req.setAttribute("errorMessage", "Enter a valid users");
+//        } else {
+//            //todoService.addTodo(todo);
+//        }
+                List<User> users = hibernateUserDao.findAll();
+                User user;
+                String login = String.valueOf(req.getAttribute("login"));
+                String password = (String) req.getAttribute("password");
+                user = hibernateUserDao.findByLogin(login);
 
         String firstName = user.getFirstName();
         String lastName = user.getLastName();
@@ -62,6 +65,6 @@ import java.util.List;
     private void createUser() {
         User adminUser = new User("User", "1234", "alexru", "Alex", "Last",
                 java.sql.Date.valueOf("1997-04-29"), 2L);
-        jdbcUserDao.create(adminUser);
+        hibernateUserDao.create(adminUser);
     }
 }

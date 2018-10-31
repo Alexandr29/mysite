@@ -1,5 +1,4 @@
 package com.nixsolutions.tag;
-
 import com.nixsolutions.service.impl.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,17 +6,16 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 public class UserList extends TagSupport {
     private List<User> users;
-
     @Override public int doStartTag() throws JspException {
         pageContext.getRequest().getServerName();
         JspWriter out = pageContext.getOut();
         StringBuilder s = new StringBuilder();
-        s.append(
-                "<table id=\"mytable\" class=\"table table-striped\" border=\"1\">");
+        s.append("<table id=\"mytable\" class=\"table table-striped\" border=\"1\">");
         s.append("<thead>");
         s.append("<thead>");
         //s.append("<tr>");
@@ -60,10 +58,12 @@ public class UserList extends TagSupport {
             s.append(user.getLastName());
             s.append("</td>");
             s.append("<td>");
-            s.append(user.getAge());
+            s.append(getAge(user.getBirthday().getYear(), new Date().getYear()));
             s.append("</td>");
             s.append("<td>");
-            s.append(user.getRolename());
+            if (user.getRole_id()==1L){
+                s.append("Admin");
+            }else s.append("User");
             s.append("</td>");
             s.append("<td>");
             s.append("<a href=\"" + ((HttpServletRequest) pageContext
@@ -79,6 +79,8 @@ public class UserList extends TagSupport {
             s.append("</tr>");
         }
 
+
+
         s.append("<tbody>");
         s.append("</table>");
         try {
@@ -87,6 +89,10 @@ public class UserList extends TagSupport {
             throw new RuntimeException(e);
         }
         return EVAL_BODY_INCLUDE;
+    }
+
+    private int getAge(int birthday, int thisyear) {
+        return thisyear - birthday;
     }
 
     public void setUsers(List<User> users) {

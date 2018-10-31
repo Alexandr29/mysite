@@ -1,16 +1,19 @@
 package com.nixsolutions.service;
 
+import com.nixsolutions.service.hibernate.HibernateUtil;
 import com.nixsolutions.service.impl.Role;
 import com.nixsolutions.service.impl.User;
 import com.nixsolutions.service.jdbc.AbstractJdbcDao;
 import com.nixsolutions.service.jdbc.JdbcRoleDao;
 import com.nixsolutions.service.jdbc.JdbcUserDao;
+import org.hibernate.SessionFactory;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Main {
+
 //    public static void main(String[] args) {
 //        java.sql.Date sqldate = null;
 //        String sdate = "17.10.2018";

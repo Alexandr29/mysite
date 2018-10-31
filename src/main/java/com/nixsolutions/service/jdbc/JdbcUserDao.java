@@ -7,29 +7,28 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
-    private final String SQL_INSERT_QUERY = "INSERT INTO User(login, password, email, firstname, lastname," +
-            " date, role_Id) VALUES (?,?,?,?,?,?,?)";
-    private final String SQL_UPDATE_QUERY = "UPDATE User SET login=?, password=?, email=?, firstname=?," +
-            " lastname=?, date=?, role_Id=? WHERE login=?";
+    private final String SQL_INSERT_QUERY =
+            "INSERT INTO User(login, password, email, firstname, lastname,"
+                    + " date, role_Id) VALUES (?,?,?,?,?,?,?)";
+    private final String SQL_UPDATE_QUERY =
+            "UPDATE User SET login=?, password=?, email=?, firstname=?,"
+                    + " lastname=?, date=?, role_Id=? WHERE login=?";
     private final String SQL_DELETE_QUERY = "DELETE FROM User WHERE user_id=?";
     private final String SQL_SELECT_ALL_QUERY = "SELECT * FROM User left join Role on user.role_id = Role.role_id";
     private final String SQL_SELECT_BY_LOGIN_QUERY = "SELECT * FROM User WHERE login=?";
     private final String SQL_SELECT_BY_EMAIL_QUERY = "SELECT * FROM User WHERE email=?";
     private final String SQL_SELECT_BY_ID_QUERY = "SELECT * FROM User WHERE user_id=?";
 
-
-
     public JdbcUserDao() {
     }
 
-    @Override
-    public void create(User user) {
+    @Override public void create(User user) {
         Connection connection = null;
         try {
             connection = createConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_INSERT_QUERY);
+            PreparedStatement statement = connection
+                    .prepareStatement(SQL_INSERT_QUERY);
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getEmail());
@@ -57,12 +56,12 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
         }
     }
 
-    @Override
-    public void update(User user) {
+    @Override public void update(User user) {
         Connection connection = null;
         try {
             connection = createConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_QUERY);
+            PreparedStatement statement = connection
+                    .prepareStatement(SQL_UPDATE_QUERY);
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getEmail());
@@ -89,12 +88,12 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
         }
     }
 
-    @Override
-    public void remove(User user) {
+    @Override public void remove(User user) {
         Connection connection = null;
         try {
             connection = createConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_DELETE_QUERY);
+            PreparedStatement statement = connection
+                    .prepareStatement(SQL_DELETE_QUERY);
             statement.setLong(1, user.getId());
             statement.executeUpdate();
             connection.commit();
@@ -114,8 +113,7 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
         }
     }
 
-    @Override
-    public List<User> findAll() {
+    @Override public List<User> findAll() {
         List<User> users = new ArrayList<>();
         Connection connection = null;
         try {
@@ -148,13 +146,11 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
         return users;
     }
 
-    @Override
-    public User findByLogin(String login) {
+    @Override public User findByLogin(String login) {
         return findBySomething(login, SQL_SELECT_BY_LOGIN_QUERY);
     }
 
-    @Override
-    public User findByEmail(String email) {
+    @Override public User findByEmail(String email) {
         return findBySomething(email, SQL_SELECT_BY_EMAIL_QUERY);
     }
 

@@ -40,18 +40,18 @@ import java.util.List;
                 .getId();
 
         JdbcUserDao jdbcUserDao = new JdbcUserDao();
-        int result = isValidData(login, password, passwordagain, firstname, lastname,email,
-                date, roleid);
+        int result = isValidData(login, password, passwordagain, firstname,
+                lastname, email, date, roleid);
 
-        if (result==1) {
+        if (result == 1) {
             req.setAttribute("users", jdbcUserDao.findAll());
             req.setAttribute("thislogin", req.getAttribute("login"));
             resp.sendRedirect("/admin");
-        } else if (result==2){
+        } else if (result == 2) {
             req.setAttribute("logintoedit", login);
             req.setAttribute("errorMessage", "login is already use");
             doGet(req, resp);
-        }else {
+        } else {
             req.setAttribute("logintoedit", login);
             req.setAttribute("errorMessage", "password are not equals");
             doGet(req, resp);
@@ -63,16 +63,18 @@ import java.util.List;
     }
 
     int isValidData(String login, String password, String passwordagain,
-            String firstname, String lastname,String email, String birthday, Long roleid) {
+            String firstname, String lastname, String email, String birthday,
+            Long roleid) {
 
-        for (User user1:jdbcUserDao.findAll()) {
-            if (user1.getLogin().equals(login)){
+        for (User user1 : jdbcUserDao.findAll()) {
+            if (user1.getLogin().equals(login)) {
                 return 2;
-            }}
+            }
+        }
 
-        if (login != "" && password != "" && firstname != ""
-                && lastname != "" && birthday != "" && roleid != null
-                && password.equals(passwordagain)) {
+        if (login != "" && password != "" && firstname != "" && lastname != ""
+                && birthday != "" && roleid != null && password
+                .equals(passwordagain)) {
             User user = new User();
             user.setLogin(login);
             user.setPassword(password);
@@ -88,33 +90,18 @@ import java.util.List;
             return 3;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        for (User obj : jdbcUserDao.findAll()) {
-//            if (obj.getLogin().equals(login)) {
-//                return false;
-//            } else if (login != "" && password != "" && firstname != ""
-//                    && lastname != "" && birthday != "" && roleid != null
-//                    && password.equals(passwordagain)) {
-//
-//
-//            } else {
-//                return false;
-//            }
-//        }return false;
+        //        for (User obj : jdbcUserDao.findAll()) {
+        //            if (obj.getLogin().equals(login)) {
+        //                return false;
+        //            } else if (login != "" && password != "" && firstname != ""
+        //                    && lastname != "" && birthday != "" && roleid != null
+        //                    && password.equals(passwordagain)) {
+        //
+        //
+        //            } else {
+        //                return false;
+        //            }
+        //        }return false;
 
     }
 }

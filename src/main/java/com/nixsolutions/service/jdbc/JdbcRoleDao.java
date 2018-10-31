@@ -15,16 +15,15 @@ public class JdbcRoleDao extends AbstractJdbcDao implements RoleDao {
     private final String SQL_SELECT_ALL_QUERY = "SELECT * FROM Role";
     private final String SQL_SELECT_BY_ID = "SELECT * FROM Role WHERE role_id=?";
 
-
     public JdbcRoleDao() {
     }
 
-    @Override
-    public void create(Role role) {
+    @Override public void create(Role role) {
         Connection connection = null;
         try {
             connection = createConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_INSERT_QUERY);
+            PreparedStatement statement = connection
+                    .prepareStatement(SQL_INSERT_QUERY);
             statement.setString(1, role.getName());
             statement.executeUpdate();
             connection.commit();
@@ -45,12 +44,12 @@ public class JdbcRoleDao extends AbstractJdbcDao implements RoleDao {
 
     }
 
-    @Override
-    public void update(Role aRole) {
+    @Override public void update(Role aRole) {
         Connection connection = null;
         try {
             connection = createConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_QUERY);
+            PreparedStatement statement = connection
+                    .prepareStatement(SQL_UPDATE_QUERY);
             statement.setString(1, aRole.getName());
             statement.setLong(2, aRole.getId());
             statement.executeUpdate();
@@ -71,8 +70,7 @@ public class JdbcRoleDao extends AbstractJdbcDao implements RoleDao {
         }
     }
 
-    @Override
-    public void remove(Role aRole) {
+    @Override public void remove(Role aRole) {
         Connection connection = null;
         try {
             connection = createConnection();
@@ -80,7 +78,8 @@ public class JdbcRoleDao extends AbstractJdbcDao implements RoleDao {
             e.printStackTrace();
         }
         try {
-            PreparedStatement st = connection.prepareStatement(SQL_DELETE_QUERY);
+            PreparedStatement st = connection
+                    .prepareStatement(SQL_DELETE_QUERY);
             st.setLong(1, aRole.getId());
             st.executeUpdate();
             connection.commit();
@@ -100,12 +99,12 @@ public class JdbcRoleDao extends AbstractJdbcDao implements RoleDao {
         }
     }
 
-    @Override
-    public Role findByName(String name) {
+    @Override public Role findByName(String name) {
         Connection connection = null;
         try {
             connection = createConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_NAME_QUERY);
+            PreparedStatement statement = connection
+                    .prepareStatement(SQL_SELECT_BY_NAME_QUERY);
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
             Role aRole = null;
@@ -130,7 +129,8 @@ public class JdbcRoleDao extends AbstractJdbcDao implements RoleDao {
         Connection connection = null;
         try {
             connection = createConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID);
+            PreparedStatement statement = connection
+                    .prepareStatement(SQL_SELECT_BY_ID);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             Role aRole = null;

@@ -34,7 +34,7 @@ public class AbstractJdbcDaoTest extends DBTestCase {
                 resourceBundle.getString("jdbc.password"));
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD,
                 resourceBundle.getString("jdbc.username"));
-        createTables();
+        //createTables();
         super.setUp();
     }
 
@@ -96,26 +96,26 @@ public class AbstractJdbcDaoTest extends DBTestCase {
                 userDao.findByLogin("Alex").toString());
     }
 
-    public void createTables() {
-        Connection connection = AbstractJdbcDao.createConnection();
-        try {
-            Statement statement = connection.createStatement();
-            statement.execute("drop table IF EXISTS USER");
-            statement.execute("drop table IF EXISTS ROLE");
-            statement.execute("CREATE TABLE IF NOT EXISTS ROLE("
-                    + "ROLE_ID INT(11) NOT NULL auto_increment primary key, "
-                    + "ROLENAME VARCHAR);");
-            statement.execute("CREATE TABLE IF NOT EXISTS USER("
-                    + "USER_ID INT(11) NOT NULL auto_increment primary key, "
-                    + "LOGIN VARCHAR, " + "PASSWORD VARCHAR, "
-                    + "EMAIL VARCHAR, " + "FIRSTNAME VARCHAR, "
-                    + "LASTNAME VARCHAR, " + "DATE DATE," + "ROLE_ID INT(11),"
-                    + "FOREIGN KEY(ROLE_ID) REFERENCES ROLE(ROLE_ID));");
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getCause());
-        }
-    }
-
+//    public void createTables() {
+//        Connection connection = AbstractJdbcDao.createConnection();
+//        try {
+//            Statement statement = connection.createStatement();
+//            statement.execute("drop table IF EXISTS USER");
+//            statement.execute("drop table IF EXISTS ROLE");
+//            statement.execute("CREATE TABLE IF NOT EXISTS ROLE("
+//                    + "ROLE_ID INT(11) NOT NULL auto_increment primary key, "
+//                    + "ROLENAME VARCHAR);");
+//            statement.execute("CREATE TABLE IF NOT EXISTS USER("
+//                    + "USER_ID INT(11) NOT NULL auto_increment primary key, "
+//                    + "LOGIN VARCHAR, " + "PASSWORD VARCHAR, "
+//                    + "EMAIL VARCHAR, " + "FIRSTNAME VARCHAR, "
+//                    + "LASTNAME VARCHAR, " + "DATE DATE," + "ROLE_ID INT(11),"
+//                    + "FOREIGN KEY(ROLE_ID) REFERENCES ROLE(ROLE_ID));");
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e.getCause());
+//        }
+//    }
+//
     @Override protected IDataSet getDataSet() throws Exception {
         return new FlatXmlDataSet(
                 new File("src/test/resources/testDataSet.xml"));

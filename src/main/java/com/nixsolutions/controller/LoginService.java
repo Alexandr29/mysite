@@ -8,20 +8,24 @@ import java.sql.SQLException;
 public class LoginService {
     private JdbcUserDao jdbcUserDao = new JdbcUserDao();
     private User user;
+
     public boolean validateUser(String login, String password) {
-        for (User user1:jdbcUserDao.findAll()) {
-            if (user1.getLogin().equals(login)&&user1.getPassword().equals(password)){
+        for (User user1 : jdbcUserDao.findAll()) {
+            if (user1.getLogin().equals(login) && user1.getPassword()
+                    .equals(password)) {
                 return true;
             }
-        }return false;
+        }
+        return false;
 
         // return login.equalsIgnoreCase(user.getLogin()) && password.equals(user.getPassword());
     }
-    public boolean isAdmin(String login){
+
+    public boolean isAdmin(String login) {
         try {
             user = jdbcUserDao.findByLogin(login);
-            return user.getRole_id()==1L;
-        }catch (Exception e){
+            return user.getRole_id() == 1L;
+        } catch (Exception e) {
             return false;
         }
 

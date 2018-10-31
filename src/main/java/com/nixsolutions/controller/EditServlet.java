@@ -72,8 +72,10 @@ import java.util.Objects;
         if (login != "" && password != "" && firstname != ""
                 && lastname != "" && birthday != "" && roleid != null
                 && password.equals(passwordagain)) {
-            User user = new User(login,password,firstname,lastname,email,Date.valueOf(birthday),roleid);
+            User user = new User(login,password,email,firstname,lastname,Date.valueOf(birthday),roleid);
             user.setId(hibernateUserDao.findByLogin(login).getId());
+
+            System.out.println(user.toString());
             hibernateUserDao.update(user);
             return 1;
         } else {

@@ -9,6 +9,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+         <script type='text/javascript' src='https://code.jquery.com/jquery-latest.min.js'></script>
     </head>
         <body>
         <div class="alert alert-primary" role="alert">
@@ -23,7 +24,7 @@
     <tr>
         <td align="right">Login</td>
         <td>
-         <input name="login" type="login" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter login" required>
+         <input name="login" type="login" class="form-control ntSaveForms" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter login" required>
          </td>
     </tr>
     <tr>
@@ -70,14 +71,12 @@
   <c:forEach items="${roles}" var="role">
                        <option value="${role.id}"><c:out value="${role.name}"/></option>
                      </c:forEach>
-      </select>
-                     </td>
+      </select></td>
     </tr>
-
 
     <tr>
         <td></td>
-        <td></p> <input method="post" type="submit" name="Submit" value="Save"> <a href="/admin" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Cancel</a></p></td>
+        <td></p> <input class="ntSaveFormsSubmit" method="post" type="submit" name="Submit" value="Save"> <a href="/admin" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Cancel</a></p></td>
 
     </tr>
     <tr><td colspan=2 align="center" height="10px"></td></tr>

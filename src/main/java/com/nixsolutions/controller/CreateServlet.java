@@ -31,9 +31,8 @@ import java.util.List;
 
     @Override protected void doPost(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
-        String id = String
-                .valueOf(hibernateUserDao.findByLogin("login"));
-        System.out.println(id);
+        System.out.println("i am in doPost");
+
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String passwordagain = req.getParameter("passwordagain");

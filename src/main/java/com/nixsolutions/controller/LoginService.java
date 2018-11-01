@@ -3,9 +3,10 @@ package com.nixsolutions.controller;
 import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.User;
 import com.nixsolutions.service.jdbc.JdbcUserDao;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
-
+@Service
 public class LoginService {
     private HibernateUserDao hibernateUserDao = new HibernateUserDao();
     private User user;

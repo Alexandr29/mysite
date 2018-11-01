@@ -24,9 +24,4 @@ public class DeleteServlet extends HttpServlet {
         resp.sendRedirect("/admin");
 
     }
-
-    @Override protected void doPost(HttpServletRequest req,
-            HttpServletResponse resp) throws ServletException, IOException {
-
-    }
 }

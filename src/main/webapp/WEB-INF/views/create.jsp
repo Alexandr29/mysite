@@ -76,7 +76,7 @@
 
     <tr>
         <td></td>
-        <td></p> <input class="ntSaveFormsSubmit" method="post" type="submit" name="Submit" value="Save"> <a href="/admin" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Cancel</a></p></td>
+        <td></p> <input class="ntSaveFormsSubmit" method="post" type="submit" name="Submit" value="Save"> <a href="/login" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Cancel</a></p></td>
 
     </tr>
     <tr><td colspan=2 align="center" height="10px"></td></tr>

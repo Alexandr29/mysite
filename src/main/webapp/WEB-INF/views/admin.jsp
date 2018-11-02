@@ -23,7 +23,7 @@
            </div>
               <div>
               <a href="/create">
-                <img border="0" src="images/add.jpg" width="100" height="100">
+                <img border="0" width="100" height="100" src="images/add.jpg" alt='Create user'/>
                 </a>
               </div>
               <div class="center mt-3">

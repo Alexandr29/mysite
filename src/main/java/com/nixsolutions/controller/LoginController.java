@@ -3,6 +3,7 @@ package com.nixsolutions.controller;
 import com.nixsolutions.service.hibernate.HibernateRoleDao;
 import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.User;
+import org.h2.engine.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -31,7 +32,6 @@ import java.util.List;
 
     @RequestMapping(method = RequestMethod.GET) public ModelAndView login(
             HttpServletResponse response) throws IOException {
-        System.out.println("i am here");
         return new ModelAndView("login");
     }
 
@@ -48,17 +48,17 @@ import java.util.List;
 
         if (isValidUser) {
             if (isAdmin) {
-                req.getSession()
-                        .setAttribute("users", hibernateUserDao.findAll());
+                ModelAndView modelAndViewAdmin =  new ModelAndView("redirect:/admin");
                 req.getSession().setAttribute("login", login);
-                return new ModelAndView("admin");
+                return modelAndViewAdmin;
             } else {
+                ModelAndView modelAndViewUser =  new ModelAndView("redirect:/user");
                 req.getSession().setAttribute("login", login);
-                return new ModelAndView("user", HttpStatus.OK);
+                return modelAndViewUser;
             }
         } else {
             req.setAttribute("errorMessage", "Invalid Credentials!!");
-            return new ModelAndView("/login");
+            return new ModelAndView("login");
         }
     }
 

@@ -14,15 +14,15 @@ import java.io.IOException;
     @RequestMapping(method = RequestMethod.GET) protected ModelAndView userGet(
             HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.setAttribute("login", req.getSession().getAttribute("login"));
         return new ModelAndView("user");
     }
 
     @RequestMapping(method = RequestMethod.POST) protected ModelAndView userPost(
             HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.setAttribute("login", req.getSession().getAttribute("login"));
-       return new ModelAndView("user");
+        ModelAndView modelAndView = new ModelAndView("redirect:/user");
+        modelAndView.addObject("login",req.getSession().getAttribute("login"));
+        return modelAndView;
     }
 
 }

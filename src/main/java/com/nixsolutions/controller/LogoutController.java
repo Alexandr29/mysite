@@ -14,7 +14,8 @@ public class LogoutController {
     @RequestMapping(value = "/logout")
   private ModelAndView logout(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
+        ModelAndView modelAndView = new ModelAndView("redirect:/login");
         req.getSession().invalidate();
-        return new ModelAndView("login");
+        return modelAndView;
     }
 }

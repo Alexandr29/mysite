@@ -28,15 +28,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         System.out.println("i am here");
         http
                 .authorizeRequests()
-                .antMatchers("/admin", "/login").permitAll()
-                .antMatchers("/admin","/create","edit").access("hasRole('ROLE_1')")
+                .antMatchers("/", "/login").permitAll()
+                .antMatchers("/admin","/create","edit").access("hasRole('ROLE_ADMIN')")
                 .anyRequest()
                 .authenticated().and().csrf().disable()
-                .formLogin().loginPage("/login")
+                .formLogin().loginPage("/")
                 .defaultSuccessUrl("/successful")
                 .usernameParameter("login")
                 .passwordParameter("password")
-                // TODO */logout
                 .and().logout().logoutUrl("*/logout").logoutSuccessUrl("/login");
     }
 

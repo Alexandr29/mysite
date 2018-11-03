@@ -21,8 +21,7 @@ class HibernateDao {
 
     <T> T findObject(String hql, String searchValue) throws Exception {
         T obj;
-        try (Session session = HibernateUtil.getSessionFactory()
-                .openSession()) {
+        try (Session session =  sessionFactory.getCurrentSession()) {
             Transaction transaction = session.beginTransaction();
             Query query = session.createQuery(hql);
             query.setParameter("search_factor", searchValue);

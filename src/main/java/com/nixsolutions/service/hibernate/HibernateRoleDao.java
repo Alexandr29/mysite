@@ -4,12 +4,18 @@ import com.nixsolutions.service.dao.RoleDao;
 import com.nixsolutions.service.hibernate.HibernateDao;
 import com.nixsolutions.service.impl.Role;
 import com.nixsolutions.service.impl.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-@Service
+@Repository
 public class HibernateRoleDao extends HibernateDao implements RoleDao {
+
+    @Autowired
+    private HibernateDao hibernateDao;
 
     @Override public void create(Role role) {
         emptyFieldsChecker(role);

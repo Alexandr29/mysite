@@ -2,12 +2,20 @@ package com.nixsolutions.service.hibernate;
 
 import com.nixsolutions.service.dao.UserDao;
 import com.nixsolutions.service.impl.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-@Service
+
+@Repository
 public class HibernateUserDao extends HibernateDao implements UserDao {
+
+    @Autowired
+    private HibernateDao hibernateDao;
+
 
     @Override public void create(User user) {
         emptyFieldsChecker(user);

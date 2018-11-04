@@ -36,8 +36,10 @@ public class CustomUserDetailsService implements UserDetailsService {
             logger.error(login + " user not found");
             throw new UsernameNotFoundException(login + " username not found");
         }
+
         logger.info("User singed in " + user.getLogin() + " " + user.getRole_id());
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole_id());
+        GrantedAuthority authority = new SimpleGrantedAuthority("USER");
+        System.out.println(authority);
 
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(),
                 true, true, true,

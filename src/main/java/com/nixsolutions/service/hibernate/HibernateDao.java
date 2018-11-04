@@ -1,8 +1,7 @@
 package com.nixsolutions.service.hibernate;
 
-import org.hibernate.Session;
+import org.apache.poi.ss.formula.functions.T;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,89 +9,70 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 @Component
 class HibernateDao {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    <T> T findObject(String hql, String searchValue) throws Exception {
-        T obj;
-        try (Session session =  sessionFactory.getCurrentSession()) {
-            Transaction transaction = session.beginTransaction();
-            Query query = session.createQuery(hql);
+    Object findObject(String hql, String searchValue) {
+        Object obj;
+        try {
+            Query query = sessionFactory.getCurrentSession().createQuery(hql);
             query.setParameter("search_factor", searchValue);
             if (query.list().isEmpty()) {
                 return null;
             }
-            obj = (T) query.getSingleResult();
-            transaction.rollback();
+            obj = query.getSingleResult();
         } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
+            logger.error("Exception in findObject()", e, e);
+            throw e;
         }
         return obj;
     }
 
-    <T> List<T> findList(String hql) throws Exception {
+    <T>List<T> findList(String hql) {
         List<T> objects;
-        try (Session session = HibernateUtil.getSessionFactory()
-                .openSession()) {
-            Transaction transaction = session.beginTransaction();
-            Query query = session.createQuery(hql);
+        try {
+            Query query = sessionFactory.getCurrentSession().createQuery(hql);
+            if (query.list().isEmpty()) {
+                return null;
+            }
             objects = query.list();
-            transaction.rollback();
         } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
+            logger.error("Exception in findList()", e, e);
+            throw e;
         }
         return objects;
     }
 
-    <T> void createObject(T object) throws Exception {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory()
-                .openSession()) {
-            transaction = session.beginTransaction();
-            session.save(object);
-            transaction.commit();
+    void createObject(Object object) {
+        try {
+            sessionFactory.getCurrentSession().save(object);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException(e.getCause());
+            logger.error("Exception in createObject()", e, e);
+            throw e;
         }
     }
 
-    <T> void updateObject(T object) throws Exception {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory()
-                .openSession()) {
-            transaction = session.beginTransaction();
-            session.update(object);
-            transaction.commit();
+    void updateObject(Object object) {
+        try {
+            sessionFactory.getCurrentSession().merge(object);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException(e.getCause());
+            logger.error("Exception in createObject()", e, e);
+            throw e;
         }
     }
 
-    <T> void removeObject(T object) throws Exception {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory()
-                .openSession()) {
-            transaction = session.beginTransaction();
-
-            session.remove(object);
-            transaction.commit();
+    void removeObject(Object object) {
+        try {
+            sessionFactory.getCurrentSession().remove(object);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new Exception(e.getCause());
+            logger.error("Exception in createObject()", e, e);
+            throw e;
         }
     }
 }

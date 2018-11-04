@@ -1,5 +1,7 @@
 package com.nixsolutions.controller;
 
+import com.nixsolutions.service.RoleService;
+import com.nixsolutions.service.UserService;
 import com.nixsolutions.service.hibernate.HibernateRoleDao;
 import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.User;
@@ -14,21 +16,17 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
-@Controller public class LoginController {
-    private LoginService service;
-    private HibernateUserDao hibernateUserDao;
-    private HibernateRoleDao hibernateRoleDao;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-    @Autowired public LoginController(LoginService loginService,
-            HibernateUserDao hibernateUserDao,
-            HibernateRoleDao hibernateRoleDao) {
-        this.service = loginService;
-        this.hibernateUserDao = hibernateUserDao;
-        this.hibernateRoleDao = hibernateRoleDao;
-    }
+@Controller public class LoginController {
+    @Autowired
+    private LoginService loginService;
+
 
     @RequestMapping(method = RequestMethod.GET) public ModelAndView login(
             HttpServletResponse response) throws IOException {
@@ -43,8 +41,8 @@ import java.util.List;
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        boolean isValidUser = service.validateUser(login, password);
-        boolean isAdmin = service.isAdmin(login);
+        boolean isValidUser = loginService.validateUser(login, password);
+        boolean isAdmin = loginService.isAdmin(login);
 
         if (isValidUser) {
             if (isAdmin) {

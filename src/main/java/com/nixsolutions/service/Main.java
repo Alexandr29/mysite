@@ -1,6 +1,5 @@
 package com.nixsolutions.service;
 
-import com.nixsolutions.service.hibernate.HibernateUtil;
 import com.nixsolutions.service.impl.Role;
 import com.nixsolutions.service.impl.User;
 import com.nixsolutions.service.jdbc.AbstractJdbcDao;

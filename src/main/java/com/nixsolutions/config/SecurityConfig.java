@@ -22,19 +22,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("userDetailsService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+        auth.authenticationProvider(authenticationProvider());
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("i am here");
+        System.out.println("I am in security");
         http
                 .authorizeRequests()
-                .antMatchers("/", "/login").permitAll()
-                .antMatchers("/admin","/create","edit").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/**").permitAll()
+                .antMatchers("/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated().and().csrf().disable()
                 .formLogin().loginPage("/")
                 .defaultSuccessUrl("/successful")
-                .usernameParameter("login")
+                .usernameParameter("/")
                 .passwordParameter("password")
                 .and().logout().logoutUrl("*/logout").logoutSuccessUrl("/login");
     }
@@ -43,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/view/**");
+                .antMatchers("/WEB-INF/views/**");
     }
 
     @Bean

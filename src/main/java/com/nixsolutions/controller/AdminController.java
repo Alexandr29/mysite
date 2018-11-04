@@ -1,9 +1,12 @@
 package com.nixsolutions.controller;
 
+import com.nixsolutions.service.RoleService;
+import com.nixsolutions.service.UserService;
 import com.nixsolutions.service.hibernate.HibernateRoleDao;
 import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,30 +16,29 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
 @Controller public class AdminController {
-    private HibernateUserDao hibernateUserDao;
-    private HibernateRoleDao hibernateRoleDao;
 
-    @Autowired public AdminController(HibernateUserDao hibernateUserDao,
-            HibernateRoleDao hibernateRoleDao) {
-        this.hibernateUserDao = hibernateUserDao;
-        this.hibernateRoleDao = hibernateRoleDao;
-    }
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET) public ModelAndView admin(
             HttpServletRequest req) {
         req.setAttribute("login", req.getSession().getAttribute("login"));
-        req.setAttribute("roles", hibernateRoleDao.findAll());
-        req.setAttribute("users", hibernateUserDao.findAll());
+        req.setAttribute("roles", roleService.findAll());
+        req.setAttribute("users", userService.findAll());
         return new ModelAndView("admin");
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET) public ModelAndView createGet(
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+
+    public ModelAndView createGet(
             HttpServletRequest req) {
-        req.setAttribute("roles", hibernateRoleDao.findAll());
+        req.setAttribute("roles", roleService.findAll());
         return new ModelAndView("create");
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST) public ModelAndView createPost(
+    @RequestMapping(value = "/create/*", method = RequestMethod.POST) public ModelAndView createPost(
             HttpServletRequest req) {
         ModelAndView modelAndView = new ModelAndView("redirect:/admin");
         String login = req.getParameter("login");
@@ -52,17 +54,17 @@ import java.sql.Date;
                 lastname, email, date, Long.valueOf(roleid));
 
         if (result == 1) {
-            req.setAttribute("users", hibernateUserDao.findAll());
+            req.setAttribute("users", userService.findAll());
             req.setAttribute("thislogin", req.getAttribute("login"));
             return modelAndView;
         } else if (result == 2) {
-            req.setAttribute("roles", hibernateRoleDao.findAll());
+            req.setAttribute("roles", roleService.findAll());
             req.setAttribute("logintoedit", login);
             req.setAttribute("errorMessage", "login is already use");
             return new ModelAndView("create");
         } else {
             req.setAttribute("logintoedit", login);
-            req.setAttribute("roles", hibernateRoleDao.findAll());
+            req.setAttribute("roles", roleService.findAll());
             req.setAttribute("errorMessage", "password are not equals");
             return new ModelAndView("create");
         }
@@ -73,18 +75,18 @@ import java.sql.Date;
         ModelAndView modelAndView = new ModelAndView("redirect:/admin");
         String logintodelete = req.getParameter("logintodelete");
 
-        User user = hibernateUserDao.findByLogin(logintodelete);
-        hibernateUserDao.remove(user);
-        modelAndView.addObject("users", hibernateUserDao.findAll());
+        User user = userService.findByLogin(logintodelete);
+        userService.remove(logintodelete);
+        modelAndView.addObject("users", userService.findAll());
 
         return modelAndView;
     }
 
     @RequestMapping(value = "/edit/*", method = RequestMethod.GET) public ModelAndView editGet(
             HttpServletRequest req) {
-        req.setAttribute("roles", hibernateRoleDao.findAll());
+        req.setAttribute("roles", roleService.findAll());
         String logintoedit = req.getParameter("logintoedit");
-        User user = hibernateUserDao.findByLogin(logintoedit);
+        User user = userService.findByLogin(logintoedit);
         req.setAttribute("logintoedit", user.getLogin());
         req.setAttribute("passwordtoedit", user.getPassword());
         req.setAttribute("firstnametoedit", user.getFirstName());
@@ -93,7 +95,6 @@ import java.sql.Date;
         req.setAttribute("birthdaytoedit", user.getBirthday());
         return new ModelAndView("edit");
     }
-
     @RequestMapping(value = "/edit/*", method = RequestMethod.POST) public ModelAndView editPost(
             HttpServletRequest req) {
         String login = req.getParameter("login");
@@ -110,11 +111,11 @@ import java.sql.Date;
 
         if (result) {
             ModelAndView modelAndView = new ModelAndView("redirect:/admin");
-            req.setAttribute("users", hibernateUserDao.findAll());
+            req.setAttribute("users", userService.findAll());
             req.setAttribute("thislogin", req.getAttribute("login"));
             return modelAndView;
         } else {
-            req.setAttribute("roles", hibernateRoleDao.findAll());
+            req.setAttribute("roles", roleService.findAll());
             req.setAttribute("logintoedit", login);
             req.setAttribute("errorMessage", "password are not equals");
             return new ModelAndView("edit");
@@ -131,10 +132,10 @@ import java.sql.Date;
                 .equals(passwordagain)) {
             User user = new User(login, password, email, firstname, lastname,
                     Date.valueOf(birthday), roleid);
-            user.setId(hibernateUserDao.findByLogin(login).getId());
+            user.setId(userService.findByLogin(login).getId());
 
             System.out.println(user.toString());
-            hibernateUserDao.update(user);
+            userService.update(user);
             return true;
         } else {
             return false;
@@ -144,7 +145,7 @@ import java.sql.Date;
     private int isValidData(String login, String password, String passwordagain,
             String firstname, String lastname, String email, String birthday,
             Long roleid) {
-        for (User user1 : hibernateUserDao.findAll()) {
+        for (User user1 : userService.findAll()) {
             if (user1.getLogin().equals(login)) {
                 System.out.println(user1.getLogin() + " " + login);
                 return 2;
@@ -162,7 +163,7 @@ import java.sql.Date;
             user.setBirthday(Date.valueOf(birthday));
             user.setBirthday(Date.valueOf(birthday));
             user.setRole_id(roleid);
-            hibernateUserDao.create(user);
+            userService.create(user);
             return 1;
         } else {
             return 3;

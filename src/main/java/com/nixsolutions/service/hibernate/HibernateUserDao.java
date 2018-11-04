@@ -1,96 +1,73 @@
 package com.nixsolutions.service.hibernate;
 
 import com.nixsolutions.service.dao.UserDao;
+import com.nixsolutions.service.hibernate.HibernateDao;
 import com.nixsolutions.service.impl.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
 @Repository
+@Qualifier("hibernate")
 public class HibernateUserDao extends HibernateDao implements UserDao {
 
-    @Autowired
-    private HibernateDao hibernateDao;
-
-
-    @Override public void create(User user) {
+    @Override
+    public void create(User user) {
         emptyFieldsChecker(user);
         User userChecker = findByLogin(user.getLogin());
         if (userChecker != null) {
-            throw new IllegalArgumentException(
-                    "User with login " + user.getLogin()
-                            + " already exists in DB");
+            throw new IllegalArgumentException("User with login " + user.getLogin()
+                    + " already exists in DB");
         }
-        try {
-            createObject(user);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
-        }
+        createObject(user);
     }
 
-    @Override public void update(User user) {
+    @Override
+    public void update(User user) {
         emptyFieldsChecker(user);
         if (findByLogin(user.getLogin()) == null) {
             throw new RuntimeException(user.toString() + "doesn't exist in DB");
         }
-        try {
-            updateObject(user);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
-        }
+        updateObject(user);
     }
 
-    @Override public void remove(User user) {
-        emptyFieldsChecker(user);
-        Objects.requireNonNull(user.getId());
+    @Override
+    public void remove(User user) {
+        System.out.println(user.toString());
+        Objects.requireNonNull(user.getLogin());
         if (findByLogin(user.getLogin()) == null) {
             throw new RuntimeException(user.toString() + "doesn't exist in DB");
         }
-        try {
-            removeObject(user);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
-        }
+        removeObject(user);
     }
 
-    @Override public List<User> findAll() {
+    @Override
+    public List<User> findAll() {
         String hql = "FROM User";
-        try {
-            return findList(hql);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
-        }
+        return findList(hql);
     }
 
-    @Override public User findByLogin(String login) {
+    @Override
+    public User findByLogin(String login) {
         Objects.requireNonNull(login);
         String hql = "FROM User U WHERE U.login = :search_factor";
-        try {
-            return findObject(hql, login);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
-        }
+        return (User) findObject(hql, login);
     }
 
-    @Override public User findByEmail(String email) {
+    @Override
+    public User findByEmail(String email) {
         Objects.requireNonNull(email);
         String hql = "FROM User U WHERE U.email = :search_factor";
-        try {
-            return findObject(hql, email);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
-        }
+        return (User) findObject(hql, email);
     }
 
     private void emptyFieldsChecker(User user) {
-        if (user == null || user.getLogin() == null
-                || user.getPassword() == null || user.getEmail() == null
-                || user.getFirstName() == null || user.getLastName() == null
-                || user.getBirthday() == null || user.getRole_id() == null) {
+        if (user == null || user.getLogin() == null || user.getPassword() == null
+                || user.getEmail() == null || user.getFirstName() == null
+                || user.getLastName() == null || user.getBirthday() == null) {
             throw new IllegalArgumentException("user has empty fields");
         }
     }

@@ -1,67 +1,92 @@
 package com.nixsolutions.controller;
 
-import com.nixsolutions.service.RoleService;
 import com.nixsolutions.service.UserService;
-import com.nixsolutions.service.hibernate.HibernateRoleDao;
-import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.User;
-import org.h2.engine.Session;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
-public class LoginController implements HandlerInterceptor {
-//    @Autowired
-//    private LoginService loginService;
+public class LoginController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "j_spring_security_check", method = RequestMethod.POST)
-    public ModelAndView autorisation(HttpServletRequest request,
-            HttpServletResponse response, Object handler) throws Exception {
-        request.setAttribute("users",userService.findAll());
-        System.out.println("I am here");
-        SecurityContextImpl sci = (SecurityContextImpl) request.getSession()
-                .getAttribute("SPRING_SECURITY_CONTEXT");
-        if (sci != null) {
-            UserDetails user = (UserDetails) sci.getAuthentication()
-                    .getPrincipal();
-            System.out.println(user.getAuthorities().toString());
-            user.getAuthorities().forEach(a -> {
-                if (a.getAuthority().equals("ROLE_ADMIN")) {
-                    try {
-                        response.sendRedirect("/admin");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else if (a.getAuthority().equals("USER")) {
-                    try {
-                        response.sendRedirect("/user");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-        return new ModelAndView("admin");
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @RequestMapping(method = RequestMethod.GET, value = {"login", "/"})
+    public String showLoginPage(HttpSession session) {
+        return "login";
     }
 
+    @RequestMapping(method = GET, value = "successful")
+    public String login(Principal principal, HttpSession session) {
+        System.out.println("i am in succesful");
+        String login = principal.getName();
+        User userDB = userService.findByLogin(login);
+
+        if (userDB.getRole_id().equals("USER")) {
+            session.setAttribute("firstName", userDB.getFirstName());
+            return "user";
+        }
+        session.setAttribute("firstName", userDB.getFirstName());
+        session.setAttribute("lastName", userDB.getLastName());
+
+        return "redirect:/admin";
+    }
+
+    @RequestMapping(method = GET, value = {"*/logout", "/logout"})
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
+    }
+
+    @RequestMapping(method = GET, value = "/admin")
+    public String showUsersTable(Model model) {
+        model.addAttribute("users", userService.findAll());
+
+        return "admin";
+    }
+
+    @RequestMapping(method = GET, value = "/register")
+    public String showRegistration(Model model) {
+        model.addAttribute("User", new User());
+
+        return "Registration";
+    }
+
+//    @RequestMapping(method = POST, value = "/register")
+//    public String register(@ModelAttribute("userToRegister") @Valid User user, BindingResult bindingResult, Model model) {
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("User", user);
+//            return "Registration";
+//        }
+//        try {
+//            userService.create(user);
+//        } catch (IllegalArgumentException e) {
+//            // TODO this login is already in use! - добавить
+//            // TODO не показывает ошибки на странице, возможно проблема с JSP
+//        }
+//        return "Authorization";
+//    }
+
+    @RequestMapping(method = GET, value = "/error")
+    public String showError() {
+
+        return "Error";
+    }
 }

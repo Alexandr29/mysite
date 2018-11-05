@@ -1,67 +1,51 @@
 package com.nixsolutions.config;
-import com.nixsolutions.controller.LoginController;
+
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.context.annotation.Import;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.security.access.SecurityConfig;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 import java.util.Properties;
 
-@Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "com.nixsolutions" })
-public class WebConfig implements WebMvcConfigurer {
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        registry.jsp().prefix("/WEB-INF/views/").suffix(".jsp");
+@Configuration
+@EnableTransactionManagement
+@ComponentScan({"com.nixsolutions.service.hibernate, com.nixsolutions.service.impl, com.nixsolutions.service, com.nixsolutions.controller"})
+@Import({ WebSecurityConfig.class})
+public class WebConfig extends WebMvcConfigurerAdapter {
+
+    // Spring
+    @Bean
+    public InternalResourceViewResolver viewResolver() {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setViewClass(JstlView.class);
+        viewResolver.setPrefix("/WEB-INF/views/");
+        viewResolver.setSuffix(".jsp");
+        return viewResolver;
     }
-
-
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginController()).addPathPatterns("/");
-        //registry.addInterceptor(new EncodingFilter()).addPathPatterns("/*");
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("login");
-        registry.addViewController("/create").setViewName("createUser");
-        registry.addViewController("/user").setViewName("user");
-        registry.addViewController("/admin").setViewName("admin");
-        registry.addViewController("/edit").setViewName("editUser");
-        registry.addViewController("/remove").setViewName("remove");
-        registry.addViewController("/logout").setViewName("logout");
-        registry.addViewController("/error").setViewName(" unauthorized");
-    }
-
-
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/");
+        registry.addResourceHandler("/WEB-INF/views/**").addResourceLocations("/WEB-INF/views/");
     }
 
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
-        source.setBasename("messages");
-        return source;
-    }
-
+    // Hibernate
     @Bean
     public SessionFactory sessionFactory() {
         LocalSessionFactoryBuilder builder =
                 new LocalSessionFactoryBuilder(dataSource());
-        builder.scanPackages("com.nixsolutions.service.impl")
+        builder.scanPackages("com.nixsolutions.entity")
                 .addProperties(hibernateProperties());
 
         return builder.buildSessionFactory();

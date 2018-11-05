@@ -22,13 +22,13 @@ import java.sql.Date;
     @Autowired
     private RoleService roleService;
 
-    @RequestMapping(value = "/admin", method = RequestMethod.GET) public ModelAndView admin(
-            HttpServletRequest req) {
-        req.setAttribute("login", req.getSession().getAttribute("login"));
-        req.setAttribute("roles", roleService.findAll());
-        req.setAttribute("users", userService.findAll());
-        return new ModelAndView("admin");
-    }
+//    @RequestMapping(value = "/admin", method = RequestMethod.GET) public ModelAndView admin(
+//            HttpServletRequest req) {
+//        req.setAttribute("login", req.getSession().getAttribute("login"));
+//        req.setAttribute("roles", roleService.findAll());
+//        req.setAttribute("users", userService.findAll());
+//        return new ModelAndView("admin");
+//    }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
 

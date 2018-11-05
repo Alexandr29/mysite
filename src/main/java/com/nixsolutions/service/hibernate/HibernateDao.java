@@ -12,6 +12,8 @@ import java.util.List;
 
 @Component
 class HibernateDao {
+    public HibernateDao() {
+    }
 
     @Autowired
     private SessionFactory sessionFactory;

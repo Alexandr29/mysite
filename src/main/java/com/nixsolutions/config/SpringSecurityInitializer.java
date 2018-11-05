@@ -2,6 +2,7 @@ package com.nixsolutions.config;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
-public class SecurityWebApplicationInitializer
+public class SpringSecurityInitializer
         extends AbstractSecurityWebApplicationInitializer {
+    // NOP
 }

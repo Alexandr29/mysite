@@ -16,24 +16,33 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.List;
 
-@Service
+@Service("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
+
+    private static Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
     @Autowired
     private UserService userService;
 
-    @Override public UserDetails loadUserByUsername(String login)
-            throws UsernameNotFoundException {
-        User user = userService.findByLogin(login);
+
+    @Transactional
+    @Override public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        System.out.println("load method");
+
+         List<User> users = userService.findAll();
+        System.out.println(users);
+
+        User user = new HibernateUserDao().findByLogin(login);
+        System.out.println(user + "i am here");
         if (user == null) {
             throw new UsernameNotFoundException(login + " username not found");
         }
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + "ADMIN");
-
+        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_ADMIN");
+        System.out.println(authority.getAuthority());
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(),
                 true, true, true,
                 true, Collections.singleton(authority));
     }
-
 }

@@ -13,14 +13,15 @@
 <div class="alert alert-primary" role="alert">
           <c:out value="${errorMessage}"/>
         </div>
-        <form method="post" action="/login" class="needs-validation" novalidate>
+         <c:url value="/j_spring_security_check" var="loginUrl" />
+        <form method="post" action="${loginUrl}" class="needs-validation" novalidate>
 
 
 
          <div class="form-group">
             <div class="col-md-4 mb-4">
                 <label for="exampleLogin">Login</label>
-                <input  name="login" type="login" class="form-control" id="exampleLogin" placeholder="Enter login" aria-describedby="validationTooltipUsernamePrepend" required>
+                <input  name="j_username" type="login" class="form-control" id="exampleLogin" placeholder="Enter login" aria-describedby="validationTooltipUsernamePrepend" required>
                 <div class="invalid-tooltip">
                           Please choose valid login.
                         </div>
@@ -31,7 +32,7 @@
             <div class="form-group">
              <div class="col-md-4 mb-3">
                 <label for="examplePassword">Password</label>
-                <input name="password" type="password" class="form-control" id="examplePassword" placeholder="Password" aria-describedby="validationTooltipPasswordPrepend" required>
+                <input name="j_password" type="password" class="form-control" id="examplePassword" placeholder="Password" aria-describedby="validationTooltipPasswordPrepend" required>
                 <div class="invalid-tooltip">
                           Please choose valid password.
                         </div>

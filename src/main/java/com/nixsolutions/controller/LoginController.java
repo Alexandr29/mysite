@@ -8,9 +8,12 @@ import com.nixsolutions.service.impl.User;
 import org.h2.engine.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
@@ -23,41 +26,35 @@ import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-@Controller public class LoginController {
+@Controller public class LoginController implements HandlerInterceptor {
     @Autowired
     private LoginService loginService;
 
-
-    @RequestMapping(method = RequestMethod.GET) public ModelAndView login(
-            HttpServletResponse response) throws IOException {
-        return new ModelAndView("login");
-    }
-
-    @RequestMapping(method = RequestMethod.POST) public ModelAndView login(
-            HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        resp.setContentType("text/html;charset=UTF-8");
-
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
-
-        boolean isValidUser = loginService.validateUser(login, password);
-        boolean isAdmin = loginService.isAdmin(login);
-
-        if (isValidUser) {
-            if (isAdmin) {
-                ModelAndView modelAndViewAdmin =  new ModelAndView("redirect:/admin");
-                req.getSession().setAttribute("login", login);
-                return modelAndViewAdmin;
-            } else {
-                ModelAndView modelAndViewUser =  new ModelAndView("redirect:/user");
-                req.getSession().setAttribute("login", login);
-                return modelAndViewUser;
-            }
-        } else {
-            req.setAttribute("errorMessage", "Invalid Credentials!!");
-            return new ModelAndView("login");
+    @Override
+    public boolean preHandle(HttpServletRequest request,
+            HttpServletResponse response, Object handler) throws Exception {
+        SecurityContextImpl sci = (SecurityContextImpl) request.getSession()
+                .getAttribute("SPRING_SECURITY_CONTEXT");
+        if (sci != null) {
+            UserDetails user = (UserDetails) sci.getAuthentication()
+                    .getPrincipal();
+            user.getAuthorities().forEach(a -> {
+                if (a.getAuthority().equals("ADMIN")) {
+                    try {
+                        response.sendRedirect("/admin");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else if (a.getAuthority().equals("USER")) {
+                    try {
+                        response.sendRedirect("/user");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
+        return true;
     }
 
 }

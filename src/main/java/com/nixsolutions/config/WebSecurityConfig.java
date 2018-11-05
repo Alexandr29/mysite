@@ -1,4 +1,5 @@
 package com.nixsolutions.config;
+import com.nixsolutions.service.SuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @EnableWebSecurity
 @Configuration
@@ -26,13 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         return super.userDetailsService();
     }
-//    @Autowired
-//    @Qualifier("customizeAuthenticationSuccessHandler")
-//    CustomizeAuthenticationSuccessHandler SuccessHandler;
-//    @Bean
-//    public AuthenticationSuccessHandler successHandler() {
-//        return super.;
-//    }
+    @Autowired
+    private SuccessHandler successHandler;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -49,10 +44,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/registration/**","/", "/registration", "/login", "/register").permitAll()
                 .antMatchers("/admin", "/edit", "/create", "/remove")
                 .hasAuthority("ADMIN").antMatchers("/user").hasAuthority("USER")
-                .and().logout()
+                .and().formLogin().loginPage("/")
+                .loginProcessingUrl("/j_spring_security_check")
+                .successHandler(successHandler).usernameParameter("j_username")
+                .passwordParameter("j_password")
+                .failureForwardUrl("/?error=true").permitAll().and().logout()
                 .logoutUrl("/logout").logoutSuccessUrl("/?logout=true")
                 .permitAll().and().csrf().disable();
     }

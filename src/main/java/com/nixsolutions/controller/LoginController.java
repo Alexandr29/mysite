@@ -33,11 +33,13 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     @Override
     public boolean preHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("I am here");
         SecurityContextImpl sci = (SecurityContextImpl) request.getSession()
                 .getAttribute("SPRING_SECURITY_CONTEXT");
         if (sci != null) {
             UserDetails user = (UserDetails) sci.getAuthentication()
                     .getPrincipal();
+            System.out.println(user.toString());
             user.getAuthorities().forEach(a -> {
                 if (a.getAuthority().equals("ADMIN")) {
                     try {

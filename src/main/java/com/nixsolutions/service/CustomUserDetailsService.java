@@ -17,16 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 
-@Service("userDetailsService")
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserService userService;
 
-
-
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+    @Override public UserDetails loadUserByUsername(String login)
+            throws UsernameNotFoundException {
         User user = userService.findByLogin(login);
         if (user == null) {
             throw new UsernameNotFoundException(login + " username not found");
@@ -37,4 +35,5 @@ public class CustomUserDetailsService implements UserDetailsService {
                 true, true, true,
                 true, Collections.singleton(authority));
     }
+
 }

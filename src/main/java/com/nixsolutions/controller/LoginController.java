@@ -26,22 +26,27 @@ import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-@Controller public class LoginController implements HandlerInterceptor {
-    @Autowired
-    private LoginService loginService;
+@Controller
+public class LoginController implements HandlerInterceptor {
+//    @Autowired
+//    private LoginService loginService;
 
-    @Override
-    public boolean preHandle(HttpServletRequest request,
+    @Autowired
+    private UserService userService;
+
+    @RequestMapping(value = "j_spring_security_check", method = RequestMethod.POST)
+    public ModelAndView autorisation(HttpServletRequest request,
             HttpServletResponse response, Object handler) throws Exception {
+        request.setAttribute("users",userService.findAll());
         System.out.println("I am here");
         SecurityContextImpl sci = (SecurityContextImpl) request.getSession()
                 .getAttribute("SPRING_SECURITY_CONTEXT");
         if (sci != null) {
             UserDetails user = (UserDetails) sci.getAuthentication()
                     .getPrincipal();
-            System.out.println(user.toString());
+            System.out.println(user.getAuthorities().toString());
             user.getAuthorities().forEach(a -> {
-                if (a.getAuthority().equals("ADMIN")) {
+                if (a.getAuthority().equals("ROLE_ADMIN")) {
                     try {
                         response.sendRedirect("/admin");
                     } catch (IOException e) {
@@ -56,7 +61,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
                 }
             });
         }
-        return true;
+        return new ModelAndView("admin");
     }
 
 }

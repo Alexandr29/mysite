@@ -26,30 +26,46 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         return super.userDetailsService();
     }
-    @Autowired
-    private SuccessHandler successHandler;
+
+    private SuccessHandler successHandler = new SuccessHandler();
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
-    }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeRequests()
+//                .antMatchers("/registration/**", "/registration", "/login","/", "/register").permitAll()
+//                .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
+//                .anyRequest()
+//                .authenticated().and().csrf().disable()
+//                .formLogin().loginPage("/login")
+//                .defaultSuccessUrl("/j_spring_security_check")
+//                .usernameParameter("j_username")
+//                .passwordParameter("j_password")
+//                // TODO */logout
+//                .and().logout().logoutUrl("*/logout").logoutSuccessUrl("/login");
+//    }
 
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth)
+//            throws Exception {
+//        auth.userDetailsService(userDetailsService)
+//                .passwordEncoder(passwordEncoder());
+//    }
+//
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/admin", "/edit", "/create", "/remove")
                 .hasAuthority("ADMIN").antMatchers("/user").hasAuthority("USER")
                 .and().formLogin().loginPage("/")
-                .loginProcessingUrl("/j_spring_security_check")
-                .successHandler(successHandler).usernameParameter("j_username")
-                .passwordParameter("j_password")
+                                .defaultSuccessUrl("/j_spring_security_check")
+                                .usernameParameter("j_username")
+                                .passwordParameter("j_password")
                 .failureForwardUrl("/?error=true").permitAll().and().logout()
                 .logoutUrl("/logout").logoutSuccessUrl("/?logout=true")
                 .permitAll().and().csrf().disable();

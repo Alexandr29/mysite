@@ -28,21 +28,24 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
     @Transactional
-    @Override public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        System.out.println("load method");
+    @Override public UserDetails loadUserByUsername(String s)
+            throws UsernameNotFoundException {
 
-         List<User> users = userService.findAll();
-        System.out.println(users);
+        User user = userService.findByLogin(s);
+        org.springframework.security.core.userdetails.User.UserBuilder builder;
+        if (user != null) {
 
-        User user = new HibernateUserDao().findByLogin(login);
-        System.out.println(user + "i am here");
-        if (user == null) {
-            throw new UsernameNotFoundException(login + " username not found");
+            builder = org.springframework.security.core.userdetails.User
+                    .withUsername(s);
+            builder.password(user.getPassword());
+            Role role = new Role();
+            String authorities = "Admin";
+                    //user.getRole().getName();
+            builder.authorities(authorities);
+        } else {
+            throw new UsernameNotFoundException("User not found.");
         }
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_ADMIN");
-        System.out.println(authority.getAuthority());
-        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(),
-                true, true, true,
-                true, Collections.singleton(authority));
+        return builder.build();
+
     }
 }

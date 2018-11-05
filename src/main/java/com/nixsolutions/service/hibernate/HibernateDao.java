@@ -24,7 +24,7 @@ class HibernateDao {
         Object obj;
         try {
             Query query = sessionFactory.getCurrentSession().createQuery(hql);
-            query.setParameter("search_factor", searchValue);
+            //query.setParameter("search_factor", searchValue);
             if (query.list().isEmpty()) {
                 return null;
             }

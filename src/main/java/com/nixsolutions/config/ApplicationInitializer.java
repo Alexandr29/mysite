@@ -1,4 +1,5 @@
 package com.nixsolutions.config;
+import com.nixsolutions.service.hibernate.HibernateUtil;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -14,8 +15,8 @@ public class ApplicationInitializer implements WebApplicationInitializer {
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
         ctx.register(WebConfig.class);
         ctx.register(WebSecurityConfig.class);
-        /*ctx.register(HibernateConfiguration.class);
-        ctx.register(RestConfig.class);*/
+        ctx.register(HibernateUtil.class);
+        //ctx.register(RestConfig.class);*/
         ctx.setServletContext(container);
         /*container.addListener(new ContextLoaderListener(ctx));*/
 

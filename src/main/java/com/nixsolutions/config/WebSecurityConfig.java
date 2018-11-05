@@ -1,5 +1,6 @@
 package com.nixsolutions.config;
 
+import com.nixsolutions.service.SuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -55,6 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Autowired
+    private SuccessHandler successHandler;
+
     //    @Override
     //    protected void configure(HttpSecurity http) throws Exception {
     //        http
@@ -80,18 +84,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //
 
 
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin","/", "/edit", "/create", "/remove")
+                .antMatchers("/admin", "/edit", "/create", "/remove")
                 .hasAuthority("ADMIN").antMatchers("/user").hasAuthority("USER")
                 .and().formLogin().loginPage("/")
-                .defaultSuccessUrl("/j_spring_security_check")
-                .usernameParameter("j_username")
+                .loginProcessingUrl("/j_spring_security_check")
+                .successHandler(successHandler).usernameParameter("j_username")
                 .passwordParameter("j_password")
                 .failureForwardUrl("/?error=true").permitAll().and().logout()
                 .logoutUrl("/logout").logoutSuccessUrl("/?logout=true")
                 .permitAll().and().csrf().disable();
     }
+
+
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests()
+//                .antMatchers("/admin","/", "/edit", "/create", "/remove")
+//                .hasAuthority("ADMIN").antMatchers("/user").hasAuthority("USER")
+//                .and().formLogin().loginPage("/")
+//                .defaultSuccessUrl("/j_spring_security_check").failureForwardUrl("/user")
+//                .usernameParameter("j_username")
+//                .passwordParameter("j_password")
+//                .failureForwardUrl("/?error=true").permitAll().and().logout()
+//                .logoutUrl("/logout").logoutSuccessUrl("/?logout=true")
+//                .permitAll().and().csrf().disable();
+//    }
 
 
 }

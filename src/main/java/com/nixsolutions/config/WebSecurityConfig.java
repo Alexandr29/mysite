@@ -38,31 +38,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        auth.userDetailsService(userDetailsService)
 //                .passwordEncoder(passwordEncoder());
 //    }
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/","/login","/j_spring_security_check").access("hasRole('ANONYMOUS')")
-//                .antMatchers( "/edit", "/create", "/remove")
-//                .hasAuthority("ADMIN").antMatchers("/user").hasAuthority("USER")
-//                .and().formLogin().loginPage("/")
-//                .defaultSuccessUrl("/j_spring_security_check")
-//                .usernameParameter("login")
-//                .passwordParameter("password")
-//                .failureForwardUrl("/?error=true").permitAll().and().logout()
-//                .logoutUrl("/logout").logoutSuccessUrl("/?logout=true")
-//                .permitAll().and().csrf();
-//    }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/","/login","/j_spring_security_check").access("hasRole('ANONYMOUS')")
+                .antMatchers( "/edit", "/create", "/remove")
+                .hasAuthority("ADMIN").antMatchers("/user").hasAuthority("USER")
+                .and().formLogin().loginPage("/login")
+                .defaultSuccessUrl("/success")
+                .usernameParameter("login")
+                .passwordParameter("password")
+                .failureForwardUrl("/?error=true").permitAll().and().logout()
+                .logoutUrl("/logout").logoutSuccessUrl("/?logout=true")
+                .permitAll().and().csrf().disable();
+    }
 @Autowired
 public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth.
     userDetailsService(userDetailsService);
 }
-@Override
-    protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests().antMatchers("/","/j_spring_security_check","/user","/admin").permitAll()
-            .and().csrf().disable();
-
-}
+//@Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//    http.authorizeRequests().antMatchers("/","/j_spring_security_check","/user","/admin").permitAll()
+//            .and().csrf().disable();
+//
+//}
 
 
 

@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <html>
     <head>
@@ -14,15 +13,15 @@
 <div class="alert alert-primary" role="alert">
           <c:out value="${errorMessage}"/>
         </div>
-
-        <form action="<c:url value='j_spring_security_check' />" method='POST' class="needs-validation" novalidate>
+         <c:url value="/login" var="loginUrl" />
+        <form method="post" action="${loginUrl}" class="needs-validation" novalidate>
 
 
 
          <div class="form-group">
             <div class="col-md-4 mb-4">
                 <label for="exampleLogin">Login</label>
-                <input  name="j_username" type="login" class="form-control" id="exampleLogin" placeholder="Enter login" aria-describedby="validationTooltipUsernamePrepend" required>
+                <input  name="login" type="login" class="form-control" id="exampleLogin" placeholder="Enter login" aria-describedby="validationTooltipUsernamePrepend" required>
                 <div class="invalid-tooltip">
                           Please choose valid login.
                         </div>
@@ -33,7 +32,7 @@
             <div class="form-group">
              <div class="col-md-4 mb-3">
                 <label for="examplePassword">Password</label>
-                <input name="j_password" type="password" class="form-control" id="examplePassword" placeholder="Password" aria-describedby="validationTooltipPasswordPrepend" required>
+                <input name="password" type="password" class="form-control" id="examplePassword" placeholder="Password" aria-describedby="validationTooltipPasswordPrepend" required>
                 <div class="invalid-tooltip">
                           Please choose valid password.
                         </div>
@@ -42,11 +41,9 @@
                     </div>
                   </div>
               </div>
-
               <div class="col-md-4 mb-3">
             <button type="submit" class="btn btn-primary">Log In</button>
             </div>
-<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         </form>
         <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields

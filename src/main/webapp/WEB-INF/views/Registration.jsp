@@ -15,8 +15,8 @@
         <div class="alert alert-primary" role="alert">
                              <c:out value="${errorMessage}"/>
                           </div>
-
-<form name="userform" method="post" class="needs-validation">
+ <c:url value="/registration" var="loginUrl" />
+<form name="userform" method="post" action="${loginUrl}" class="needs-validation">
 <table align="center" width="300px"  class="table">
 
 <tr><td colspan=2 style="font-weight:bold;" align="center">Create User</td></tr>
@@ -68,7 +68,7 @@
   <td><select style="display: none" name="rolevalue" class="selectpicker">
 
   <c:forEach items="${roles}" var="role">
-                       <option value="2"><c:out value="${role.name}"/></option>
+                       <option value=""><c:out value="${role.name}"/></option>
                      </c:forEach>
       </select></td>
     </tr>

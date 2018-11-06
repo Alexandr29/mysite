@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RequestMapping("/user") @Controller public class UserController {
+
     @RequestMapping(method = RequestMethod.GET) protected ModelAndView userGet(
             HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        req.setAttribute("login",req.getSession().getAttribute("firstName"));
         return new ModelAndView("user");
     }
 

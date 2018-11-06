@@ -1,4 +1,5 @@
 package com.nixsolutions.service;
+
 import com.nixsolutions.service.hibernate.HibernateRoleDao;
 import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.Role;
@@ -21,41 +22,32 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 
-@Service("userDetailsService")
-public class CustomUserDetailsService implements UserDetailsService {
+@Service("userDetailsService") public class CustomUserDetailsService
+        implements UserDetailsService {
 
-    @Autowired
-    private UserService userService;
+    @Autowired private UserService userService;
 
-
-    @Transactional
-    @Override public UserDetails loadUserByUsername(String s)
+    @Transactional @Override public UserDetails loadUserByUsername(String s)
             throws UsernameNotFoundException {
         RoleService roleService = new RoleService();
 
         User user = userService.findByLogin(s);
 
-
-        org.springframework.security.core.userdetails.User.UserBuilder builder;
+        org.springframework.security.core.userdetails.User.UserBuilder builder = null;
         if (user != null) {
-
 
             builder = org.springframework.security.core.userdetails.User
                     .withUsername(s);
             builder.password(user.getPassword());
             String authorities;
-            if (user.getRole_id().equals(1L)){
+            if (user.getRole_id().equals(1L)) {
                 authorities = "ADMIN";
-            }else {
+            } else {
                 authorities = "USER";
             }
-
-
-
-
             builder.authorities(authorities);
         } else {
-            throw new UsernameNotFoundException("User not found.");
+            builder.authorities("ANON");;
         }
         return builder.build();
 

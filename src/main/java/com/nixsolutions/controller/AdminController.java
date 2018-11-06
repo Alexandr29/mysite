@@ -8,6 +8,7 @@ import com.nixsolutions.service.impl.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -95,6 +96,38 @@ import java.sql.Date;
         req.setAttribute("birthdaytoedit", user.getBirthday());
         return new ModelAndView("edit");
     }
+    @PostMapping("/registration")
+    protected ModelAndView regisrtarton(HttpServletRequest req){
+        ModelAndView modelAndView = new ModelAndView("redirect:/login");
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        String passwordagain = req.getParameter("passwordagain");
+        String firstname = req.getParameter("firstname");
+        String lastname = req.getParameter("lastname");
+        String email = req.getParameter("email");
+        String date = req.getParameter("date");
+        String roleid = String.valueOf(2L);
+
+        int result = isValidData(login, password, passwordagain, firstname,
+                lastname, email, date, Long.valueOf(roleid));
+
+        if (result == 1) {
+            req.setAttribute("errorMessage", "Registration has been successful. Click Login to enter your account");
+            req.setAttribute("login", req.getAttribute("login"));
+            return modelAndView;
+        } else if (result == 2) {
+            req.setAttribute("roles", roleService.findAll());
+            req.setAttribute("logintoedit", login);
+            req.setAttribute("errorMessage", "login is already use");
+            return new ModelAndView("Registration");
+        } else {
+            req.setAttribute("logintoedit", login);
+            req.setAttribute("roles", roleService.findAll());
+            req.setAttribute("errorMessage", "password are not equals");
+            return new ModelAndView("Registration");
+        }
+    }
+
     @RequestMapping(value = "/edit/*", method = RequestMethod.POST) public ModelAndView editPost(
             HttpServletRequest req) {
         String login = req.getParameter("login");
@@ -142,7 +175,7 @@ import java.sql.Date;
         }
     }
 
-    private int isValidData(String login, String password, String passwordagain,
+    protected int isValidData(String login, String password, String passwordagain,
             String firstname, String lastname, String email, String birthday,
             Long roleid) {
         for (User user1 : userService.findAll()) {

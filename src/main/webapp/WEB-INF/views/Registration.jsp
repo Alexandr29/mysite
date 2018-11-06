@@ -10,6 +10,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
          <script type='text/javascript' src='https://code.jquery.com/jquery-latest.min.js'></script>
+       <script src="https://www.google.com/recaptcha/api.js"></script>
+
     </head>
         <body>
         <div class="alert alert-primary" role="alert">
@@ -74,6 +76,11 @@
     </tr>
 
     <tr>
+    <td></td>
+    <td><div data-theme="dark" class="g-recaptcha" data-sitekey="6Ld6CHkUAAAAAMbqfh04Dqbul8wG_xmtOTwoc8T7"></div></td>
+    </tr>
+
+    <tr>
         <td></td>
         <td></p> <input class="ntSaveFormsSubmit" method="post" type="submit" name="Submit" value="Save"> <a href="/login" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Cancel</a></p></td>
 
@@ -81,6 +88,7 @@
     <tr><td colspan=2 align="center" height="10px"></td></tr>
 </table>
 </form>
+</script>
 <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function() {

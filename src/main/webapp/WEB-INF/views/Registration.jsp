@@ -77,18 +77,27 @@
 
     <tr>
     <td></td>
-    <td><div data-theme="dark" class="g-recaptcha" data-sitekey="6Ld6CHkUAAAAAMbqfh04Dqbul8wG_xmtOTwoc8T7"></div></td>
+    <td><div class="g-recaptcha" data-sitekey="6Ld6CHkUAAAAAMbqfh04Dqbul8wG_xmtOTwoc8T7" data-callback="enableBtn"></div></td>
     </tr>
 
     <tr>
         <td></td>
-        <td></p> <input class="ntSaveFormsSubmit" method="post" type="submit" name="Submit" value="Save"> <a href="/login" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Cancel</a></p></td>
+        <td></p> <input id="button1" class="ntSaveFormsSubmit" method="post" type="submit" name="Submit" value="Save"> <a href="/login" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Cancel</a></p></td>
 
     </tr>
     <tr><td colspan=2 align="center" height="10px"></td></tr>
 </table>
 </form>
+<script>
+document.getElementById("button1").disabled = true;
 </script>
+<script>
+function enableBtn(){
+    document.getElementById("button1").disabled = false;
+   }
+</script>
+
+
 <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function() {

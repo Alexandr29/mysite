@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
@@ -35,21 +36,24 @@ public class LoginController {
     }
 
 
-    @ResponseBody
-    @RequestMapping(method = GET, value = {"/j_spring_security_check"})
-    public String login(Principal principal, HttpSession session) {
+    @RequestMapping(method = GET, value = "/success")
+    public ModelAndView login(Principal principal, HttpSession session) {
+        ModelAndView modelAndViewUser = new ModelAndView("redirect:/user");
+        ModelAndView modelAndViewAdmin = new ModelAndView("redirect:/admin");
         System.out.println("i am in succesful");
         String login = principal.getName();
         User userDB = userService.findByLogin(login);
 
-        if (userDB.getRole_id().equals("USER")) {
+        System.out.println(userDB.toString());
+
+        if (userDB.getRole_id().equals("2")) {
             session.setAttribute("firstName", userDB.getFirstName());
-            return "user";
+            return modelAndViewUser;
         }
         session.setAttribute("firstName", userDB.getFirstName());
         session.setAttribute("lastName", userDB.getLastName());
 
-        return "redirect:/admin";
+        return modelAndViewAdmin;
     }
 
     @RequestMapping(method = GET, value = {"*/logout", "/logout"})

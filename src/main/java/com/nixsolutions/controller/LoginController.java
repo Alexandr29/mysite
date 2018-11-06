@@ -1,5 +1,6 @@
 package com.nixsolutions.controller;
 
+import com.nixsolutions.service.RoleService;
 import com.nixsolutions.service.UserService;
 import com.nixsolutions.service.impl.Role;
 import com.nixsolutions.service.impl.User;
@@ -27,6 +28,8 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -80,9 +83,9 @@ public class LoginController {
         return "admin";
     }
 
-    @RequestMapping(method = GET, value = "/register")
+    @RequestMapping(method = GET, value = "/registration")
     public String showRegistration(Model model) {
-        model.addAttribute("User", new User());
+       model.addAttribute("roles", roleService.findAll());
 
         return "Registration";
     }
@@ -91,6 +94,6 @@ public class LoginController {
     @RequestMapping(method = GET, value = "/error")
     public String showError() {
 
-        return "Error";
+        return "redirect:/error";
     }
 }

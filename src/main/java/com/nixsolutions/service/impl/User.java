@@ -1,6 +1,10 @@
 package com.nixsolutions.service.impl;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -12,18 +16,27 @@ public class User {
     @Column(name = "USER_ID")
     private Long id;
 
+    @NotBlank
+    @Size(min = 4, max = 40, message = "login should be from 4 to 40 symbols")
     @Column(name = "LOGIN")
     private String login;
 
+    @Size(min = 6, max = 50, message = "password should be min. 6 symbols")
     @Column(name = "PASSWORD")
     private String password;
 
+    @NotBlank
+    @Email
     @Column(name = "EMAIL")
     private String email;
 
+    @NotBlank
+    @Size(min = 2, max = 30, message = "Enter valid First name")
     @Column(name = "FIRSTNAME")
     private String firstName;
 
+    @NotBlank
+    @Size(min = 2, max = 30, message = "Enter valid Last name")
     @Column(name = "LASTNAME")
     private String lastName;
 
@@ -40,17 +53,17 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String login, String password, String email,
-            String firstName, String lastName, Date birthday, Long role_id) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthday = birthday;
-        this.role_id = role_id;
-    }
+//    public User(Long id, String login, String password, String email,
+//            String firstName, String lastName, Date birthday, Long role_id) {
+//        this.id = id;
+//        this.login = login;
+//        this.password = password;
+//        this.email = email;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.birthday = birthday;
+//        this.role_id = role_id;
+//    }
 
     public User(String login, String password, String email, String firstName,
             String lastName, Date birthday, Long role_id) {
@@ -166,7 +179,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return (int) (31*id) + login.hashCode() + email.hashCode()
+        return (int) login.hashCode() + email.hashCode()
                 + firstName.hashCode() + lastName.hashCode() + (int) role_id.hashCode();
     }
 }

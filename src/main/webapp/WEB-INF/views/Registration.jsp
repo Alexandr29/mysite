@@ -3,6 +3,7 @@
 <%@ taglib prefix="x" uri="http://java.sun.com/jstl/xml" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jstl/sql" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page import="java.util.ArrayList"%>
 <html lang="en">
     <head>
@@ -18,7 +19,7 @@
                              <c:out value="${errorMessage}"/>
                           </div>
  <c:url value="/registration" var="loginUrl" />
-<form name="userform" method="post" action="${loginUrl}" class="needs-validation">
+  <form:form method="post" action="${loginUrl}" name="userform" modelAttribute="user" class="needs-validation">
 <table align="center" width="300px"  class="table">
 
 <tr><td colspan=2 style="font-weight:bold;" align="center">Create User</td></tr>
@@ -45,13 +46,13 @@
   <tr>
                   <td align="right">First Name</td>
                   <td>
-                   <input name="firstname" type="text" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname" required>
+                   <input name="firstName" type="text" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname" required>
                    </td>
   </tr>
 <tr>
                   <td align="right">Last Name</td>
                   <td>
-                   <input name="lastname" type="text" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter lastname" required>
+                   <input name="lastName" type="text" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter lastname" required>
                    </td>
   </tr>
   <tr>
@@ -63,14 +64,15 @@
  <tr>
                   <td align="right">Birth date</td>
                   <td>
-                   <input name="date" type="date" class="form-control" id="exampleDate" aria-describedby="loginHelp" placeholder="Enter date" required>
+                   <input name="birthday" type="date" class="form-control" id="exampleDate" aria-describedby="loginHelp" placeholder="Enter date" required>
                    </td>
   </tr>
   <tr>
-  <td><select style="display: none" name="rolevalue" class="selectpicker">
+
+  <td><select style="display: none" name="role_id" class="selectpicker">
 
   <c:forEach items="${roles}" var="role">
-                       <option value=""><c:out value="${role.name}"/></option>
+                       <option value="${role.id}"><c:out value="${role.name}"/></option>
                      </c:forEach>
       </select></td>
     </tr>
@@ -87,7 +89,7 @@
     </tr>
     <tr><td colspan=2 align="center" height="10px"></td></tr>
 </table>
-</form>
+</form:form>
 <script>
 document.getElementById("button1").disabled = true;
 </script>

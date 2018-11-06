@@ -41,8 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/","/login","/j_spring_security_check").access("hasRole('ANONYMOUS')")
-                .antMatchers( "/edit", "/create", "/remove")
+                .antMatchers("/","/login").permitAll()
+                .antMatchers( "/edit","/admin" ,"/create", "/remove")
                 .hasAuthority("ADMIN").antMatchers("/user").hasAuthority("USER")
                 .and().formLogin().loginPage("/login")
                 .defaultSuccessUrl("/success")

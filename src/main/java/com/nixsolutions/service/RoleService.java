@@ -37,6 +37,10 @@ public class RoleService {
     public Role findByName(String name) {
         return roleDao.findByName(name);
     }
+    @Transactional(readOnly = true)
+    public Role findById(Long id) {
+        return roleDao.findById(id);
+    }
 
     @Transactional(readOnly = true)
     public List<Role> findAll() {

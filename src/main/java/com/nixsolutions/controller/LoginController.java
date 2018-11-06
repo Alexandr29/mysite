@@ -46,7 +46,7 @@ public class LoginController {
 
         System.out.println(userDB.toString());
 
-        if (userDB.getRole_id().equals("2")) {
+        if (userDB.getRole_id()==2L) {
             session.setAttribute("firstName", userDB.getFirstName());
             return modelAndViewUser;
         }
@@ -76,20 +76,6 @@ public class LoginController {
         return "Registration";
     }
 
-//    @RequestMapping(method = POST, value = "/register")
-//    public String register(@ModelAttribute("userToRegister") @Valid User user, BindingResult bindingResult, Model model) {
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("User", user);
-//            return "Registration";
-//        }
-//        try {
-//            userService.create(user);
-//        } catch (IllegalArgumentException e) {
-//            // TODO this login is already in use! - добавить
-//            // TODO не показывает ошибки на странице, возможно проблема с JSP
-//        }
-//        return "Authorization";
-//    }
 
     @RequestMapping(method = GET, value = "/error")
     public String showError() {

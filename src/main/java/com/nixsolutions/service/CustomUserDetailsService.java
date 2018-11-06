@@ -31,18 +31,28 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     @Override public UserDetails loadUserByUsername(String s)
             throws UsernameNotFoundException {
+        RoleService roleService = new RoleService();
 
         User user = userService.findByLogin(s);
+
+
         org.springframework.security.core.userdetails.User.UserBuilder builder;
         if (user != null) {
+
 
             builder = org.springframework.security.core.userdetails.User
                     .withUsername(s);
             builder.password(user.getPassword());
-            String authorities = "ADMIN";
-                    //user.getRole().getName();
+            String authorities;
+            if (user.getRole_id().equals(1L)){
+                authorities = "ADMIN";
+            }else {
+                authorities = "USER";
+            }
 
-            System.out.println(authorities);
+
+
+
             builder.authorities(authorities);
         } else {
             throw new UsernameNotFoundException("User not found.");

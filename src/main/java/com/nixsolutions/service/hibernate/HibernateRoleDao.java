@@ -58,6 +58,13 @@ public class HibernateRoleDao extends HibernateDao implements RoleDao {
         return findList(hql);
     }
 
+    @Override public Role findById(Long id) {
+        Objects.requireNonNull(id);
+        String hql = "FROM Role R WHERE R.role_id = :search_factor";
+        Role result = (Role) findObject(hql, String.valueOf(id));
+        return result;
+    }
+
     private void emptyFieldsChecker(Role role) {
         if (role == null || role.getName() == null) {
             throw new IllegalArgumentException("user has empty fields");

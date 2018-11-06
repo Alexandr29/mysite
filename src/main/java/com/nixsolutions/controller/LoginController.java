@@ -73,8 +73,10 @@ public class LoginController {
 
     @RequestMapping(method = GET, value = "/admin")
     public String showUsersTable(Model model,HttpServletRequest req) {
-        req.setAttribute("users", userService.findAll());
-        req.setAttribute("login",req.getSession().getAttribute("firstName"));
+        model.addAttribute("users",userService.findAll());
+        model.addAttribute("login",req.getSession().getAttribute("firstname"));
+//        req.setAttribute("users", userService.findAll());
+//        req.setAttribute("login",req.getSession().getAttribute("firstName"));
         return "admin";
     }
 

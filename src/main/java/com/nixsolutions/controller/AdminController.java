@@ -8,6 +8,7 @@ import com.nixsolutions.service.impl.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -130,7 +131,7 @@ import java.sql.Date;
     }
 
     @RequestMapping(value = "/edit/*", method = RequestMethod.POST) public ModelAndView editPost(
-            HttpServletRequest req) {
+            HttpServletRequest req, Model model) {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String passwordagain = req.getParameter("passwordagain");
@@ -139,6 +140,8 @@ import java.sql.Date;
         String email = req.getParameter("email");
         String date = req.getParameter("date");
         String roleid = req.getParameter("rolevalue");
+
+        System.out.println("Hello" + model.toString());
 
         boolean result = isValidData2(login, password, passwordagain, firstname,
                 lastname, email, date, Long.valueOf(roleid));

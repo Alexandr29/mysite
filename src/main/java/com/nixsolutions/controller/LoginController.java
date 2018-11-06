@@ -60,10 +60,10 @@ public class LoginController {
         return modelAndViewAdmin;
     }
 
-    @GetMapping("/registration")
-    protected String registration(Model model){
-        return "Registration";
-    }
+//    @GetMapping("/registration")
+//    protected String registration(Model model){
+//        return "Registration";
+//    }
 
     @RequestMapping(method = GET, value = {"*/logout", "/logout"})
     public String logout(HttpSession session) {

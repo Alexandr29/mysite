@@ -8,6 +8,7 @@ import com.nixsolutions.service.impl.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,7 +40,7 @@ import java.sql.Date;
         return new ModelAndView("create");
     }
 
-    @RequestMapping(value = "/create/*", method = RequestMethod.POST) public ModelAndView createPost(
+    @PostMapping(value = "/create") public ModelAndView createPost(
             HttpServletRequest req) {
         ModelAndView modelAndView = new ModelAndView("redirect:/admin");
         String login = req.getParameter("login");

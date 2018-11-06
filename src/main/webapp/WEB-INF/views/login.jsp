@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <html>
     <head>
@@ -13,8 +14,8 @@
 <div class="alert alert-primary" role="alert">
           <c:out value="${errorMessage}"/>
         </div>
-         <c:url value="/j_spring_security_check" var="loginUrl" />
-        <form method="post" action="${loginUrl}" class="needs-validation" novalidate>
+
+        <form action="<c:url value='j_spring_security_check' />" method='POST' class="needs-validation" novalidate>
 
 
 
@@ -41,9 +42,11 @@
                     </div>
                   </div>
               </div>
+
               <div class="col-md-4 mb-3">
             <button type="submit" class="btn btn-primary">Log In</button>
             </div>
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         </form>
         <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields

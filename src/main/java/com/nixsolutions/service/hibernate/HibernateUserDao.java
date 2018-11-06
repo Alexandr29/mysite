@@ -56,7 +56,7 @@ import java.util.Objects;
 
     @Override public User findByLogin(String login) {
         Objects.requireNonNull(login);
-        String hql = "FROM User where login = " + login;
+        String hql = "FROM User where login = :search_factor";
         return (User) findObject(hql,login);
     }
 

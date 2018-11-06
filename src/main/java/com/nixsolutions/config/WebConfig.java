@@ -43,7 +43,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new HomePageFilter()).addPathPatterns("/");
+        registry.addInterceptor(new HomePageFilter()).addPathPatterns("/**");
         registry.addInterceptor(new EncodingFilter()).addPathPatterns("/*");
     }
 
@@ -52,7 +52,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public SessionFactory sessionFactory() {
         LocalSessionFactoryBuilder builder =
                 new LocalSessionFactoryBuilder(dataSource());
-        builder.scanPackages("com.nixsolutions.entity")
+        builder.scanPackages("com.nixsolutions.service.impl")
                 .addProperties(hibernateProperties());
 
         return builder.buildSessionFactory();

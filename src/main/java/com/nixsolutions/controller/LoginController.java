@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
@@ -33,7 +34,9 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping(method = GET, value = "successful")
+
+    @ResponseBody
+    @RequestMapping(method = GET, value = {"/j_spring_security_check"})
     public String login(Principal principal, HttpSession session) {
         System.out.println("i am in succesful");
         String login = principal.getName();

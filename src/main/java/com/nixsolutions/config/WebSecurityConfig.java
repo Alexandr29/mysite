@@ -23,94 +23,48 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("userDetailsService")
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-        auth.authenticationProvider(authenticationProvider());
-    }
 
-    @Autowired
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-        return authenticationProvider;
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth)
-            throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers("/view/**");
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Autowired
-    private SuccessHandler successHandler;
-
-    //    @Override
-    //    protected void configure(HttpSecurity http) throws Exception {
-    //        http
-    //                .authorizeRequests()
-    //                .antMatchers("/registration/**", "/registration", "/login","/", "/register").permitAll()
-    //                .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
-    //                .anyRequest()
-    //                .authenticated().and().csrf().disable()
-    //                .formLogin().loginPage("/login")
-    //                .defaultSuccessUrl("/j_spring_security_check")
-    //                .usernameParameter("j_username")
-    //                .passwordParameter("j_password")
-    //                // TODO */logout
-    //                .and().logout().logoutUrl("*/logout").logoutSuccessUrl("/login");
-    //    }
-
-    //    @Override
-    //    protected void configure(AuthenticationManagerBuilder auth)
-    //            throws Exception {
-    //        auth.userDetailsService(userDetailsService)
-    //                .passwordEncoder(passwordEncoder());
-    //    }
-    //
-
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/admin", "/edit", "/create", "/remove")
-                .hasAuthority("ADMIN").antMatchers("/user").hasAuthority("USER")
-                .and().formLogin().loginPage("/")
-                .loginProcessingUrl("/j_spring_security_check")
-                .successHandler(successHandler).usernameParameter("j_username")
-                .passwordParameter("j_password")
-                .failureForwardUrl("/?error=true").permitAll().and().logout()
-                .logoutUrl("/logout").logoutSuccessUrl("/?logout=true")
-                .permitAll().and().csrf().disable();
-    }
-
-
+//    @Autowired
+//    private SuccessHandler successHandler;
+//
+//    @Bean
+//    public BCryptPasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+//
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth)
+//            throws Exception {
+//        auth.userDetailsService(userDetailsService)
+//                .passwordEncoder(passwordEncoder());
+//    }
+//    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
 //        http.authorizeRequests()
-//                .antMatchers("/admin","/", "/edit", "/create", "/remove")
+//                .antMatchers("/","/login","/j_spring_security_check").access("hasRole('ANONYMOUS')")
+//                .antMatchers( "/edit", "/create", "/remove")
 //                .hasAuthority("ADMIN").antMatchers("/user").hasAuthority("USER")
 //                .and().formLogin().loginPage("/")
-//                .defaultSuccessUrl("/j_spring_security_check").failureForwardUrl("/user")
-//                .usernameParameter("j_username")
-//                .passwordParameter("j_password")
+//                .defaultSuccessUrl("/j_spring_security_check")
+//                .usernameParameter("login")
+//                .passwordParameter("password")
 //                .failureForwardUrl("/?error=true").permitAll().and().logout()
 //                .logoutUrl("/logout").logoutSuccessUrl("/?logout=true")
-//                .permitAll().and().csrf().disable();
+//                .permitAll().and().csrf();
 //    }
+@Autowired
+public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    auth.
+    userDetailsService(userDetailsService);
+}
+@Override
+    protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests().antMatchers("/","/j_spring_security_check","/user","/admin").permitAll()
+            .and().csrf().disable();
+
+}
+
+
 
 
 }

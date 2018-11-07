@@ -9,7 +9,7 @@ public interface UserDao {
 
     void update(User user);
 
-    void remove(User user) throws RuntimeException;
+    void remove(User user);
 
     List findAll();
 

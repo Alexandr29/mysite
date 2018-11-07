@@ -33,8 +33,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     @PostMapping("/create") protected String create(@Valid User user,
             BindingResult bindingResult, Model model) {
 
-        System.out.println(user.getPasswordagain());
-
         if (!isValidLogin(user)) {
             FieldError loginAlreadyUse = new FieldError("login", "login",
                     "login already in use");
@@ -101,9 +99,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     @GetMapping(value = "/edit") public String edit(Model model,
             @ModelAttribute("logintoedit") String login) {
         User user = userService.findByLogin(login);
-
-        System.out.println(login);
-        System.out.println(user.toString() + "!!!!!!!");
         model.addAttribute("login", user.getLogin());
         model.addAttribute("user", user);
         model.addAttribute("roles", roleService.findAll());
@@ -115,7 +110,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         String login = user.getLogin();
         User user1 = userService.findByLogin(login);
         user.setId(user1.getId());
-        System.out.println("i am in post");
 
         if (passwordNotEquals(user)) {
             FieldError passwordNotEquals = new FieldError("password",
@@ -133,8 +127,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         try {
             userService.update(user);
             model.addAttribute("users", userService.findAll());
-            System.out.println("i am in post 3");
-            System.out.println("success");
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(e.getCause());
         }
@@ -145,7 +137,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     protected boolean isValidLogin(User user) {
         for (User user1 : userService.findAll()) {
             if (user1.getLogin().equals(user.getLogin())) {
-                System.out.println(user1.getLogin() + " " + user.getLogin());
                 return false;
             }
         }
@@ -153,7 +144,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     }
 
     public boolean passwordNotEquals(User user) {
-        System.out.println(user.getPasswordagain());
         return (!user.getPassword().equals(user.getPasswordagain()));
     }
 

@@ -1,10 +1,7 @@
 package com.nixsolutions.service.hibernate;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +13,6 @@ import java.util.List;
 
     @Autowired private SessionFactory sessionFactory;
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     Object findObject(String hql, String searchValue) {
         Object obj;
         try {
@@ -28,8 +23,7 @@ import java.util.List;
             }
             obj = query.getSingleResult();
         } catch (Exception e) {
-            logger.error("Exception in findObject()", e, e);
-            throw e;
+            throw new RuntimeException(e.getCause());
         }
         return obj;
     }
@@ -43,36 +37,32 @@ import java.util.List;
             }
             objects = query.list();
         } catch (Exception e) {
-            logger.error("Exception in findList()", e, e);
-            throw e;
+            throw new RuntimeException(e.getCause());
         }
         return objects;
     }
 
-    void createObject(Object object) {
+    <T> void createObject(T object) {
         try {
             sessionFactory.getCurrentSession().save(object);
         } catch (Exception e) {
-            logger.error("Exception in createObject()", e, e);
-            throw e;
+            throw new RuntimeException(e.getCause());
         }
     }
 
-    void updateObject(Object object) {
+    <T> void updateObject(T object) {
         try {
             sessionFactory.getCurrentSession().merge(object);
         } catch (Exception e) {
-            logger.error("Exception in createObject()", e, e);
-            throw e;
+            throw new RuntimeException(e.getCause());
         }
     }
 
-    void removeObject(Object object) {
+    <T> void removeObject(T object) {
         try {
             sessionFactory.getCurrentSession().remove(object);
         } catch (Exception e) {
-            logger.error("Exception in createObject()", e, e);
-            throw e;
+            throw new RuntimeException(e.getCause());
         }
     }
 }

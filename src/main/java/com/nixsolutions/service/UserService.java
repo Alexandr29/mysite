@@ -27,8 +27,6 @@ import java.util.List;
     }
 
     @Transactional(readOnly = true) public List<User> findAll() {
-        System.out.println("I am here 3");
-
         return userDao.findAll();
     }
 

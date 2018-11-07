@@ -104,9 +104,9 @@ import java.sql.Date;
     protected String registrarton(@Valid User user,
             BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()) {
-            model.addAttribute("error",bindingResult.getAllErrors());
-            System.out.println("has error");
-            return "/error";
+
+            model.addAttribute("error",bindingResult.getFieldError("login").getDefaultMessage());
+            return "/Registration";
         }
 
 

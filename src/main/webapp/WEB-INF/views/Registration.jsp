@@ -16,11 +16,23 @@
     </head>
         <body>
         <div class="alert alert-primary" role="alert">
-                             <c:out value="${errorMessage}"/>
+
+                            	<c:forEach var="error" items="${error}">
+                            		<b><c:out value="${error}"/></b>
+                            		<br />
+                            	</c:forEach>
+
+
                           </div>
  <c:url value="/registration" var="loginUrl" />
   <form:form method="post" action="${loginUrl}" name="userform" modelAttribute="user" class="needs-validation">
 <table align="center" width="300px"  class="table">
+
+<c:forEach var="error" items="${error}">
+                            		<b><c:out value="${error}"/></b>
+                            		<br />
+                            	</c:forEach>
+
 
 <tr><td colspan=2 style="font-weight:bold;" align="center">Create User</td></tr>
 <tr><td colspan=2 align="center" height="10px"></td></tr>

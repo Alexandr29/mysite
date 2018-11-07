@@ -25,13 +25,15 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     @Autowired private UserService userService;
     @Autowired private RoleService roleService;
 
-    @GetMapping(value = "/create")
-    public String create(Model model) {
+    @GetMapping(value = "/create") public String create(Model model) {
         model.addAttribute("roles", roleService.findAll());
         return "create";
     }
+
     @PostMapping("/create") protected String create(@Valid User user,
             BindingResult bindingResult, Model model) {
+
+        System.out.println(user.getPasswordagain());
 
         if (!isValidLogin(user)) {
             FieldError loginAlreadyUse = new FieldError("login", "login",
@@ -47,6 +49,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         if (bindingResult.hasErrors()) {
             model.addAttribute("error",
                     bindingResult.getFieldError().getDefaultMessage());
+            model.addAttribute("roles", roleService.findAll());
             return "create";
         }
         try {
@@ -54,19 +57,18 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
             model.addAttribute("error", "user successfully created");
             model.addAttribute("users", userService.findAll());
         } catch (IllegalArgumentException e) {
-            return "create";
+            throw new RuntimeException(e.getCause());
         }
         return "admin";
     }
 
-    @GetMapping(value = "/registration")
-    public String showRegistration(Model model) {
+    @GetMapping(value = "/registration") public String showRegistration(
+            Model model) {
         return "Registration";
     }
 
     @PostMapping("/registration") protected String registrarton(
             @Valid User user, BindingResult bindingResult, Model model) {
-
 
         if (!isValidLogin(user)) {
             FieldError loginAlreadyUse = new FieldError("login", "login",
@@ -89,10 +91,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
             user.setRole_id(2L);
             userService.create(user);
         } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e.getCause());
         }
-        model.addAttribute("error","Registration successful.Enter your account");
+        model.addAttribute("error",
+                "Registration successful.Enter your account");
         return "login";
-
     }
 
     @GetMapping(value = "/edit") public String edit(Model model,
@@ -133,10 +136,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
             System.out.println("i am in post 3");
             System.out.println("success");
         } catch (IllegalArgumentException e) {
-            System.out.println("i am in post 4");
-            return "redirect:/edit";
+            throw new RuntimeException(e.getCause());
         }
-        model.addAttribute("error","Successfully update");
+        model.addAttribute("error", "Successfully update");
         return "admin";
     }
 
@@ -152,7 +154,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
     public boolean passwordNotEquals(User user) {
         System.out.println(user.getPasswordagain());
-        return !(user.getPassword().equals(user.getPasswordagain()));
+        return (!user.getPassword().equals(user.getPasswordagain()));
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET) public ModelAndView delete(

@@ -19,16 +19,12 @@ import org.springframework.web.servlet.view.JstlView;
 
 import java.util.Properties;
 
-@EnableWebMvc
-@Configuration
-@EnableTransactionManagement
-@ComponentScan({"com.nixsolutions.service.hibernate, com.nixsolutions.service.impl, com.nixsolutions.service, com.nixsolutions.controller"})
-@Import({ WebSecurityConfig.class})
-public class WebConfig extends WebMvcConfigurerAdapter {
+@EnableWebMvc @Configuration @EnableTransactionManagement @ComponentScan({
+        "com.nixsolutions.service.hibernate, com.nixsolutions.service.impl, com.nixsolutions.service, com.nixsolutions.controller" }) @Import({
+        WebSecurityConfig.class }) public class WebConfig
+        extends WebMvcConfigurerAdapter {
 
-    // Spring
-    @Bean
-    public InternalResourceViewResolver viewResolver() {
+    @Bean public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setViewClass(JstlView.class);
         viewResolver.setPrefix("/WEB-INF/views/");
@@ -36,22 +32,19 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/WEB-INF/views/**").addResourceLocations("/WEB-INF/views/");
+    @Override public void addResourceHandlers(
+            ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/WEB-INF/views/**")
+                .addResourceLocations("/WEB-INF/views/");
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        //registry.addInterceptor(new HomePageFilter()).addPathPatterns("/**");
+    @Override public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new EncodingFilter()).addPathPatterns("/*");
     }
 
-    // Hibernate
-    @Bean
-    public SessionFactory sessionFactory() {
-        LocalSessionFactoryBuilder builder =
-                new LocalSessionFactoryBuilder(dataSource());
+    @Bean public SessionFactory sessionFactory() {
+        LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(
+                dataSource());
         builder.scanPackages("com.nixsolutions.service.impl")
                 .addProperties(hibernateProperties());
 
@@ -62,13 +55,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         Properties prop = new Properties();
         prop.put("hibernate.format_sql", "true");
         prop.put("hibernate.show_sql", "false");
-        prop.put("hibernate.dialect",
-                "org.hibernate.dialect.H2Dialect");
+        prop.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         return prop;
     }
 
-    @Bean(name = "dataSource")
-    public BasicDataSource dataSource() {
+    @Bean(name = "dataSource") public BasicDataSource dataSource() {
 
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName("org.h2.Driver");
@@ -78,8 +69,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return ds;
     }
 
-    @Bean
-    public HibernateTransactionManager transactionManager() {
+    @Bean public HibernateTransactionManager transactionManager() {
         return new HibernateTransactionManager(sessionFactory());
     }
 }

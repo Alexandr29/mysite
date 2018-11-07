@@ -10,13 +10,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
-class HibernateDao {
+@Component class HibernateDao {
     public HibernateDao() {
     }
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    @Autowired private SessionFactory sessionFactory;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -36,7 +34,7 @@ class HibernateDao {
         return obj;
     }
 
-    <T>List<T> findList(String hql) {
+    <T> List<T> findList(String hql) {
         List<T> objects;
         try {
             Query query = sessionFactory.getCurrentSession().createQuery(hql);

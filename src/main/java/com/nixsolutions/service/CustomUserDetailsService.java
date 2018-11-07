@@ -29,8 +29,6 @@ import java.util.List;
 
     @Transactional @Override public UserDetails loadUserByUsername(String s)
             throws UsernameNotFoundException {
-        RoleService roleService = new RoleService();
-
         User user = userService.findByLogin(s);
 
         org.springframework.security.core.userdetails.User.UserBuilder builder = null;
@@ -47,7 +45,7 @@ import java.util.List;
             }
             builder.authorities(authorities);
         } else {
-            builder.authorities("ANON");;
+            builder.authorities("ANON");
         }
         return builder.build();
 

@@ -20,7 +20,6 @@ import java.util.Objects;
 @Repository @Qualifier("hibernate") public class HibernateUserDao
         extends HibernateDao implements UserDao {
 
-
     @Override public void create(User user) {
         emptyFieldsChecker(user);
         User userChecker = findByLogin(user.getLogin());
@@ -57,7 +56,7 @@ import java.util.Objects;
     @Override public User findByLogin(String login) {
         Objects.requireNonNull(login);
         String hql = "FROM User where login = :search_factor";
-        return (User) findObject(hql,login);
+        return (User) findObject(hql, login);
     }
 
     @Override public User findByEmail(String email) {

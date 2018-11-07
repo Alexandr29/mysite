@@ -11,23 +11,21 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Objects;
 
-@Repository
-@Qualifier("hibernate")
-public class HibernateRoleDao extends HibernateDao implements RoleDao {
+@Repository @Qualifier("hibernate") public class HibernateRoleDao
+        extends HibernateDao implements RoleDao {
 
-    @Override
-    public void create(Role role) {
+    @Override public void create(Role role) {
         emptyFieldsChecker(role);
         Role roleChecker = findByName(role.getName());
         if (roleChecker != null) {
-            throw new IllegalArgumentException("Role with rolename " + role.getName()
-                    + " already exists in DB");
+            throw new IllegalArgumentException(
+                    "Role with rolename " + role.getName()
+                            + " already exists in DB");
         }
         createObject(role);
     }
 
-    @Override
-    public void update(Role role) {
+    @Override public void update(Role role) {
         emptyFieldsChecker(role);
         if (findByName(role.getName()) != null) {
             throw new RuntimeException(role.toString() + "doesn't exist in DB");
@@ -35,8 +33,7 @@ public class HibernateRoleDao extends HibernateDao implements RoleDao {
         updateObject(role);
     }
 
-    @Override
-    public void remove(Role role) {
+    @Override public void remove(Role role) {
         emptyFieldsChecker(role);
         if (findByName(role.getName()) == null) {
             throw new RuntimeException(role.toString() + "doesn't exist in DB");
@@ -44,16 +41,14 @@ public class HibernateRoleDao extends HibernateDao implements RoleDao {
         removeObject(role);
     }
 
-    @Override
-    public Role findByName(String name) {
+    @Override public Role findByName(String name) {
         Objects.requireNonNull(name);
         String hql = "FROM Role R WHERE R.rolename = :search_factor";
         Role result = (Role) findObject(hql, name);
         return result;
     }
 
-    @Override
-    public List findAll() {
+    @Override public List findAll() {
         String hql = "FROM Role";
         return findList(hql);
     }

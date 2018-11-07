@@ -23,25 +23,20 @@ import java.security.Principal;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-@Controller
-public class LoginController {
+@Controller public class LoginController {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleService roleService;
+    @Autowired private UserService userService;
+    @Autowired private RoleService roleService;
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping(method = RequestMethod.GET, value = {"login", "/"})
-    public String showLoginPage(HttpSession session) {
+    @RequestMapping(method = RequestMethod.GET, value = { "login",
+            "/" }) public String showLoginPage(HttpSession session) {
         return "login";
     }
 
-
-
-    @RequestMapping(method = GET, value = "/success")
-    public ModelAndView login(Principal principal, HttpSession session, HttpServletRequest req) {
+    @RequestMapping(method = GET, value = "/success") public ModelAndView login(
+            Principal principal, HttpSession session, HttpServletRequest req) {
         System.out.println(" i a m in success");
         ModelAndView modelAndViewUser = new ModelAndView("redirect:/user");
         ModelAndView modelAndViewAdmin = new ModelAndView("redirect:/admin");
@@ -51,7 +46,7 @@ public class LoginController {
 
         System.out.println(userDB.toString());
 
-        if (userDB.getRole_id()==2L) {
+        if (userDB.getRole_id() == 2L) {
             session.setAttribute("firstName", userDB.getFirstName());
             session.setAttribute("lastName", userDB.getLastName());
 
@@ -63,32 +58,20 @@ public class LoginController {
         return modelAndViewAdmin;
     }
 
-//    @GetMapping("/registration")
-//    protected String registration(Model model){
-//        return "Registration";
-//    }
-
-    @RequestMapping(method = GET, value = {"*/logout", "/logout"})
-    public String logout(HttpSession session) {
+    @RequestMapping(method = GET, value = { "*/logout",
+            "/logout" }) public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
     }
 
-    @RequestMapping(method = GET, value = "/admin")
-    public String showUsersTable(Model model,HttpServletRequest req) {
-        model.addAttribute("users",userService.findAll());
-        model.addAttribute("login",req.getSession().getAttribute("firstname"));
-//        req.setAttribute("users", userService.findAll());
-//        req.setAttribute("login",req.getSession().getAttribute("firstName"));
+    @RequestMapping(method = GET, value = "/admin") public String showUsersTable(
+            Model model, HttpServletRequest req) {
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("login", req.getSession().getAttribute("firstname"));
         return "admin";
     }
 
-
-
-
-    @RequestMapping(method = GET, value = "/error")
-    public String showError() {
-
+    @RequestMapping(method = GET, value = "/error") public String showError() {
         return "redirect:/error";
     }
 }

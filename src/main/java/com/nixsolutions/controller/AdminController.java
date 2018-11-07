@@ -89,7 +89,7 @@ import java.sql.Date;
 
         System.out.println(login);
         System.out.println(user.toString() + "!!!!!!!");
-        model.addAttribute("firstName",user.getFirstName());
+        model.addAttribute("login",user.getLogin());
         model.addAttribute("user",user);
         model.addAttribute("roles", roleService.findAll());
         return "edit";
@@ -207,7 +207,8 @@ import java.sql.Date;
         user.setId(user1.getId());
         System.out.println("i am in post");
         if (bindingResult.hasErrors()) {
-            System.out.println("i am in post 1");
+            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("logintoedit",login);
             model.addAttribute("error",
                     bindingResult.getFieldError().getDefaultMessage());
             return "edit";

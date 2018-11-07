@@ -11,7 +11,7 @@
     </head>
     <body>
 <div class="alert alert-primary" role="alert">
-          <c:out value="${errorMessage}"/>
+          <c:out value="${error}"/>
         </div>
          <c:url value="/login" var="loginUrl" />
         <form method="post" action="${loginUrl}" class="needs-validation" novalidate>

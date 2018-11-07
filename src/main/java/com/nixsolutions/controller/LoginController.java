@@ -83,10 +83,7 @@ public class LoginController {
         return "admin";
     }
 
-    @RequestMapping(method = GET, value = "/registration")
-    public String showRegistration(Model model) {
-        return "Registration";
-    }
+
 
 
     @RequestMapping(method = GET, value = "/error")

@@ -18,40 +18,50 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.Date;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
 @Controller public class AdminController {
 
     @Autowired private UserService userService;
     @Autowired private RoleService roleService;
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-
-    public String showRegistration(Model model) {
+    @GetMapping(value = "/create")
+    public String create(Model model) {
         model.addAttribute("roles", roleService.findAll());
         return "create";
     }
+    @PostMapping("/create") protected String create(@Valid User user,
+            BindingResult bindingResult, Model model) {
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET) public ModelAndView delete(
-            HttpServletRequest req) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/admin");
-        String logintodelete = req.getParameter("logintodelete");
+        if (!isValidLogin(user)) {
+            FieldError loginAlreadyUse = new FieldError("login", "login",
+                    "login already in use");
+            bindingResult.addError(loginAlreadyUse);
+        }
+        if (passwordNotEquals(user)) {
+            FieldError passwordNotEquals = new FieldError("password",
+                    "password", "password not equals");
+            bindingResult.addError(passwordNotEquals);
+        }
 
-        User user = userService.findByLogin(logintodelete);
-        userService.remove(logintodelete);
-        modelAndView.addObject("users", userService.findAll());
-
-        return modelAndView;
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error",
+                    bindingResult.getFieldError().getDefaultMessage());
+            return "create";
+        }
+        try {
+            userService.create(user);
+            model.addAttribute("error", "user successfully created");
+            model.addAttribute("users", userService.findAll());
+        } catch (IllegalArgumentException e) {
+            return "create";
+        }
+        return "admin";
     }
 
-    @GetMapping(value = "/edit") public String edit(Model model,
-            @ModelAttribute("logintoedit") String login) {
-        User user = userService.findByLogin(login);
-
-        System.out.println(login);
-        System.out.println(user.toString() + "!!!!!!!");
-        model.addAttribute("login", user.getLogin());
-        model.addAttribute("user", user);
-        model.addAttribute("roles", roleService.findAll());
-        return "edit";
+    @GetMapping(value = "/registration")
+    public String showRegistration(Model model) {
+        return "Registration";
     }
 
     @PostMapping("/registration") protected String registrarton(
@@ -80,37 +90,21 @@ import java.sql.Date;
             userService.create(user);
         } catch (IllegalArgumentException e) {
         }
+        model.addAttribute("error","Registration successful.Enter your account");
         return "login";
 
     }
 
-    @PostMapping("/create") protected String create(@Valid User user,
-            BindingResult bindingResult, Model model) {
+    @GetMapping(value = "/edit") public String edit(Model model,
+            @ModelAttribute("logintoedit") String login) {
+        User user = userService.findByLogin(login);
 
-        if (!isValidLogin(user)) {
-            FieldError loginAlreadyUse = new FieldError("login", "login",
-                    "login already in use");
-            bindingResult.addError(loginAlreadyUse);
-        }
-        if (passwordNotEquals(user)) {
-            FieldError passwordNotEquals = new FieldError("password",
-                    "password", "password not equals");
-            bindingResult.addError(passwordNotEquals);
-        }
-
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("error",
-                    bindingResult.getFieldError().getDefaultMessage());
-            return "create";
-        }
-        try {
-            userService.create(user);
-            model.addAttribute("error", "user successfully created");
-            model.addAttribute("users", userService.findAll());
-        } catch (IllegalArgumentException e) {
-            return "create";
-        }
-        return "admin";
+        System.out.println(login);
+        System.out.println(user.toString() + "!!!!!!!");
+        model.addAttribute("login", user.getLogin());
+        model.addAttribute("user", user);
+        model.addAttribute("roles", roleService.findAll());
+        return "edit";
     }
 
     @PostMapping("/edit") protected String edit(@Valid User user,
@@ -142,6 +136,7 @@ import java.sql.Date;
             System.out.println("i am in post 4");
             return "redirect:/edit";
         }
+        model.addAttribute("error","Successfully update");
         return "admin";
     }
 
@@ -160,4 +155,15 @@ import java.sql.Date;
         return !(user.getPassword().equals(user.getPasswordagain()));
     }
 
+    @RequestMapping(value = "/delete", method = RequestMethod.GET) public ModelAndView delete(
+            HttpServletRequest req) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/admin");
+        String logintodelete = req.getParameter("logintodelete");
+
+        User user = userService.findByLogin(logintodelete);
+        userService.remove(logintodelete);
+        modelAndView.addObject("users", userService.findAll());
+
+        return modelAndView;
+    }
 }

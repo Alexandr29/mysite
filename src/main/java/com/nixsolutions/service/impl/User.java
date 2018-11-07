@@ -25,6 +25,9 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
+    @Transient
+    private String passwordagain;
+
     @NotBlank
     @Email
     @Column(name = "EMAIL")
@@ -74,6 +77,14 @@ public class User {
         this.lastName = lastName;
         this.birthday = birthday;
         this.role_id = role_id;
+    }
+
+    public String getPasswordagain() {
+        return passwordagain;
+    }
+
+    public void setPasswordagain(String passwordagain) {
+        this.passwordagain = passwordagain;
     }
 
     public Long getId() {

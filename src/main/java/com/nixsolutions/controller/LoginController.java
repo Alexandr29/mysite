@@ -85,7 +85,6 @@ public class LoginController {
 
     @RequestMapping(method = GET, value = "/registration")
     public String showRegistration(Model model) {
-       model.addAttribute("rolesid", 2L);
         return "Registration";
     }
 

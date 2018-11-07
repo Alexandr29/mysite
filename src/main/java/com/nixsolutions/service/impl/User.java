@@ -176,10 +176,4 @@ public class User {
                 Objects.equals(birthday, user.birthday) &&
                 Objects.equals(role_id, user.role_id);
     }
-
-    @Override
-    public int hashCode() {
-        return (int) login.hashCode() + email.hashCode()
-                + firstName.hashCode() + lastName.hashCode() + (int) role_id.hashCode();
-    }
 }

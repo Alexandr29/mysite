@@ -43,7 +43,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new HomePageFilter()).addPathPatterns("/**");
+        //registry.addInterceptor(new HomePageFilter()).addPathPatterns("/**");
         registry.addInterceptor(new EncodingFilter()).addPathPatterns("/*");
     }
 
@@ -61,7 +61,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     private Properties hibernateProperties() {
         Properties prop = new Properties();
         prop.put("hibernate.format_sql", "true");
-        prop.put("hibernate.show_sql", "true");
+        prop.put("hibernate.show_sql", "false");
         prop.put("hibernate.dialect",
                 "org.hibernate.dialect.H2Dialect");
         return prop;

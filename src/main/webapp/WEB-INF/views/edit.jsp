@@ -3,6 +3,7 @@
 <%@ taglib prefix="x" uri="http://java.sun.com/jstl/xml" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jstl/sql" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page import="java.util.ArrayList"%>
 <html lang="en">
     <head>
@@ -12,9 +13,11 @@
     </head>
         <body>
         <div class="alert alert-primary" role="alert">
-           <c:out value="${errorMessage}"/>
-        </div>
-<form name="userform" method="post" class="needs-validation">
+
+                                            		<b><c:out value="${error}"/></b>
+                </div>
+
+<form:form method="post" name="userform" modelAttribute="user" class="needs-validation">
 <br>
 <table align="center" width="300px" class="table">
 
@@ -29,47 +32,47 @@
     <tr>
             <td align="right">Password</td>
             <td>
-             <input name="password" type="password" value="${passwordtoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password" required>
+             <input name="password" type="password" value="${user.password}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password" required>
              </td>
      </tr>
      <tr>
                  <td align="right">Password again</td>
                  <td>
-                  <input name="passwordagain" type="password" value="${passwordtoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password" required>
+                  <input name="passwordagain" type="password" value="${user.password}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password" required>
                   </td>
  </tr>
 
   <tr>
                   <td align="right">First Name</td>
                   <td>
-                   <input name="firstname" type="text" value="${firstnametoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname" required>
+                   <input name="firstName" type="text" value="${user.firstName}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname" required>
                    </td>
   </tr>
 <tr>
                   <td align="right">Last Name</td>
                   <td>
-                   <input name="lastname" type="text" value="${lastnametoedit}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname" required>
+                   <input name="lastName" type="text" value="${user.lastName}" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname" required>
                    </td>
   </tr>
   <tr>
                       <td align="right">Email</td>
                       <td>
-                       <input name="email" type="email" value="${emailtoedit}" class="form-control" id="exampleEmail" aria-describedby="EmailHelp" placeholder="Enter email" required>
+                       <input name="email" type="email" value="${user.email}" class="form-control" id="exampleEmail" aria-describedby="EmailHelp" placeholder="Enter email" required>
                        </td>
       </tr>
  <tr>
                   <td align="right">Birth date</td>
                   <td>
-                   <input name="date" type="date" value="${birthdaytoedit}" class="form-control" id="exampleDate" aria-describedby="loginHelp" placeholder="Enter date" required>
+                   <input name="birthday" type="date" value="${user.birthday}" class="form-control" id="exampleDate" aria-describedby="loginHelp" placeholder="Enter date" required>
                    </td>
   </tr>
 
    <tr>
                <td align="right">Role</td>
-     <td><select name="rolevalue" class="selectpicker">
+     <td><select name="role_id" class="selectpicker">
 
      <c:forEach items="${roles}" var="role">
-                            <option value="${role.id}"><c:out value="${role.name}"/></option>
+                            <option selected="user.role_id" value="${role.id}"><c:out value="${role.name}"/></option>
                           </c:forEach>
          </select>
                         </td>
@@ -83,6 +86,6 @@
     </tr>
     <tr><td colspan=2 align="center" height="10px"></td></tr>
 </table>
-</form>
+</form:form>
 </body>
 </html>

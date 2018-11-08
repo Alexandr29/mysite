@@ -56,8 +56,4 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         model.addAttribute("login", req.getSession().getAttribute("firstname"));
         return "admin";
     }
-
-    @RequestMapping(method = GET, value = "/error") public String showError() {
-        return "redirect:/error";
-    }
 }

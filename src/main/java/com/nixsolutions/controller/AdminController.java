@@ -2,11 +2,8 @@ package com.nixsolutions.controller;
 
 import com.nixsolutions.service.RoleService;
 import com.nixsolutions.service.UserService;
-import com.nixsolutions.service.hibernate.HibernateRoleDao;
-import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,9 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.sql.Date;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller public class AdminController {
 
@@ -147,11 +141,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         return (!user.getPassword().equals(user.getPasswordagain()));
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET) public ModelAndView delete(
+    @RequestMapping(value = "/delete/*", method = RequestMethod.GET) public ModelAndView delete(
             HttpServletRequest req) {
         ModelAndView modelAndView = new ModelAndView("redirect:/admin");
         String logintodelete = req.getParameter("logintodelete");
-
+        System.out.println(logintodelete + "!!!");
         User user = userService.findByLogin(logintodelete);
         userService.remove(logintodelete);
         modelAndView.addObject("users", userService.findAll());

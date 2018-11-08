@@ -19,9 +19,18 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <spring.version>3.1.0.RELEASE</spring.version>
         <cglib.version>2.2.2</cglib.version>
+
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
@@ -251,7 +260,7 @@
                     <artifactId>maven-site-plugin</artifactId>
                     <version>3.7.1</version>
                     <configuration>
-                        <locales>en,fr</locales>
+                        <locales>en</locales>
                     </configuration>
                 </plugin>
 
@@ -277,7 +286,7 @@
                     </configuration>
                     <executions>
                         <execution>
-                            <phase>post-integration-test</phase>
+                            <phase>test</phase>
                             <goals>
                                 <goal>check</goal>
                                 <goal>cobertura</goal>

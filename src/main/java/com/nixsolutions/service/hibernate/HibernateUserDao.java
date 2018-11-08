@@ -31,7 +31,6 @@ import java.util.Objects;
     }
 
     @Override public void remove(User user) {
-        System.out.println(user.toString());
         Objects.requireNonNull(user.getLogin());
         if (findByLogin(user.getLogin()) == null) {
             throw new RuntimeException(user.toString() + "doesn't exist in DB");

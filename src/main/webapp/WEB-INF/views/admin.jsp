@@ -22,7 +22,7 @@
                                               		<b><c:out value="${error}"/></b>
                   </div>
           <div align="right">
-             <h3><c:out value="${login}"/></h3>
+             <h3><c:out value="${firstName} ${lastName}"/></h3>
              <h3><a href="/logout">Logout</a><h3>
            </div>
               <div>

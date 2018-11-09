@@ -13,21 +13,6 @@ import java.util.List;
 
     @Autowired private SessionFactory sessionFactory;
 
-    Object findObject(String hql, String searchValue) {
-        Object obj;
-        try {
-            Query query = sessionFactory.getCurrentSession().createQuery(hql);
-            query.setParameter("search_factor", searchValue);
-            if (query.list().isEmpty()) {
-                return null;
-            }
-            obj = query.getSingleResult();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
-        }
-        return obj;
-    }
-
     <T> List<T> findList(String hql) {
         List<T> objects;
         try {
@@ -37,7 +22,7 @@ import java.util.List;
             }
             objects = query.list();
         } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
+            throw new RuntimeException(e);
         }
         return objects;
     }
@@ -46,7 +31,7 @@ import java.util.List;
         try {
             sessionFactory.getCurrentSession().save(object);
         } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
+            throw new RuntimeException(e);
         }
     }
 
@@ -63,7 +48,22 @@ import java.util.List;
         try {
             sessionFactory.getCurrentSession().remove(object);
         } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
+            throw new RuntimeException(e);
         }
+    }
+
+    Object findObject(String hql, String searchValue) {
+        Object obj;
+        try {
+            Query query = sessionFactory.getCurrentSession().createQuery(hql);
+            query.setParameter("search_factor", searchValue);
+            if (query.list().isEmpty()) {
+                return null;
+            }
+            obj = query.getSingleResult();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return obj;
     }
 }

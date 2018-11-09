@@ -34,8 +34,4 @@ import java.util.List;
         return userDao.findByLogin(login);
     }
 
-    @Transactional(readOnly = true) public User findByEmail(String email) {
-        return userDao.findByEmail(email);
-    }
-
 }

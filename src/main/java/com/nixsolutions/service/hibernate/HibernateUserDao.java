@@ -2,39 +2,33 @@ package com.nixsolutions.service.hibernate;
 
 import com.nixsolutions.service.dao.UserDao;
 import com.nixsolutions.service.impl.User;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Objects;
 
-@Repository @Qualifier("hibernate") public class HibernateUserDao
+@Repository public class HibernateUserDao
         extends HibernateDao implements UserDao {
 
     @Override public void create(User user) {
-        emptyFieldsChecker(user);
-        User userChecker = findByLogin(user.getLogin());
-        if (userChecker != null) {
+        User existUser = findByLogin(user.getLogin());
+        if (existUser != null) {
             throw new IllegalArgumentException(
-                    "User with login " + user.getLogin()
-                            + " already exists in DB");
+                    "Login " + user.getLogin()
+                            + " already exists");
         }
         createObject(user);
     }
 
     @Override public void update(User user) {
-        emptyFieldsChecker(user);
         if (findByLogin(user.getLogin()) == null) {
-            throw new RuntimeException(user.toString() + "doesn't exist in DB");
+            throw new RuntimeException(user.toString() + "doesn't exist");
         }
         updateObject(user);
     }
 
     @Override public void remove(User user) {
-        System.out.println(user.toString());
-        Objects.requireNonNull(user.getLogin());
         if (findByLogin(user.getLogin()) == null) {
-            throw new RuntimeException(user.toString() + "doesn't exist in DB");
+            throw new RuntimeException(user.toString() + "doesn't exist");
         }
         removeObject(user);
     }
@@ -45,24 +39,8 @@ import java.util.Objects;
     }
 
     @Override public User findByLogin(String login) {
-        Objects.requireNonNull(login);
         String hql = "FROM User where login = :search_factor";
         return (User) findObject(hql, login);
-    }
-
-    @Override public User findByEmail(String email) {
-        Objects.requireNonNull(email);
-        String hql = "FROM User U WHERE U.email = :search_factor";
-        return (User) findObject(hql, email);
-    }
-
-    private void emptyFieldsChecker(User user) {
-        if (user == null || user.getLogin() == null
-                || user.getPassword() == null || user.getEmail() == null
-                || user.getFirstName() == null || user.getLastName() == null
-                || user.getBirthday() == null) {
-            throw new IllegalArgumentException("user has empty fields");
-        }
     }
 
 }

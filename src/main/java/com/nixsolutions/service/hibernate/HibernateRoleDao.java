@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Objects;
 
-@Repository @Qualifier("hibernate") public class HibernateRoleDao
+@Repository public class HibernateRoleDao
         extends HibernateDao implements RoleDao {
 
     @Override public void create(Role role) {
@@ -51,13 +51,6 @@ import java.util.Objects;
     @Override public List findAll() {
         String hql = "FROM Role";
         return findList(hql);
-    }
-
-    @Override public Role findById(Long id) {
-        Objects.requireNonNull(id);
-        String hql = "FROM Role R WHERE R.role_id = :search_factor";
-        Role result = (Role) findObject(hql, String.valueOf(id));
-        return result;
     }
 
     private void emptyFieldsChecker(Role role) {

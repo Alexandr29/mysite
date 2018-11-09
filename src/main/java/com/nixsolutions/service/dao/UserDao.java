@@ -14,6 +14,4 @@ public interface UserDao {
     List findAll();
 
     User findByLogin(String login);
-
-    User findByEmail(String email);
 }

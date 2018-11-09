@@ -14,6 +14,4 @@ public interface RoleDao {
     Role findByName(String name);
 
     List findAll();
-
-    Role findById(Long id);
 }

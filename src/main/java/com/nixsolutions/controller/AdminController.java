@@ -2,11 +2,8 @@ package com.nixsolutions.controller;
 
 import com.nixsolutions.service.RoleService;
 import com.nixsolutions.service.UserService;
-import com.nixsolutions.service.hibernate.HibernateRoleDao;
-import com.nixsolutions.service.hibernate.HibernateUserDao;
 import com.nixsolutions.service.impl.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,9 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.sql.Date;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller public class AdminController {
 
@@ -31,14 +25,15 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     }
 
     @PostMapping("/create") protected String create(@Valid User user,
-            BindingResult bindingResult, Model model) {
+            BindingResult bindingResult, Model model,
+            @RequestParam("passwordagain") String passwordAgain) {
 
         if (!isValidLogin(user)) {
             FieldError loginAlreadyUse = new FieldError("login", "login",
                     "login already in use");
             bindingResult.addError(loginAlreadyUse);
         }
-        if (passwordNotEquals(user)) {
+        if (!passwordAgain.equals(user.getPassword())) {
             FieldError passwordNotEquals = new FieldError("password",
                     "password", "password not equals");
             bindingResult.addError(passwordNotEquals);
@@ -66,14 +61,15 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     }
 
     @PostMapping("/registration") protected String registrarton(
-            @Valid User user, BindingResult bindingResult, Model model) {
+            @Valid User user, BindingResult bindingResult, Model model,
+            @RequestParam("passwordagain") String passwordAgain) {
 
         if (!isValidLogin(user)) {
             FieldError loginAlreadyUse = new FieldError("login", "login",
                     "login already in use");
             bindingResult.addError(loginAlreadyUse);
         }
-        if (passwordNotEquals(user)) {
+        if (!passwordAgain.equals(user.getPassword())) {
             FieldError passwordNotEquals = new FieldError("password",
                     "password", "password not equals");
             bindingResult.addError(passwordNotEquals);
@@ -106,12 +102,13 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     }
 
     @PostMapping("/edit") protected String edit(@Valid User user,
-            BindingResult bindingResult, Model model) {
+            BindingResult bindingResult, Model model,
+            @RequestParam("passwordagain") String passwordAgain) {
         String login = user.getLogin();
         User user1 = userService.findByLogin(login);
         user.setId(user1.getId());
 
-        if (passwordNotEquals(user)) {
+        if (!passwordAgain.equals(user.getPassword())) {
             FieldError passwordNotEquals = new FieldError("password",
                     "password", "password not equals");
             bindingResult.addError(passwordNotEquals);
@@ -143,15 +140,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         return true;
     }
 
-    public boolean passwordNotEquals(User user) {
-        return (!user.getPassword().equals(user.getPasswordagain()));
-    }
-
-    @RequestMapping(value = "/delete", method = RequestMethod.GET) public ModelAndView delete(
+    @GetMapping(value = "/delete") public ModelAndView delete(
             HttpServletRequest req) {
         ModelAndView modelAndView = new ModelAndView("redirect:/admin");
         String logintodelete = req.getParameter("logintodelete");
-
         User user = userService.findByLogin(logintodelete);
         userService.remove(logintodelete);
         modelAndView.addObject("users", userService.findAll());

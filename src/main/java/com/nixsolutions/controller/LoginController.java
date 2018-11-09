@@ -31,11 +31,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         ModelAndView modelAndViewAdmin = new ModelAndView("redirect:/admin");
         String login = principal.getName();
         User userDB = userService.findByLogin(login);
-
         if (userDB.getRole_id() == 2L) {
             session.setAttribute("firstName", userDB.getFirstName());
             session.setAttribute("lastName", userDB.getLastName());
-
             return modelAndViewUser;
         }
         session.setAttribute("firstName", userDB.getFirstName());

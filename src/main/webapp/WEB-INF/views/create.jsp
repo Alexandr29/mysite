@@ -63,7 +63,7 @@
  <tr>
                   <td align="right">Birth date</td>
                   <td>
-                   <input name="birthday" type="date" class="form-control" id="exampleDate" aria-describedby="loginHelp" placeholder="Enter date" required>
+                   <input name="birthday" type="date" min="1920-01-01" max="2008-12-31" class="form-control" id="exampleDate" aria-describedby="loginHelp" placeholder="Enter date" required>
                    </td>
   </tr>
   <tr>

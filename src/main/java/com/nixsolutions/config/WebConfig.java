@@ -27,6 +27,7 @@ import java.util.Properties;
         viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
+
     }
 
     @Bean public SessionFactory sessionFactory() {

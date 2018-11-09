@@ -150,10 +150,6 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
         return findByParameter(login, SELECT_BY_LOGIN_QUERY);
     }
 
-    @Override public User findByEmail(String email) {
-        return findByParameter(email, SELECT_BY_EMAIL_QUERY);
-    }
-
     public User findById(Long id) {
         return findByParameter(id, SELECT_BY_ID_QUERY);
     }

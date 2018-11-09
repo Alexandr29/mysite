@@ -27,14 +27,6 @@ import java.util.List;
         roleDao.remove(role);
     }
 
-    @Transactional(readOnly = true) public Role findByName(String name) {
-        return roleDao.findByName(name);
-    }
-
-    @Transactional(readOnly = true) public Role findById(Long id) {
-        return roleDao.findById(id);
-    }
-
     @Transactional(readOnly = true) public List<Role> findAll() {
         return roleDao.findAll();
 

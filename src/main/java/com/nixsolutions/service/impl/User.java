@@ -21,8 +21,6 @@ import java.util.Objects;
     @Column(name = "PASSWORD")
     private String password;
 
-    @Transient private String passwordagain;
-
     @NotBlank @Email @Column(name = "EMAIL")
     private String email;
 
@@ -51,13 +49,13 @@ import java.util.Objects;
         this.role_id = role_id;
     }
 
-    public String getPasswordagain() {
-        return passwordagain;
-    }
-
-    public void setPasswordagain(String passwordagain) {
-        this.passwordagain = passwordagain;
-    }
+//    public String getPasswordagain() {
+//        return passwordagain;
+//    }
+//
+//    public void setPasswordagain(String passwordagain) {
+//        this.passwordagain = passwordagain;
+//    }
 
     public Long getId() {
         return id;

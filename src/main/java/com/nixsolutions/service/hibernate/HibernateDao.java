@@ -52,9 +52,10 @@ import java.util.List;
 
     <T> void updateObject(T object) {
         try {
-            sessionFactory.getCurrentSession().merge(object);
+            sessionFactory.getCurrentSession().clear();
+            sessionFactory.getCurrentSession().update(object);
         } catch (Exception e) {
-            throw new RuntimeException(e.getCause());
+            throw new RuntimeException(e);
         }
     }
 

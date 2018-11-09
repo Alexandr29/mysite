@@ -10,10 +10,7 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -22,7 +19,7 @@ import java.util.Properties;
 @EnableWebMvc @Configuration @EnableTransactionManagement @ComponentScan({
         "com.nixsolutions.service.hibernate, com.nixsolutions.service.impl, com.nixsolutions.service, com.nixsolutions.controller" }) @Import({
         WebSecurityConfig.class }) public class WebConfig
-        extends WebMvcConfigurerAdapter {
+        implements WebMvcConfigurer {
 
     @Bean public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -30,16 +27,6 @@ import java.util.Properties;
         viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
-    }
-
-    @Override public void addResourceHandlers(
-            ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/WEB-INF/views/**")
-                .addResourceLocations("/WEB-INF/views/");
-    }
-
-    @Override public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new EncodingFilter()).addPathPatterns("/*");
     }
 
     @Bean public SessionFactory sessionFactory() {

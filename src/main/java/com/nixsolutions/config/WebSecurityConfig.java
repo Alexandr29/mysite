@@ -11,15 +11,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @Configuration @EnableWebSecurity public class WebSecurityConfig
         extends WebSecurityConfigurerAdapter {
 
-    @Autowired @Qualifier("userDetailsService") private UserDetailsService userDetailsService;
-
     @Override protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/", "/login", "/registration")
                 .permitAll()
                 .antMatchers("/edit", "/admin", "/edit/*", "/create", "/remove")
                 .hasAuthority("ADMIN").antMatchers("/user").hasAuthority("USER")
                 .and().formLogin().loginPage("/login")
-                .defaultSuccessUrl("/success").usernameParameter("login")
+                .defaultSuccessUrl("/enter").usernameParameter("login")
                 .passwordParameter("password").and().logout()
                 .logoutUrl("/logout").logoutSuccessUrl("/?logout=true")
                 .permitAll().and().csrf().disable();

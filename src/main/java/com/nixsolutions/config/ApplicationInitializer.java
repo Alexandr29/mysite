@@ -9,16 +9,16 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-public class ApplicationInitializer implements WebApplicationInitializer {
+public class ApplicationInitializer  implements WebApplicationInitializer {
 
     public void onStartup(ServletContext container) throws ServletException {
 
-        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-        ctx.register(WebConfig.class);
-        ctx.register(HibernateUtil.class);
-        ctx.setServletContext(container);
+        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+        context.register(WebConfig.class);
+        context.register(HibernateUtil.class);
+        context.setServletContext(container);
         ServletRegistration.Dynamic servlet = container
-                .addServlet("dispatcher", new DispatcherServlet(ctx));
+                .addServlet("dispatcher", new DispatcherServlet(context));
         servlet.setLoadOnStartup(1);
         servlet.addMapping("/");
     }

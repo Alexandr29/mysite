@@ -25,7 +25,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         return "login";
     }
 
-    @RequestMapping(method = GET, value = "/success") public ModelAndView login(
+    @RequestMapping(method = GET, value = "/enter") public ModelAndView login(
             Principal principal, HttpSession session, HttpServletRequest req) {
         ModelAndView modelAndViewUser = new ModelAndView("redirect:/user");
         ModelAndView modelAndViewAdmin = new ModelAndView("redirect:/admin");

@@ -48,13 +48,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         return "redirect:/login";
     }
 
-    @RequestMapping(method = GET, value = "/admin") public String showUsersTable(
-            Model model, HttpServletRequest req) {
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("login", req.getSession().getAttribute("firstname"));
-        return "admin";
-    }
-
     @RequestMapping(method = GET, value = "/error") public String showError() {
         return "redirect:/error";
     }

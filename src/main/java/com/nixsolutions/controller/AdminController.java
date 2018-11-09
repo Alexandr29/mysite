@@ -14,10 +14,19 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
 @Controller public class AdminController {
 
     @Autowired private UserService userService;
     @Autowired private RoleService roleService;
+
+    @GetMapping(value = "/admin") public String showUsersTable(
+            Model model, HttpServletRequest req) {
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("login", req.getSession().getAttribute("firstname"));
+        return "admin";
+    }
 
     @GetMapping(value = "/create") public String create(Model model) {
         model.addAttribute("roles", roleService.findAll());

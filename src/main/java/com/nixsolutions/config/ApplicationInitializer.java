@@ -10,9 +10,10 @@ import javax.servlet.ServletRegistration;
 
 public class ApplicationInitializer implements WebApplicationInitializer {
 
-    public void onStartup(ServletContext container) throws ServletException {
+    public void onStartup(ServletContext container) {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.register(WebConfig.class);
+        context.register(WebSecurityConfig.class);
         context.setServletContext(container);
         ServletRegistration.Dynamic servlet = container
                 .addServlet("dispatcher", new DispatcherServlet(context));

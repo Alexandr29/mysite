@@ -44,12 +44,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         return modelAndViewAdmin;
     }
 
-    @RequestMapping(method = GET, value = { "*/logout",
-            "/logout" }) public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/login";
-    }
-
     @RequestMapping(method = GET, value = "/admin") public String showUsersTable(
             Model model, HttpServletRequest req) {
         model.addAttribute("users", userService.findAll());

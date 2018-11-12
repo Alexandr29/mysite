@@ -17,8 +17,7 @@ import org.springframework.web.servlet.view.JstlView;
 import java.util.Properties;
 
 @EnableWebMvc @Configuration @EnableTransactionManagement @ComponentScan({
-        "com.nixsolutions.service.hibernate, com.nixsolutions.service.impl, com.nixsolutions.service, com.nixsolutions.controller" }) @Import({
-        WebSecurityConfig.class }) public class WebConfig
+        "com.nixsolutions.service.hibernate, com.nixsolutions.service.impl, com.nixsolutions.service, com.nixsolutions.controller" }) public class WebConfig
         implements WebMvcConfigurer {
 
     @Bean public InternalResourceViewResolver viewResolver() {

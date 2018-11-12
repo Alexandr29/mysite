@@ -11,11 +11,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Objects;
 
-@Repository public class HibernateRoleDao
-        extends HibernateDao implements RoleDao {
+@Repository public class HibernateRoleDao extends HibernateDao
+        implements RoleDao {
 
     @Override public void create(Role role) {
-        emptyFieldsChecker(role);
         Role roleChecker = findByName(role.getName());
         if (roleChecker != null) {
             throw new IllegalArgumentException(
@@ -26,7 +25,6 @@ import java.util.Objects;
     }
 
     @Override public void update(Role role) {
-        emptyFieldsChecker(role);
         if (findByName(role.getName()) != null) {
             throw new RuntimeException(role.toString() + "doesn't exist in DB");
         }
@@ -34,7 +32,6 @@ import java.util.Objects;
     }
 
     @Override public void remove(Role role) {
-        emptyFieldsChecker(role);
         if (findByName(role.getName()) == null) {
             throw new RuntimeException(role.toString() + "doesn't exist in DB");
         }
@@ -51,11 +48,5 @@ import java.util.Objects;
     @Override public List findAll() {
         String hql = "FROM Role";
         return findList(hql);
-    }
-
-    private void emptyFieldsChecker(Role role) {
-        if (role == null || role.getName() == null) {
-            throw new IllegalArgumentException("user has empty fields");
-        }
     }
 }

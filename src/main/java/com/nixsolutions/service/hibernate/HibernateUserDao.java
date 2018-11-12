@@ -6,15 +6,24 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository public class HibernateUserDao
-        extends HibernateDao implements UserDao {
+@Repository public class HibernateUserDao extends HibernateDao
+        implements UserDao {
+
+    @Override public User findByLogin(String login) {
+        String hql = "FROM User where login = :search_factor";
+        return (User) findObject(hql, login);
+    }
+
+    @Override public List<User> findAll() {
+        String hql = "FROM User";
+        return findList(hql);
+    }
 
     @Override public void create(User user) {
         User existUser = findByLogin(user.getLogin());
         if (existUser != null) {
             throw new IllegalArgumentException(
-                    "Login " + user.getLogin()
-                            + " already exists");
+                    "Login " + user.getLogin() + " already exists");
         }
         createObject(user);
     }
@@ -31,16 +40,6 @@ import java.util.List;
             throw new RuntimeException(user.toString() + "doesn't exist");
         }
         removeObject(user);
-    }
-
-    @Override public List<User> findAll() {
-        String hql = "FROM User";
-        return findList(hql);
-    }
-
-    @Override public User findByLogin(String login) {
-        String hql = "FROM User where login = :search_factor";
-        return (User) findObject(hql, login);
     }
 
 }

@@ -1,4 +1,5 @@
 package com.nixsolutions.tag;
+
 import com.nixsolutions.service.impl.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,11 +12,14 @@ import java.util.List;
 
 public class UserList extends TagSupport {
     private List<User> users;
-    @Override public int doStartTag() throws JspException {
+
+    @Override
+    public int doStartTag() throws JspException {
         pageContext.getRequest().getServerName();
         JspWriter out = pageContext.getOut();
         StringBuilder s = new StringBuilder();
-        s.append("<table id=\"mytable\" class=\"table table-striped\" border=\"1\">");
+        s.append(
+                "<table id=\"mytable\" class=\"table table-striped\" border=\"1\">");
         s.append("<thead>");
         s.append("<thead>");
         //s.append("<tr>");
@@ -58,28 +62,28 @@ public class UserList extends TagSupport {
             s.append(user.getLastName());
             s.append("</td>");
             s.append("<td>");
-            s.append(getAge(user.getBirthday().getYear(), new Date().getYear()));
+            s.append(
+                    getAge(user.getBirthday().getYear(), new Date().getYear()));
             s.append("</td>");
             s.append("<td>");
-            if (user.getRole_id()==1L){
+            if (user.getRole_id() == 1L) {
                 s.append("Admin");
-            }else s.append("User");
+            } else
+                s.append("User");
             s.append("</td>");
             s.append("<td>");
             s.append("<a href=\"" + ((HttpServletRequest) pageContext
-                    .getRequest()).getContextPath() + "/edit?logintoedit="
+                    .getRequest()).getContextPath() + "/edit/?logintoedit="
                     + user.getLogin()
-                    + "\"><img border=\"0\" src=\"images/edit.png\" width=\"30\" height=\"30\"></a>");
+                    + "\"><img alt = 'Edit' border=\"0\" src=\"images/edit.png\" width=\"30\" height=\"30\"></a>");
             s.append(" ");
             s.append("<a href=\"" + ((HttpServletRequest) pageContext
-                    .getRequest()).getContextPath() + "/delete?logintodelete="
+                    .getRequest()).getContextPath() + "/delete/?logintodelete="
                     + user.getLogin()
-                    + "\" onclick=\"return confirmDelete();\"> <img border=\"0\"  src=\"images/trash.jpg\" width=\"30\" height=\"30\"></a>");
+                    + "\" onclick=\"return confirmDelete();\"> <img alt = 'Delete' border=\"0\"  src=\"images/trash.jpg\" width=\"30\" height=\"30\"></a>");
             s.append("</td>");
             s.append("</tr>");
         }
-
-
 
         s.append("<tbody>");
         s.append("</table>");

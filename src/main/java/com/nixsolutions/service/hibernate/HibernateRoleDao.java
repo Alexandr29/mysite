@@ -4,81 +4,61 @@ import com.nixsolutions.service.dao.RoleDao;
 import com.nixsolutions.service.hibernate.HibernateDao;
 import com.nixsolutions.service.impl.Role;
 import com.nixsolutions.service.impl.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Objects;
 
-public class HibernateRoleDao implements RoleDao {
-
-    private HibernateDao hibernateDao = new HibernateDao();
+@Repository
+public class HibernateRoleDao extends HibernateDao
+        implements RoleDao {
 
     @Override
     public void create(Role role) {
-        emptyFieldsChecker(role);
         Role roleChecker = findByName(role.getName());
         if (roleChecker != null) {
-            throw new IllegalArgumentException("Role with rolename " + role.getName()
-                    + " already exists in DB");
+            throw new IllegalArgumentException(
+                    "Role with rolename " + role.getName()
+                            + " already exists in DB");
         }
-        try {
-            hibernateDao.createObject(role);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        createObject(role);
     }
 
     @Override
     public void update(Role role) {
-        emptyFieldsChecker(role);
         if (findByName(role.getName()) != null) {
             throw new RuntimeException(role.toString() + "doesn't exist in DB");
         }
-        try {
-            hibernateDao.updateObject(role);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        updateObject(role);
     }
 
     @Override
     public void remove(Role role) {
-        emptyFieldsChecker(role);
         if (findByName(role.getName()) == null) {
             throw new RuntimeException(role.toString() + "doesn't exist in DB");
         }
-        try {
-            hibernateDao.removeObject(role);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        removeObject(role);
     }
 
     @Override
     public Role findByName(String name) {
         Objects.requireNonNull(name);
         String hql = "FROM Role R WHERE R.rolename = :search_factor";
-        Role result = null;
-        try {
-            result = (Role) hibernateDao.findObject(hql, name);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Role result = (Role) findObject(hql, name);
         return result;
     }
 
-    private void emptyFieldsChecker(Role role) {
-        if (role == null || role.getName() == null) {
-            throw new IllegalArgumentException("user has empty fields");
-        }
+    @Override
+    public List findAll() {
+        String hql = "FROM Role";
+        return findList(hql);
     }
 
-
-    public List<Role> findAll() {
-        String hql = "FROM Role";
-        try {
-            return hibernateDao.findList(hql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }return null;
+    @Override public Role findById(Long id) {
+        String hql = "FROM Role R WHERE R.id = :search_factor";
+        Role result = (Role) findORoleById(hql, id);
+        return result;
     }
 }

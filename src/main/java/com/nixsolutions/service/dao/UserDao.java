@@ -9,11 +9,9 @@ public interface UserDao {
 
     void update(User user);
 
-    void remove(User user) throws RuntimeException;
+    void remove(User user);
 
     List findAll();
 
     User findByLogin(String login);
-
-    User findByEmail(String email);
 }

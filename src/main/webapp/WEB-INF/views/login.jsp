@@ -11,9 +11,10 @@
     </head>
     <body>
 <div class="alert alert-primary" role="alert">
-          <c:out value="${errorMessage}"/>
+          <c:out value="${error}"/>
         </div>
-        <form method="post" action="/login" class="needs-validation" novalidate>
+         <c:url value="/login" var="loginUrl" />
+        <form method="post" action="${loginUrl}" class="needs-validation" novalidate>
 
 
 
@@ -42,6 +43,7 @@
               </div>
               <div class="col-md-4 mb-3">
             <button type="submit" class="btn btn-primary">Log In</button>
+              <a href="/registration"> Register</a>
             </div>
         </form>
         <script>

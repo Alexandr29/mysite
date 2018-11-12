@@ -11,10 +11,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Objects;
 
-@Repository public class HibernateRoleDao extends HibernateDao
+@Repository
+public class HibernateRoleDao extends HibernateDao
         implements RoleDao {
 
-    @Override public void create(Role role) {
+    @Override
+    public void create(Role role) {
         Role roleChecker = findByName(role.getName());
         if (roleChecker != null) {
             throw new IllegalArgumentException(
@@ -24,28 +26,32 @@ import java.util.Objects;
         createObject(role);
     }
 
-    @Override public void update(Role role) {
+    @Override
+    public void update(Role role) {
         if (findByName(role.getName()) != null) {
             throw new RuntimeException(role.toString() + "doesn't exist in DB");
         }
         updateObject(role);
     }
 
-    @Override public void remove(Role role) {
+    @Override
+    public void remove(Role role) {
         if (findByName(role.getName()) == null) {
             throw new RuntimeException(role.toString() + "doesn't exist in DB");
         }
         removeObject(role);
     }
 
-    @Override public Role findByName(String name) {
+    @Override
+    public Role findByName(String name) {
         Objects.requireNonNull(name);
         String hql = "FROM Role R WHERE R.rolename = :search_factor";
         Role result = (Role) findObject(hql, name);
         return result;
     }
 
-    @Override public List findAll() {
+    @Override
+    public List findAll() {
         String hql = "FROM Role";
         return findList(hql);
     }

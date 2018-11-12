@@ -11,23 +11,30 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service @EnableTransactionManagement public class RoleService {
+@Service
+@EnableTransactionManagement
+public class RoleService {
 
-    @Autowired private RoleDao roleDao;
+    @Autowired
+    private RoleDao roleDao;
 
-    @Transactional public void create(Role role) {
+    @Transactional
+    public void create(Role role) {
         roleDao.create(role);
     }
 
-    @Transactional public void update(Role role) {
+    @Transactional
+    public void update(Role role) {
         roleDao.update(role);
     }
 
-    @Transactional public void remove(Role role) {
+    @Transactional
+    public void remove(Role role) {
         roleDao.remove(role);
     }
 
-    @Transactional(readOnly = true) public List<Role> findAll() {
+    @Transactional(readOnly = true)
+    public List<Role> findAll() {
         return roleDao.findAll();
 
     }

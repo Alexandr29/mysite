@@ -8,16 +8,20 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@RequestMapping("/user") @Controller public class UserController {
+@RequestMapping("/user")
+@Controller
+public class UserController {
 
-    @RequestMapping(method = RequestMethod.GET) protected ModelAndView userGet(
+    @RequestMapping(method = RequestMethod.GET)
+    protected ModelAndView userGet(
             HttpServletRequest req, HttpServletResponse resp) {
         req.setAttribute("login", req.getSession().getAttribute("firstName"));
         req.setAttribute("lastName", req.getSession().getAttribute("lastName"));
         return new ModelAndView("user");
     }
 
-    @RequestMapping(method = RequestMethod.POST) protected ModelAndView userPost(
+    @RequestMapping(method = RequestMethod.POST)
+    protected ModelAndView userPost(
             HttpServletRequest req, HttpServletResponse resp) {
         ModelAndView modelAndView = new ModelAndView("redirect:/user");
         modelAndView.addObject("login", req.getSession().getAttribute("login"));

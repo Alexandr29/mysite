@@ -14,17 +14,22 @@ import java.security.Principal;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-@Controller public class LoginController {
+@Controller
+public class LoginController {
 
-    @Autowired private UserService userService;
-    @Autowired private RoleService roleService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     @RequestMapping(method = RequestMethod.GET, value = { "login",
-            "/" }) public String showLoginPage(HttpSession session) {
+            "/" })
+    public String showLoginPage(HttpSession session) {
         return "login";
     }
 
-    @RequestMapping(method = GET, value = "/enter") public ModelAndView login(
+    @RequestMapping(method = GET, value = "/enter")
+    public ModelAndView login(
             Principal principal, HttpSession session, HttpServletRequest req) {
         ModelAndView modelAndViewUser = new ModelAndView("redirect:/user");
         ModelAndView modelAndViewAdmin = new ModelAndView("redirect:/admin");
@@ -41,13 +46,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         return modelAndViewAdmin;
     }
 
-    @RequestMapping(method = GET, value = { "*/logout",
-            "/logout" }) public String logout(HttpSession session) {
+    @RequestMapping(method = GET, value = { "*/logout", "/logout" })
+    public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
     }
 
-    @RequestMapping(method = GET, value = "/error") public String showError() {
+    @RequestMapping(method = GET, value = "/error")
+    public String showError() {
         return "redirect:/error";
     }
 }

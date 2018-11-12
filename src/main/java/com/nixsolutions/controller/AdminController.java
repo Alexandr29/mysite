@@ -15,24 +15,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 
-@Controller public class AdminController {
+@Controller
+public class AdminController {
 
-    @Autowired private UserService userService;
-    @Autowired private RoleService roleService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
-    @GetMapping(value = "/admin") public String showUsersTable(
+    @GetMapping(value = "/admin")
+    public String showUsersTable(
             Model model, HttpServletRequest req) {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("login", req.getSession().getAttribute("firstname"));
         return "admin";
     }
 
-    @GetMapping(value = "/create") public String create(Model model) {
+    @GetMapping(value = "/create")
+    public String create(Model model) {
         model.addAttribute("roles", roleService.findAll());
         return "create";
     }
 
-    @PostMapping("/create") protected String create(@Valid User user,
+    @PostMapping("/create")
+    protected String create(@Valid User user,
             BindingResult bindingResult, Model model,
             @RequestParam("passwordagain") String passwordAgain) {
 
@@ -63,12 +69,14 @@ import javax.validation.Valid;
         return "admin";
     }
 
-    @GetMapping(value = "/registration") public String showRegistration(
+    @GetMapping(value = "/registration")
+    public String showRegistration(
             Model model) {
         return "Registration";
     }
 
-    @PostMapping("/registration") protected String registrarton(
+    @PostMapping("/registration")
+    protected String registrarton(
             @Valid User user, BindingResult bindingResult, Model model,
             @RequestParam("passwordagain") String passwordAgain) {
 
@@ -100,7 +108,8 @@ import javax.validation.Valid;
         return "login";
     }
 
-    @GetMapping(value = "/edit") public String edit(Model model,
+    @GetMapping(value = "/edit")
+    public String edit(Model model,
             @ModelAttribute("logintoedit") String login) {
         User user = userService.findByLogin(login);
         model.addAttribute("login", user.getLogin());
@@ -109,7 +118,8 @@ import javax.validation.Valid;
         return "edit";
     }
 
-    @PostMapping("/edit") protected String edit(@Valid User user,
+    @PostMapping("/edit")
+    protected String edit(@Valid User user,
             BindingResult bindingResult, Model model,
             @RequestParam("passwordagain") String passwordAgain) {
         String login = user.getLogin();
@@ -148,14 +158,14 @@ import javax.validation.Valid;
         return true;
     }
 
-    @GetMapping(value = "/delete") public ModelAndView delete(
+    @GetMapping(value = "/delete")
+    public ModelAndView delete(
             HttpServletRequest req) {
         ModelAndView modelAndView = new ModelAndView("redirect:/admin");
         String logintodelete = req.getParameter("logintodelete");
         User user = userService.findByLogin(logintodelete);
         userService.remove(logintodelete);
         modelAndView.addObject("users", userService.findAll());
-
         return modelAndView;
     }
 }

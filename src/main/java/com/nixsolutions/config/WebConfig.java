@@ -16,11 +16,17 @@ import org.springframework.web.servlet.view.JstlView;
 
 import java.util.Properties;
 
-@EnableWebMvc @Configuration @EnableTransactionManagement @ComponentScan({
-        "com.nixsolutions.service.hibernate, com.nixsolutions.service.impl, com.nixsolutions.service, com.nixsolutions.controller" }) public class WebConfig
+@EnableWebMvc
+@Configuration
+@EnableTransactionManagement
+@ComponentScan({
+        "com.nixsolutions.service.hibernate, com.nixsolutions.service.impl, "
+                + "com.nixsolutions.service, com.nixsolutions.controller" })
+public class WebConfig
         implements WebMvcConfigurer {
 
-    @Bean public InternalResourceViewResolver viewResolver() {
+    @Bean
+    public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setViewClass(JstlView.class);
         viewResolver.setPrefix("/WEB-INF/views/");
@@ -29,7 +35,8 @@ import java.util.Properties;
 
     }
 
-    @Bean public SessionFactory sessionFactory() {
+    @Bean
+    public SessionFactory sessionFactory() {
         LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(
                 dataSource());
         builder.scanPackages("com.nixsolutions.service.impl")
@@ -45,9 +52,8 @@ import java.util.Properties;
         prop.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         return prop;
     }
-
-    @Bean(name = "dataSource") public BasicDataSource dataSource() {
-
+    @Bean(name = "dataSource")
+    public BasicDataSource dataSource() {
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName("org.h2.Driver");
         ds.setUrl("jdbc:h2:~/USER");
@@ -56,7 +62,8 @@ import java.util.Properties;
         return ds;
     }
 
-    @Bean public HibernateTransactionManager transactionManager() {
+    @Bean
+    public HibernateTransactionManager transactionManager() {
         return new HibernateTransactionManager(sessionFactory());
     }
 }

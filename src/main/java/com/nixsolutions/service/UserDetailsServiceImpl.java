@@ -7,12 +7,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service public class UserDetailsServiceImpl implements
+@Service
+public class UserDetailsServiceImpl implements
         org.springframework.security.core.userdetails.UserDetailsService {
 
-    @Autowired private UserService userService;
+    @Autowired
+    private UserService userService;
 
-    @Transactional @Override public UserDetails loadUserByUsername(String s)
+    @Transactional
+    @Override
+    public UserDetails loadUserByUsername(String s)
             throws UsernameNotFoundException {
         User user = userService.findByLogin(s);
         org.springframework.security.core.userdetails.User.UserBuilder builder = null;

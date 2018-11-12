@@ -72,11 +72,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     @Test public void editGet() throws Exception {
         String login = "admin";
-        when(mockUserService.findByLogin("login")).thenReturn(user);
-        when(model.addAttribute("login",user.getLogin())).thenReturn(model);
+        //when(mockUserService.findByLogin("login")).thenReturn(user);
+        //when(model.addAttribute("login",user.getLogin())).thenReturn(model);
         this.mockMvc.perform(get("/edit/?logintoedit=" + login))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin"))
+                //.andExpect(model)
                 .andDo(print());
 
     }

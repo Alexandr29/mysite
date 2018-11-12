@@ -58,6 +58,7 @@ public class AdminController {
             model.addAttribute("error",
                     bindingResult.getFieldError().getDefaultMessage());
             model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("user",user);
             return "create";
         }
         try {

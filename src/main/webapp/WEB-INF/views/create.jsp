@@ -26,44 +26,44 @@
     <tr>
         <td align="right">Login</td>
         <td>
-         <input name="login" type="login" class="form-control ntSaveForms" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter login" required>
+         <input name="login" type="login" value="${user.login}" class="form-control ntSaveForms" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter login" required>
          </td>
     </tr>
     <tr>
             <td align="right">Password</td>
             <td>
-             <input name="password" type="password" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password" required>
+             <input name="password"  type="password" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password" required>
              </td>
      </tr>
      <tr>
                  <td align="right">Password again</td>
                  <td>
-                  <input name="passwordagain" type="password" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password" required>
+                  <input name="passwordagain"  type="password" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter password" required>
                   </td>
  </tr>
 
   <tr>
                   <td align="right">First Name</td>
                   <td>
-                   <input name="firstName" type="text" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname" required>
+                   <input name="firstName" value="${user.firstName}" type="text" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter firstname" required>
                    </td>
   </tr>
 <tr>
                   <td align="right">Last Name</td>
                   <td>
-                   <input name="lastName" type="text" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter lastname" required>
+                   <input name="lastName" value="${user.lastName}" type="text" class="form-control" id="exampleLogin" aria-describedby="loginHelp" placeholder="Enter lastname" required>
                    </td>
   </tr>
   <tr>
                     <td align="right">Email</td>
                     <td>
-                     <input name="email" type="email" class="form-control" id="exampleEmail" aria-describedby="EmailHelp" placeholder="Enter email" required>
+                     <input name="email" value="${user.email}" type="email" class="form-control" id="exampleEmail" aria-describedby="EmailHelp" placeholder="Enter email" required>
                      </td>
     </tr>
  <tr>
                   <td align="right">Birth date</td>
                   <td>
-                   <input name="birthday" type="date" min="1920-01-01" max="2008-12-31" class="form-control" id="exampleDate" aria-describedby="loginHelp" placeholder="Enter date" required>
+                   <input name="birthday" value="${user.birthday}" type="date" min="1920-01-01" max="2008-12-31" class="form-control" id="exampleDate" aria-describedby="loginHelp" placeholder="Enter date" required>
                    </td>
   </tr>
   <tr>

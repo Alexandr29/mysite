@@ -69,7 +69,6 @@
 
    <tr>
                <td align="right">Role</td>
-               <c:out value="${role}"/>
      <td><select name="role_id" class="selectpicker">
             <option value="${role}" selected ><c:out value="${rolename}"/></option>
      <c:forEach items="${roles}" var="role">

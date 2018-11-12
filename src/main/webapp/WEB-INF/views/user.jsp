@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     </head>
           <body>
-          <h1 align="center">Hello <c:out value="${login}"/>  <h4 align="center"><a href="/logout">Logout</a><h4></h1>
+          <h1 align="center">Hello <c:out value="${firstName}, ${lastName}"/>  <h4 align="center"><a href="/logout">Logout</a><h4></h1>
 
           </body>
           </html>

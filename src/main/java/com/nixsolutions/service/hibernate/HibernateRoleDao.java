@@ -55,4 +55,10 @@ public class HibernateRoleDao extends HibernateDao
         String hql = "FROM Role";
         return findList(hql);
     }
+
+    @Override public Role findById(Long id) {
+        String hql = "FROM Role R WHERE R.id = :search_factor";
+        Role result = (Role) findORoleById(hql, id);
+        return result;
+    }
 }

@@ -38,4 +38,8 @@ public class RoleService {
         return roleDao.findAll();
 
     }
+    @Transactional(readOnly = true)
+    public Role findById(Long id) {
+        return roleDao.findById(id);
+    }
 }

@@ -2,6 +2,7 @@ package com.nixsolutions.controller;
 
 import com.nixsolutions.service.RoleService;
 import com.nixsolutions.service.UserService;
+import com.nixsolutions.service.impl.Role;
 import com.nixsolutions.service.impl.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
+import java.util.List;
 
 @Controller
 public class AdminController {
@@ -113,8 +114,13 @@ public class AdminController {
             @ModelAttribute("logintoedit") String login) {
         User user = userService.findByLogin(login);
         model.addAttribute("login", user.getLogin());
+        model.addAttribute("role", roleService.findById(user.getRole_id()).getId());
+        model.addAttribute("rolename", roleService.findById(user.getRole_id()).getName());
         model.addAttribute("user", user);
-        model.addAttribute("roles", roleService.findAll());
+        List<Role> list = roleService.findAll();
+        list.remove(roleService.findById(user.getRole_id()));
+        model.addAttribute("roles", list);
+        System.out.println(list);
         return "edit";
     }
 

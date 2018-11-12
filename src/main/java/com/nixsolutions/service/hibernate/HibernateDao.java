@@ -53,6 +53,20 @@ class HibernateDao {
             throw new RuntimeException(e);
         }
     }
+    Object findORoleById(String hql, Long id) {
+        Object obj;
+        try {
+            Query query = sessionFactory.getCurrentSession().createQuery(hql);
+            query.setParameter("search_factor", id);
+            if (query.list().isEmpty()) {
+                return null;
+            }
+            obj = query.getSingleResult();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return obj;
+    }
 
     Object findObject(String hql, String searchValue) {
         Object obj;

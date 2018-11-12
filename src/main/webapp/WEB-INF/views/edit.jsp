@@ -69,11 +69,12 @@
 
    <tr>
                <td align="right">Role</td>
+               <c:out value="${role}"/>
      <td><select name="role_id" class="selectpicker">
-
+            <option value="${role}" selected ><c:out value="${rolename}"/></option>
      <c:forEach items="${roles}" var="role">
-                            <option selected="user.role_id" value="${role.id}"><c:out value="${role.name}"/></option>
-                          </c:forEach>
+            <option value="${role.id}"><c:out value="${role.name}"/></option>
+     </c:forEach>
          </select>
                         </td>
        </tr>

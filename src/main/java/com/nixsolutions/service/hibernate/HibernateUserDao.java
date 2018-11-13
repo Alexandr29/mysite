@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class HibernateUserDao extends HibernateDao
-        implements UserDao {
+public class HibernateUserDao extends HibernateDao implements UserDao {
 
     @Override
     public User findByLogin(String login) {

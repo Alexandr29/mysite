@@ -22,7 +22,6 @@ public class UserController {
     protected ModelAndView userPost(
             HttpServletRequest req, HttpServletResponse resp) {
         ModelAndView modelAndView = new ModelAndView("redirect:/user");
-        //modelAndView.addObject("login", req.getSession().getAttribute("login"));
         return modelAndView;
     }
 

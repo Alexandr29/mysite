@@ -22,8 +22,7 @@ import java.util.Properties;
 @ComponentScan({
         "com.nixsolutions.service.hibernate, com.nixsolutions.service.impl, "
                 + "com.nixsolutions.service, com.nixsolutions.controller" })
-public class WebConfig
-        implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public InternalResourceViewResolver viewResolver() {
@@ -41,7 +40,6 @@ public class WebConfig
                 dataSource());
         builder.scanPackages("com.nixsolutions.service.impl")
                 .addProperties(hibernateProperties());
-
         return builder.buildSessionFactory();
     }
 

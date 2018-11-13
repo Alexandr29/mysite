@@ -22,8 +22,7 @@ public class LoginController {
     @Autowired
     private RoleService roleService;
 
-    @RequestMapping(method = RequestMethod.GET, value = { "login",
-            "/" })
+    @RequestMapping(method = RequestMethod.GET, value = { "login", "/" })
     public String showLoginPage(HttpSession session) {
         return "login";
     }
@@ -35,14 +34,13 @@ public class LoginController {
         ModelAndView modelAndViewAdmin = new ModelAndView("redirect:/admin");
         String login = principal.getName();
         User userDB = userService.findByLogin(login);
-        if (userDB.getRole_id() == 2L) {
+        if (userDB.getRoleId() == 2L) {
             session.setAttribute("firstName", userDB.getFirstName());
             session.setAttribute("lastName", userDB.getLastName());
             return modelAndViewUser;
         }
         session.setAttribute("firstName", userDB.getFirstName());
         session.setAttribute("lastName", userDB.getLastName());
-
         return modelAndViewAdmin;
     }
 

@@ -28,7 +28,6 @@ public class AdminController {
     public String showUsersTable(
             Model model, HttpServletRequest req) {
         model.addAttribute("users", userService.findAll());
-        model.addAttribute("login", req.getSession().getAttribute("firstname"));
         return "admin";
     }
 
@@ -53,7 +52,6 @@ public class AdminController {
                     "password", "password not equals");
             bindingResult.addError(passwordNotEquals);
         }
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("error",
                     bindingResult.getFieldError().getDefaultMessage());
@@ -100,7 +98,7 @@ public class AdminController {
         }
 
         try {
-            user.setRole_id(2L);
+            user.setRoleId(2L);
             userService.create(user);
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(e.getCause());
@@ -115,11 +113,11 @@ public class AdminController {
             @ModelAttribute("logintoedit") String login) {
         User user = userService.findByLogin(login);
         model.addAttribute("login", user.getLogin());
-        model.addAttribute("role", roleService.findById(user.getRole_id()).getId());
-        model.addAttribute("rolename", roleService.findById(user.getRole_id()).getName());
+        model.addAttribute("role", roleService.findById(user.getRoleId()).getId());
+        model.addAttribute("rolename", roleService.findById(user.getRoleId()).getName());
         model.addAttribute("user", user);
         List<Role> list = roleService.findAll();
-        list.remove(roleService.findById(user.getRole_id()));
+        list.remove(roleService.findById(user.getRoleId()));
         model.addAttribute("roles", list);
         return "edit";
     }

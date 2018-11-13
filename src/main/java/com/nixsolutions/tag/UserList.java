@@ -66,7 +66,7 @@ public class UserList extends TagSupport {
                     getAge(user.getBirthday().getYear(), new Date().getYear()));
             s.append("</td>");
             s.append("<td>");
-            if (user.getRole_id() == 1L) {
+            if (user.getRoleId() == 1L) {
                 s.append("Admin");
             } else
                 s.append("User");

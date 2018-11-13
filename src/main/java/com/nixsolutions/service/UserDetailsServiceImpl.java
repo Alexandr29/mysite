@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements
                     .withUsername(s);
             builder.password(user.getPassword());
             String authorities;
-            if (user.getRole_id().equals(1L)) {
+            if (user.getRoleId().equals(1L)) {
                 authorities = "ADMIN";
             } else {
                 authorities = "USER";

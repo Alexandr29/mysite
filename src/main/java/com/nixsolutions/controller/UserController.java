@@ -15,8 +15,6 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET)
     protected ModelAndView userGet(
             HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute("login", req.getSession().getAttribute("firstName"));
-        req.setAttribute("lastName", req.getSession().getAttribute("lastName"));
         return new ModelAndView("user");
     }
 
@@ -24,7 +22,7 @@ public class UserController {
     protected ModelAndView userPost(
             HttpServletRequest req, HttpServletResponse resp) {
         ModelAndView modelAndView = new ModelAndView("redirect:/user");
-        modelAndView.addObject("login", req.getSession().getAttribute("login"));
+        //modelAndView.addObject("login", req.getSession().getAttribute("login"));
         return modelAndView;
     }
 

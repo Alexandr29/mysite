@@ -31,14 +31,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebAppConfiguration @RunWith(MockitoJUnitRunner.class) @ContextConfiguration(classes = {
+@WebAppConfiguration
+@RunWith(MockitoJUnitRunner.class)
+@ContextConfiguration(classes = {
         WebConfig.class, SpringSecurityInitializer.class,
-        WebSecurityConfig.class }) public class UserControllerTest {
+        WebSecurityConfig.class })
+public class UserControllerTest {
     private MockMvc mockMvc;
 
-    @InjectMocks UserController userController;
+    @InjectMocks
+    UserController userController;
 
-    @Before public void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setPrefix("/WEB-INF/views/");
@@ -47,12 +52,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .setViewResolvers(viewResolver).build();
     }
 
-    @Test public void userGet() throws Exception {
+    @Test
+    public void userGet() throws Exception {
         this.mockMvc.perform(get("/user"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
-    @Test public void userPost() throws Exception {
+    @Test
+    public void userPost() throws Exception {
         this.mockMvc.perform(post("/user"))
                 .andExpect(status().is3xxRedirection())
                 .andDo(print());

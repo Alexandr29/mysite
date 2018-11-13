@@ -15,17 +15,21 @@ import java.security.Principal;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-@Controller public class LoginController {
+@Controller
+public class LoginController {
 
-    @Autowired private UserService userService;
-    @Autowired private RoleService roleService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
-    @RequestMapping(method = RequestMethod.GET, value = { "login",
-            "/" }) public String showLoginPage(HttpSession session) {
+    @RequestMapping(method = RequestMethod.GET, value = { "login", "/" })
+    public String showLoginPage(HttpSession session) {
         return "login";
     }
 
-    @RequestMapping(method = GET, value = "/success") public ModelAndView login(
+    @RequestMapping(method = GET, value = "/success")
+    public ModelAndView login(
             Principal principal, HttpSession session, HttpServletRequest req) {
         ModelAndView modelAndViewUser = new ModelAndView("redirect:/user");
         ModelAndView modelAndViewAdmin = new ModelAndView("redirect:/admin");
@@ -44,7 +48,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         return modelAndViewAdmin;
     }
 
-    @RequestMapping(method = GET, value = "/admin") public String showUsersTable(
+    @RequestMapping(method = GET, value = "/admin")
+    public String showUsersTable(
             Model model, HttpServletRequest req) {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("login", req.getSession().getAttribute("firstname"));

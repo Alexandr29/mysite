@@ -13,7 +13,8 @@ import java.util.List;
 public class UserList extends TagSupport {
     private List<User> users;
 
-    @Override public int doStartTag() throws JspException {
+    @Override
+    public int doStartTag() throws JspException {
         pageContext.getRequest().getServerName();
         JspWriter out = pageContext.getOut();
         StringBuilder s = new StringBuilder();

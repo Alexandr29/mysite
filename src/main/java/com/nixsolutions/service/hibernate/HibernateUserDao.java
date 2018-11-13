@@ -8,10 +8,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Objects;
 
-@Repository @Qualifier("hibernate") public class HibernateUserDao
+@Repository
+@Qualifier("hibernate")
+public class HibernateUserDao
         extends HibernateDao implements UserDao {
 
-    @Override public void create(User user) {
+    @Override
+    public void create(User user) {
         emptyFieldsChecker(user);
         User userChecker = findByLogin(user.getLogin());
         if (userChecker != null) {
@@ -22,7 +25,8 @@ import java.util.Objects;
         createObject(user);
     }
 
-    @Override public void update(User user) {
+    @Override
+    public void update(User user) {
         emptyFieldsChecker(user);
         if (findByLogin(user.getLogin()) == null) {
             throw new RuntimeException(user.toString() + "doesn't exist in DB");
@@ -30,7 +34,8 @@ import java.util.Objects;
         updateObject(user);
     }
 
-    @Override public void remove(User user) {
+    @Override
+    public void remove(User user) {
         Objects.requireNonNull(user.getLogin());
         if (findByLogin(user.getLogin()) == null) {
             throw new RuntimeException(user.toString() + "doesn't exist in DB");
@@ -38,18 +43,21 @@ import java.util.Objects;
         removeObject(user);
     }
 
-    @Override public List<User> findAll() {
+    @Override
+    public List<User> findAll() {
         String hql = "FROM User";
         return findList(hql);
     }
 
-    @Override public User findByLogin(String login) {
+    @Override
+    public User findByLogin(String login) {
         Objects.requireNonNull(login);
         String hql = "FROM User where login = :search_factor";
         return (User) findObject(hql, login);
     }
 
-    @Override public User findByEmail(String email) {
+    @Override
+    public User findByEmail(String email) {
         Objects.requireNonNull(email);
         String hql = "FROM User U WHERE U.email = :search_factor";
         return (User) findObject(hql, email);

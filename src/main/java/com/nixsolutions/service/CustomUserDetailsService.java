@@ -22,12 +22,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 
-@Service("userDetailsService") public class CustomUserDetailsService
+@Service("userDetailsService")
+public class CustomUserDetailsService
         implements UserDetailsService {
 
-    @Autowired private UserService userService;
+    @Autowired
+    private UserService userService;
 
-    @Transactional @Override public UserDetails loadUserByUsername(String s)
+    @Transactional
+    @Override
+    public UserDetails loadUserByUsername(String s)
             throws UsernameNotFoundException {
         User user = userService.findByLogin(s);
 

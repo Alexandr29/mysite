@@ -16,15 +16,19 @@ import javax.validation.Valid;
 
 @Controller public class AdminController {
 
-    @Autowired private UserService userService;
-    @Autowired private RoleService roleService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
-    @GetMapping(value = "/create") public String create(Model model) {
+    @GetMapping(value = "/create")
+    public String create(Model model) {
         model.addAttribute("roles", roleService.findAll());
         return "create";
     }
 
-    @PostMapping("/create") protected String create(@Valid User user,
+    @PostMapping("/create")
+    protected String create(@Valid User user,
             BindingResult bindingResult, Model model) {
 
         if (!isValidLogin(user)) {
@@ -54,12 +58,14 @@ import javax.validation.Valid;
         return "admin";
     }
 
-    @GetMapping(value = "/registration") public String showRegistration(
+    @GetMapping(value = "/registration")
+    public String showRegistration(
             Model model) {
         return "Registration";
     }
 
-    @PostMapping("/registration") protected String registrarton(
+    @PostMapping("/registration")
+    protected String registrarton(
             @Valid User user, BindingResult bindingResult, Model model) {
 
         if (!isValidLogin(user)) {
@@ -90,7 +96,8 @@ import javax.validation.Valid;
         return "login";
     }
 
-    @GetMapping(value = "/edit") public String edit(Model model,
+    @GetMapping(value = "/edit")
+    public String edit(Model model,
             @ModelAttribute("logintoedit") String login) {
         User user = userService.findByLogin(login);
         model.addAttribute("login", user.getLogin());
@@ -99,7 +106,8 @@ import javax.validation.Valid;
         return "edit";
     }
 
-    @PostMapping("/edit") protected String edit(@Valid User user,
+    @PostMapping("/edit")
+    protected String edit(@Valid User user,
             BindingResult bindingResult, Model model) {
         String login = user.getLogin();
         User user1 = userService.findByLogin(login);
@@ -141,7 +149,8 @@ import javax.validation.Valid;
         return (!user.getPassword().equals(user.getPasswordagain()));
     }
 
-    @RequestMapping(value = "/delete/*", method = RequestMethod.GET) public ModelAndView delete(
+    @RequestMapping(value = "/delete/*", method = RequestMethod.GET)
+    public ModelAndView delete(
             HttpServletRequest req) {
         ModelAndView modelAndView = new ModelAndView("redirect:/admin");
         String logintodelete = req.getParameter("logintodelete");

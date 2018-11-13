@@ -43,22 +43,30 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebAppConfiguration @RunWith(MockitoJUnitRunner.class) @ContextConfiguration(classes = {
+@WebAppConfiguration
+@RunWith(MockitoJUnitRunner.class)
+@ContextConfiguration(classes = {
         WebConfig.class, SpringSecurityInitializer.class,
-        WebSecurityConfig.class }) public class LoginControllerTest {
+        WebSecurityConfig.class })
+public class LoginControllerTest {
 
-    @Mock UserService userService;
-    @Mock User user;
-    @Mock Principal principal;
+    @Mock
+    UserService userService;
+    @Mock
+    User user;
+    @Mock
+    Principal principal;
 
-    @InjectMocks LoginController controller;
+    @InjectMocks
+    LoginController controller;
 
     HttpSession session = mock(HttpSession.class);
 
     private MockMvc mockMvc;
     Authentication authentication;
 
-    @Before public void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setPrefix("/WEB-INF/views/");
@@ -67,12 +75,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .setViewResolvers(viewResolver).build();
     }
 
-    @Test public void showLoginPage() throws Exception {
+    @Test
+    public void showLoginPage() throws Exception {
         this.mockMvc.perform(get("/")).andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/views/login.jsp")).andDo(print());
     }
 
-    @Test public void login() throws Exception {
+    @Test
+    public void login() throws Exception {
         when(userService.findByLogin(anyString())).thenReturn(user);
         Principal mockPrincipal = Mockito.mock(Principal.class);
         Mockito.when(mockPrincipal.getName()).thenReturn("admin");
@@ -81,7 +91,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .andDo(print());
     }
 
-    @Test public void admin() throws Exception {
+    @Test
+    public void admin() throws Exception {
         this.mockMvc.perform(get("/admin")).andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/views/admin.jsp"))
                 .andDo(print());

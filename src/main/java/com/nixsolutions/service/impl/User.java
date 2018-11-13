@@ -8,12 +8,16 @@ import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Objects;
 
-@Entity @Table(name = "USER") public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Entity
+@Table(name = "USER")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")
     private Long id;
 
-    @NotBlank @Size(min = 4, max = 40, message = "login should be from 4 to 40 symbols")
+    @NotBlank
+    @Size(min = 4, max = 40, message = "login should be from 4 to 40 symbols")
     @Column(name = "LOGIN")
     private String login;
 
@@ -21,21 +25,29 @@ import java.util.Objects;
     @Column(name = "PASSWORD")
     private String password;
 
-    @Transient private String passwordagain;
+    @Transient
+    private String passwordagain;
 
-    @NotBlank @Email @Column(name = "EMAIL")
+    @NotBlank
+    @Email
+    @Column(name = "EMAIL")
     private String email;
 
-    @NotBlank @Size(min = 2, max = 30, message = "Enter valid First name")
+    @NotBlank
+    @Size(min = 2, max = 30, message = "Enter valid First name")
     @Column(name = "FIRSTNAME")
     private String firstName;
 
-    @NotBlank @Size(min = 2, max = 30, message = "Enter valid Last name")
-    @Column(name = "LASTNAME") private String lastName;
+    @NotBlank
+    @Size(min = 2, max = 30, message = "Enter valid Last name")
+    @Column(name = "LASTNAME")
+    private String lastName;
 
-    @Column(name = "date") private Date birthday;
+    @Column(name = "date")
+    private Date birthday;
 
-    @Column(name = "role_id") private Long role_id;
+    @Column(name = "role_id")
+    private Long role_id;
 
     public User() {
     }
@@ -123,14 +135,16 @@ import java.util.Objects;
         this.role_id = role_id;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "User{" + "id=" + id + ", login='" + login + '\''
                 + ", password='" + password + '\'' + ", email='" + email + '\''
                 + ", firstName='" + firstName + '\'' + ", lastName='" + lastName
                 + '\'' + ", birthday=" + birthday + ", role=" + role_id + '}';
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())

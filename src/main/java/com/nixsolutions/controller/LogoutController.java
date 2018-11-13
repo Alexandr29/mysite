@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Controller public class LogoutController {
-    @GetMapping(value = "/logout") private ModelAndView logout(
+@Controller
+public class LogoutController {
+    @GetMapping(value = "/logout")
+    private ModelAndView logout(
             HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         ModelAndView modelAndView = new ModelAndView("redirect:/login");

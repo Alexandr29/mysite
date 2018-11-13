@@ -19,12 +19,16 @@ import org.springframework.web.servlet.view.JstlView;
 
 import java.util.Properties;
 
-@EnableWebMvc @Configuration @EnableTransactionManagement @ComponentScan({
-        "com.nixsolutions.service.hibernate, com.nixsolutions.service.impl, com.nixsolutions.service, com.nixsolutions.controller" }) @Import({
-        WebSecurityConfig.class }) public class WebConfig
-        extends WebMvcConfigurerAdapter {
+@EnableWebMvc
+@Configuration
+@EnableTransactionManagement
+@ComponentScan({
+        "com.nixsolutions.service.hibernate, com.nixsolutions.service.impl, com.nixsolutions.service, com.nixsolutions.controller" })
+@Import({WebSecurityConfig.class})
+public class WebConfig extends WebMvcConfigurerAdapter {
 
-    @Bean public InternalResourceViewResolver viewResolver() {
+    @Bean
+    public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setViewClass(JstlView.class);
         viewResolver.setPrefix("/WEB-INF/views/");
@@ -32,17 +36,15 @@ import java.util.Properties;
         return viewResolver;
     }
 
-    @Override public void addResourceHandlers(
+    @Override
+    public void addResourceHandlers(
             ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/WEB-INF/views/**")
                 .addResourceLocations("/WEB-INF/views/");
     }
 
-    @Override public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new EncodingFilter()).addPathPatterns("/*");
-    }
-
-    @Bean public SessionFactory sessionFactory() {
+    @Bean
+    public SessionFactory sessionFactory() {
         LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(
                 dataSource());
         builder.scanPackages("com.nixsolutions.service.impl")
@@ -59,7 +61,8 @@ import java.util.Properties;
         return prop;
     }
 
-    @Bean(name = "dataSource") public BasicDataSource dataSource() {
+    @Bean(name = "dataSource")
+    public BasicDataSource dataSource() {
 
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName("org.h2.Driver");
@@ -69,7 +72,8 @@ import java.util.Properties;
         return ds;
     }
 
-    @Bean public HibernateTransactionManager transactionManager() {
+    @Bean
+    public HibernateTransactionManager transactionManager() {
         return new HibernateTransactionManager(sessionFactory());
     }
 }

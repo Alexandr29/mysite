@@ -7,11 +7,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component class HibernateDao {
+@Component
+class HibernateDao {
     public HibernateDao() {
     }
 
-    @Autowired private SessionFactory sessionFactory;
+    @Autowired
+    private SessionFactory sessionFactory;
 
     Object findObject(String hql, String searchValue) {
         Object obj;

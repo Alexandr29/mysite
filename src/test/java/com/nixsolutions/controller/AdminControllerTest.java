@@ -35,19 +35,26 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebAppConfiguration @RunWith(MockitoJUnitRunner.class) @ContextConfiguration(classes = {
-        HibernateUtil.class, WebConfig.class,
-        WebSecurityConfig.class }) public class AdminControllerTest {
+@WebAppConfiguration
+@RunWith(MockitoJUnitRunner.class)
+@ContextConfiguration(classes = {HibernateUtil.class, WebConfig.class,
+        WebSecurityConfig.class })
+public class AdminControllerTest {
 
-    @Mock UserService userService;
-    @Mock RoleService roleService;
-    @InjectMocks AdminController controller;
+    @Mock
+    UserService userService;
+    @Mock
+    RoleService roleService;
+    @InjectMocks
+    AdminController controller;
+
     private MockMvc mockMvc;
-    final Model mmap = Mockito.mock(Model.class);
-    HttpServletRequest request = mock(HttpServletRequest.class);
-    @Mock User user;
+    @Mock
+    User user;
     Model model;
-    @Before public void setUp() throws Exception {
+
+    @Before
+    public void setUp() throws Exception {
         model = mock(Model.class);
         user = mock(User.class);
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -58,7 +65,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .setViewResolvers(viewResolver).build();
     }
 
-    @Test public void createGet() throws Exception {
+    @Test
+    public void createGet() throws Exception {
 
             this.mockMvc.perform(get("/create"))
                     .andExpect(forwardedUrl("/WEB-INF/views/create.jsp"))
@@ -66,7 +74,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                     .andDo(print());
     }
 
-    @Test public void createPost() throws Exception {
+    @Test
+    public void createPost() throws Exception {
         user.setPassword("1");
         user.setPasswordagain("1");
         when(controller.passwordNotEquals(user)).thenReturn(false);
@@ -75,7 +84,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .andDo(print());
     }
 
-    @Test public void editGet() throws Exception {
+    @Test
+    public void editGet() throws Exception {
         String login = "admin";
         user.setLogin(login);
         when(userService.findByLogin(anyString())).thenReturn(user);
@@ -84,7 +94,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .andDo(print());
     }
 
-    @Test public void editPost() throws Exception {
+    @Test
+    public void editPost() throws Exception {
         String login = "admin";
         user.setLogin(login);
         when(userService.findByLogin(anyString())).thenReturn(user);
@@ -93,7 +104,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .andDo(print());
     }
 
-    @Test public void deleteGet() throws Exception {
+    @Test
+    public void deleteGet() throws Exception {
         String login = "User3";
 
         this.mockMvc.perform(get("/delete/?logintodelete=" + login))

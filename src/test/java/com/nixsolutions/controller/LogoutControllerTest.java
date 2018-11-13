@@ -32,23 +32,29 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebAppConfiguration @RunWith(MockitoJUnitRunner.class) @ContextConfiguration(classes = {
+@WebAppConfiguration
+@RunWith(MockitoJUnitRunner.class)
+@ContextConfiguration(classes = {
         WebConfig.class, SpringSecurityInitializer.class,
-        WebSecurityConfig.class }) public class LogoutControllerTest {
+        WebSecurityConfig.class })
+public class LogoutControllerTest {
     SessionManager sessionManager = mock(SessionManager.class);
 
-    @InjectMocks LogoutController logoutController;
+    @InjectMocks
+    LogoutController logoutController;
 
     private MockMvc mockMvc;
 
-    @Before public void setUp(){
+    @Before
+    public void setUp(){
         MockitoAnnotations.initMocks(this);
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         mockMvc = MockMvcBuilders.standaloneSetup(logoutController)
                 .setViewResolvers(viewResolver).build();
     }
 
-    @Test public void logout() throws Exception {
+    @Test
+    public void logout() throws Exception {
         this.mockMvc.perform(get("/logout"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login")).andDo(print());

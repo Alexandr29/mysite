@@ -35,7 +35,7 @@ public class HibernateUserDao extends HibernateDao
     @Override
     public void update(User user) {
         if (findByLogin(user.getLogin()) == null) {
-            throw new RuntimeException(user.toString() + "doesn't exist");
+            throw new RuntimeException(user.getLogin() + "doesn't exist");
         }
         updateObject(user);
     }
@@ -43,7 +43,7 @@ public class HibernateUserDao extends HibernateDao
     @Override
     public void remove(User user) {
         if (findByLogin(user.getLogin()) == null) {
-            throw new RuntimeException(user.toString() + "doesn't exist");
+            throw new RuntimeException(user.getLogin() + "doesn't exist");
         }
         removeObject(user);
     }

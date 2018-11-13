@@ -15,6 +15,15 @@ class HibernateDao {
     @Autowired
     private SessionFactory sessionFactory;
 
+    <T> void updateObject(T object) {
+        try {
+            sessionFactory.getCurrentSession().clear();
+            sessionFactory.getCurrentSession().update(object);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     <T> List<T> findList(String hql) {
         List<T> objects;
         try {
@@ -32,15 +41,6 @@ class HibernateDao {
     <T> void createObject(T object) {
         try {
             sessionFactory.getCurrentSession().save(object);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    <T> void updateObject(T object) {
-        try {
-            sessionFactory.getCurrentSession().clear();
-            sessionFactory.getCurrentSession().update(object);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

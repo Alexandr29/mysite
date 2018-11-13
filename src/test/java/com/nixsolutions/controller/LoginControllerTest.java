@@ -84,11 +84,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test public void admin() throws Exception {
         this.mockMvc.perform(get("/admin")).andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/views/admin.jsp"))
-                .andExpect(model().attribute("users", userService.findAll()))
                 .andDo(print());
-    }
-
-    @Test public void showUsersTable() {
     }
 
 }

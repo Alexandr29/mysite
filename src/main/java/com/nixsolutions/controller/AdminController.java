@@ -121,7 +121,6 @@ public class AdminController {
         List<Role> list = roleService.findAll();
         list.remove(roleService.findById(user.getRole_id()));
         model.addAttribute("roles", list);
-        System.out.println(list);
         return "edit";
     }
 

@@ -62,7 +62,7 @@ public class User {
         this.birthday = birthday;
         this.role_id = role_id;
     }
-
+    @Transient
     public String getPasswordagain() {
         return passwordagain;
     }

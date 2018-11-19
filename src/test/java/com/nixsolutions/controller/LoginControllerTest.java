@@ -33,6 +33,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import javax.servlet.http.HttpSession;
 
 import java.security.Principal;
+import java.sql.Date;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
@@ -67,6 +68,7 @@ public class LoginControllerTest {
 
     @Before
     public void setUp() throws Exception {
+        user = new User("Al", "al", "al@gmail.com", "al", "al",Date.valueOf("1983-05-08"), 2L);
         MockitoAnnotations.initMocks(this);
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setPrefix("/WEB-INF/views/");
@@ -82,12 +84,31 @@ public class LoginControllerTest {
     }
 
     @Test
-    public void login() throws Exception {
+    public void loginadmin() throws Exception {
         when(userService.findByLogin(anyString())).thenReturn(user);
         Principal mockPrincipal = Mockito.mock(Principal.class);
         Mockito.when(mockPrincipal.getName()).thenReturn("admin");
         this.mockMvc.perform(get("/success").
                 principal(mockPrincipal)).andExpect(redirectedUrl("/admin"))
+                .andDo(print());
+    }
+    @Test
+    public void loginuser() throws Exception {
+        user = new User();
+        user.setRole_id(2L);
+        when(userService.findByLogin(anyString())).thenReturn(user);
+        Principal mockPrincipal = Mockito.mock(Principal.class);
+        Mockito.when(mockPrincipal.getName()).thenReturn("admin");
+        this.mockMvc.perform(get("/success").
+                principal(mockPrincipal)).andExpect(redirectedUrl("/user"))
+                .andDo(print());
+    }
+
+    @Test
+    public void methodPostNotSupportedToLogin() throws Exception {
+        mockMvc.perform(post("/success")
+                .param("login", "a"))
+                .andExpect(status().is4xxClientError())
                 .andDo(print());
     }
 

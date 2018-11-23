@@ -16,6 +16,12 @@ public class HibernateUserDao extends HibernateDao implements UserDao {
     }
 
     @Override
+    public User findById(Long id) {
+        String hql = "FROM User where id = :search_factor";
+        return (User) findORoleById(hql, id);
+    }
+
+    @Override
     public List<User> findAll() {
         String hql = "FROM User";
         return findList(hql);

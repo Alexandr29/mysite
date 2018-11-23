@@ -1,5 +1,6 @@
 package com.nixsolutions.config;
 
+import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -19,5 +20,6 @@ public class ApplicationInitializer implements WebApplicationInitializer {
                 .addServlet("dispatcher", new DispatcherServlet(context));
         servlet.setLoadOnStartup(1);
         servlet.addMapping("/");
+//
     }
 }

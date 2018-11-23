@@ -40,4 +40,8 @@ public class UserService {
         return userDao.findByLogin(login);
     }
 
+    @Transactional(readOnly = true)
+    public User findById(Long id) {
+        return userDao.findById(id);
+    }
 }

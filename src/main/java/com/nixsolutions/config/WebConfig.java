@@ -21,7 +21,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @ComponentScan({
         "com.nixsolutions.service.hibernate, com.nixsolutions.service.impl, "
-                + "com.nixsolutions.service, com.nixsolutions.controller" })
+                + "com.nixsolutions.service, com.nixsolutions.controller, com.nixsolutions.webservice" })
 public class WebConfig implements WebMvcConfigurer {
 
     @Bean

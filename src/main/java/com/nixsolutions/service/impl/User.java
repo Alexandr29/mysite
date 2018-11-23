@@ -5,9 +5,10 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
 import java.util.Objects;
-
+@XmlRootElement
 @Entity
 @Table(name = "USER")
 public class User {

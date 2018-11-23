@@ -168,7 +168,7 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView("redirect:/admin");
         String logintodelete = req.getParameter("logintodelete");
         User user = userService.findByLogin(logintodelete);
-        userService.remove(logintodelete);
+        userService.remove(user);
         modelAndView.addObject("users", userService.findAll());
         return modelAndView;
     }

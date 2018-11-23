@@ -26,8 +26,8 @@ public class UserService {
     }
 
     @Transactional
-    public void remove(String login) {
-        userDao.remove(userDao.findByLogin(login));
+    public void remove(User user) {
+        userDao.remove(user);
     }
 
     @Transactional(readOnly = true)

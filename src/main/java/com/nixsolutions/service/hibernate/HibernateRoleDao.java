@@ -56,7 +56,8 @@ public class HibernateRoleDao extends HibernateDao
         return findList(hql);
     }
 
-    @Override public Role findById(Long id) {
+    @Override
+    public Role findById(Long id) {
         String hql = "FROM Role R WHERE R.id = :search_factor";
         Role result = (Role) findORoleById(hql, id);
         return result;

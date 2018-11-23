@@ -22,8 +22,25 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-json -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>1.8</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-
+        <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-client -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>1.8</version>
+        </dependency>
         <!-- Jersey -->
         <dependency>
             <groupId>com.sun.jersey</groupId>
@@ -31,7 +48,7 @@
             <version>1.8</version>
         </dependency>
 
-        <!-- Spring 3 dependencies -->
+        <!-- Spring 5 dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -73,13 +90,16 @@
             <artifactId>spring-orm</artifactId>
             <version>5.1.2.RELEASE</version>
         </dependency>
-
         <!-- Jersey + Spring -->
         <dependency>
             <groupId>com.sun.jersey.contribs</groupId>
             <artifactId>jersey-spring</artifactId>
             <version>1.8</version>
             <exclusions>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-server</artifactId>
+                </exclusion>
                 <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring</artifactId>

@@ -41,11 +41,13 @@ public class Role {
         this.name = name;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "Role{" + "id=" + id + ", name='" + name + '\'' + '}';
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
@@ -54,7 +56,8 @@ public class Role {
         return Objects.equals(id, role.id) && name.equals(role.name);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return Objects.hash(id, name);
     }
 }

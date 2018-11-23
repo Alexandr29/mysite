@@ -1,16 +1,28 @@
 package com.nixsolutions.service.impl;
 
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.JsonSerializer;
+import org.codehaus.jackson.map.SerializerProvider;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.sql.Date;
 import java.util.Objects;
+
 @XmlRootElement
 @Entity
 @Table(name = "USER")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,9 +50,12 @@ public class User {
 
     @NotBlank
     @Size(min = 2, max = 30, message = "Enter valid Last name")
-    @Column(name = "LASTNAME") private String lastName;
+    @Column(name = "LASTNAME")
+    private String lastName;
 
-    @Column(name = "date") private Date birthday;
+    @Column(name = "date")
+    @XmlJavaTypeAdapter(SqlDateAdapter.class)
+    private Date birthday;
 
     @Column(name = "role_id")
     private Long roleId;
@@ -49,7 +64,7 @@ public class User {
     }
 
     public User(String login, String password, String email, String firstName,
-            String lastName, Date birthday, Long roleId) {
+                String lastName, Date birthday, Long roleId) {
         this.login = login;
         this.password = password;
         this.email = email;
@@ -154,4 +169,25 @@ public class User {
                 .equals(birthday, user.birthday) && Objects
                 .equals(roleId, user.roleId);
     }
+
+    static class SqlDateAdapter extends XmlAdapter<java.util.Date, Date> {
+
+        @Override
+        public java.util.Date marshal(java.sql.Date sqlDate) throws Exception {
+            if (null == sqlDate) {
+                return null;
+            }
+            return new java.util.Date(sqlDate.getTime());
+        }
+
+        @Override
+        public java.sql.Date unmarshal(java.util.Date utilDate) throws Exception {
+            if (null == utilDate) {
+                return null;
+            }
+            return new java.sql.Date(utilDate.getTime());
+        }
+
+    }
+
 }

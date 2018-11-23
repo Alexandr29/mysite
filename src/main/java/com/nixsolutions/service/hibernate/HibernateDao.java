@@ -48,6 +48,7 @@ class HibernateDao {
 
     <T> void removeObject(T object) {
         try {
+            sessionFactory.getCurrentSession().clear();
             sessionFactory.getCurrentSession().remove(object);
         } catch (Exception e) {
             throw new RuntimeException(e);
